@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Bannershallmark:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Bannershallmark</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="Bannershallmark-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Bannershallmark:war exploded" />
+    </root>
+  </artifact>
+</component>

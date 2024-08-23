@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<sitemesh>
+
+
+	<mapping decorator="/decorators/dashboardtheme" path="/*" />
+	
+	<mapping exclude="true" decorator="/decorators/dashboardtheme" path="/login" />
+    <mapping exclude="true" decorator="/decorators/dashboardtheme" path="/users/reset/forgot" />
+    <mapping exclude="true" decorator="/decorators/dashboardtheme" path="/users/reset/resetPassword/*" />
+    <mapping exclude="true" decorator="/decorators/dashboardtheme" path="/users/changepassword" />
+	
+	
+</sitemesh>
