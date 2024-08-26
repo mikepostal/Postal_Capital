@@ -20,8 +20,8 @@ public class TradersAccounts {
 	@JoinColumn(name = "userId")
 	private Users user;
     
-    private Date from;
-    private Date to;
+    private Date startfrom;
+    private Date endto;
     
 	public Integer getTrdAccountID() {
 		return trdAccountID;
@@ -41,18 +41,19 @@ public class TradersAccounts {
 	public void setUser(Users user) {
 		this.user = user;
 	}
-	public Date getFrom() {
-		return from;
+	public Date getStartfrom() {
+		return startfrom;
 	}
-	public void setFrom(Date from) {
-		this.from = from;
+	public void setStartfrom(Date startfrom) {
+		this.startfrom = startfrom;
 	}
-	public Date getTo() {
-		return to;
+	public Date getEndto() {
+		return endto;
 	}
-	public void setTo(Date to) {
-		this.to = to;
+	public void setEndto(Date endto) {
+		this.endto = endto;
 	}
+	
     
     
        

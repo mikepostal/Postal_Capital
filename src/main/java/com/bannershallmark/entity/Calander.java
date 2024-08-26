@@ -15,8 +15,8 @@ public class Calander {
     private String calanderName;
     private String type;
     private String level;
-    private Date from;
-    private Date to;
+    private Date startfrom;
+    private Date endto;
     
     
 	public Integer getCalanderID() {
@@ -43,18 +43,19 @@ public class Calander {
 	public void setLevel(String level) {
 		this.level = level;
 	}
-	public Date getFrom() {
-		return from;
+	public Date getStartfrom() {
+		return startfrom;
 	}
-	public void setFrom(Date from) {
-		this.from = from;
+	public void setStartfrom(Date startfrom) {
+		this.startfrom = startfrom;
 	}
-	public Date getTo() {
-		return to;
+	public Date getEndto() {
+		return endto;
 	}
-	public void setTo(Date to) {
-		this.to = to;
+	public void setEndto(Date endto) {
+		this.endto = endto;
 	}
+	
     
      
 }

@@ -31,16 +31,16 @@ public class CalanderController {
 		List<Calander> calanders = calanderService.findAllCalanders();
 		model.addAttribute("calanders", calanders);
 				
-		return "calander/allCalanders";
+		return "calander/allCalanders.html";
 	}
 	
 	@GetMapping("/addCalander")
 	public String addCalander(Model model, RedirectAttributes redirectAttributes) throws Exception {
 		
 		Calander calander = new Calander();
-		model.addAttribute("calander", calander);
+		model.addAttribute("calander11", calander);
 		
-		return "calander/addCalander";			
+		return "calander/addCalander.html";			
 	}
 	
 	@PostMapping("/addNewCalander")
@@ -59,17 +59,17 @@ public class CalanderController {
 		Calander calander = calanderService.findCalanderById(calanderId);
 		model.addAttribute("calander", calander);
 				
-	    return "calander/editCalander";
+	    return "calander/addCalander.html";
 	}
 	
-	@PostMapping("/updateCalander")
-	public String updateCalander(@ModelAttribute Calander calander, RedirectAttributes redirectAttributes) throws Exception {
-
-		calanderService.save(calander);
-		redirectAttributes.addFlashAttribute(Constants.AttributeNames.SUCCESS_MESSAGE, "Calander updated");
-					
-		return "redirect:/calander/allCalanders";
-	}
+//	@PostMapping("/updateCalander")
+//	public String updateCalander(@ModelAttribute Calander calander, RedirectAttributes redirectAttributes) throws Exception {
+//
+//		calanderService.save(calander);
+//		redirectAttributes.addFlashAttribute(Constants.AttributeNames.SUCCESS_MESSAGE, "Calander updated");
+//					
+//		return "redirect:/calander/allCalanders";
+//	}
 
 	@GetMapping("/deleteCalander/{calanderId}")
 	public String deleteCalander(@PathVariable("calanderId") Integer calanderId, RedirectAttributes redirectAttributes)
