@@ -17,7 +17,9 @@ public class MarketInsight {
     private String marketInsightLevel;
     private String marketInsightDetail;
     private Date marketInsightDate;
-    
+    @ManyToOne
+	@JoinColumn(name = "marketInsightFileID")
+	private MarketInsightFile marketInsightFileID;
     
 	public Integer getMarketInsightID() {
 		return marketInsightID;
@@ -54,6 +56,12 @@ public class MarketInsight {
 	}
 	public void setMarketInsightDate(Date marketInsightDate) {
 		this.marketInsightDate = marketInsightDate;
-	} 
+	}
+	public MarketInsightFile getMarketInsightFileID() {
+		return marketInsightFileID;
+	}
+	public void setMarketInsightFileID(MarketInsightFile marketInsightFileID) {
+		this.marketInsightFileID = marketInsightFileID;
+	}
 	
 }

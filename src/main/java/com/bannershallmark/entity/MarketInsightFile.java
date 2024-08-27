@@ -5,17 +5,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "marketInsightFile")
 public class MarketInsightFile {
-	
-    @Id
-    @Column(name = "marketInsightFileID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer marketInsightFileID;
-    
-    @ManyToOne
-	@JoinColumn(name = "marketInsightID")
-	private MarketInsight marketInsight;
-    
-    private String marketInsightFileName;
+
+	@Id
+	@Column(name = "marketInsightFileID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer marketInsightFileID;
+
+	private String fileName;
+	private String fileType;
+	@Column(columnDefinition = "longblob")
+	private byte[] data;
 
 	public Integer getMarketInsightFileID() {
 		return marketInsightFileID;
@@ -25,20 +24,28 @@ public class MarketInsightFile {
 		this.marketInsightFileID = marketInsightFileID;
 	}
 
-	public MarketInsight getMarketInsight() {
-		return marketInsight;
+	public String getFileName() {
+		return fileName;
 	}
 
-	public void setMarketInsight(MarketInsight marketInsight) {
-		this.marketInsight = marketInsight;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
-	public String getMarketInsightFileName() {
-		return marketInsightFileName;
+	public String getFileType() {
+		return fileType;
 	}
 
-	public void setMarketInsightFileName(String marketInsightFileName) {
-		this.marketInsightFileName = marketInsightFileName;
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
 	}
-  
+
+	public byte[] getData() {
+		return data;
+	}
+
+	public void setData(byte[] data) {
+		this.data = data;
+	}
+
 }

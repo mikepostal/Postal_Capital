@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+
+<head>
+
+</head>
+<body>
+	<div id="main" class='layout-navbar'>
+		<div id="main-content">
+
+			<div class="page-heading">
+				<div class="page-title mb-5">
+					<div class="row">
+						<div class="col-12 col-md-6 order-md-1 order-last">
+							<h3>Calendar</h3>
+							<!-- <p class="text-subtitle text-muted">Navbar will appear in top of the page.</p> -->
+						</div>
+					</div>
+				</div>
+				<section class="section blnk-db ">
+
+					<form th:action="@{/calander/addNewCalander}" method="post"
+						enctype="multipart/form-data" th:object="${calander}">
+						<div class="card shadow">
+							<div class="card-body">
+								<h2 class="text-center"
+									th:text="${calander != null? 'Edit Calender' : 'Add Calender'}"></h2>
+							</div>
+						</div>
+						<div class="card shadow my-3">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-6">
+										<input type="hidden" name="calanderID"
+											th:if="${calander != null}"
+											th:value="${calander.calanderID}">
+										<div class="form-group ">
+											<label for="name">Name</label> <input type="text"
+												class="form-control" id="name" name="calanderName"
+												th:value="${calander != null? calander.calanderName : ''}"
+												required>
+										</div>
+										<div class="form-group ">
+											<label for="type">Type</label>
+											<input type="text" class="form-control"
+												id="type" name="type"
+												th:value="${calander != null? calander.type : ''}"
+												required>
+										</div>
+										<div class="form-group ">
+											<label for="level">Level</label> <input type="text"
+												class="form-control" id="level" name="level"
+												th:value="${calander != null? calander.level : ''}"
+												required>
+										</div>
+										
+
+									</div>
+									<div class="col-md-6">
+										<div class="form-group ">
+											<label for="from">From</label> <input
+												type="datetime-local" class="form-control" id="from"
+												name="stfrom"
+												th:value="${calander != null? calander.startfrom : ''}"
+												required>
+										</div>
+										<div class="form-group ">
+											<label for="to">To</label>
+											<input type="datetime-local" class="form-control"
+												id="to"
+												name="endDate"
+												th:value="${calander != null? calander.endto : ''}"
+												required>
+										</div>
+									</div>
+
+									<div class="form-group text-center mt-3">
+										<button type="submit" class="btn btn-primary col-md-3">
+											<i th:text="${calander != null? 'Update' : 'Add'}"></i>
+										</button>
+										<a th:href="@{/calander/allCalanders}" class="btn btn-danger col-md-3">
+											Cancel </a>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</form>
+				</section>
+
+			</div>
+
+			<footer>
+				<div class="footer clearfix mb-0 text-muted c-ftr">
+					<div class="float-start">
+						<p>2021 &copy; Banners Hallmark</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
+
+
+</body>
+
+</html>

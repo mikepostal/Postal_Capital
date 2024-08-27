@@ -1,6 +1,7 @@
 package com.bannershallmark.entity;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
@@ -15,8 +16,8 @@ public class Calander {
     private String calanderName;
     private String type;
     private String level;
-    private Date startfrom;
-    private Date endto;
+    private LocalDateTime startfrom;
+    private LocalDateTime endto;
     
     
 	public Integer getCalanderID() {
@@ -43,16 +44,16 @@ public class Calander {
 	public void setLevel(String level) {
 		this.level = level;
 	}
-	public Date getStartfrom() {
+	public LocalDateTime getStartfrom() {
 		return startfrom;
 	}
-	public void setStartfrom(Date startfrom) {
+	public void setStartfrom(LocalDateTime startfrom) {
 		this.startfrom = startfrom;
 	}
-	public Date getEndto() {
+	public LocalDateTime getEndto() {
 		return endto;
 	}
-	public void setEndto(Date endto) {
+	public void setEndto(LocalDateTime endto) {
 		this.endto = endto;
 	}
 	

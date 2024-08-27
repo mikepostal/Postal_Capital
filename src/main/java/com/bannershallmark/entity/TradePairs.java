@@ -5,19 +5,30 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tradePairs")
 public class TradePairs {
-	
-    @Id
-    @Column(name = "trdpairsID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer trdpairsID;
-    
-    @ManyToOne
-	@JoinColumn(name = "categoryID")
-	private Categories category;
-    
-    private String pairName;
 
-    
+	@Id
+	@Column(name = "trdpairsID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer trdpairsID;
+
+	@ManyToOne
+	@JoinColumn(name = "categoryID", referencedColumnName = "categoryID")
+	private Categories category;
+
+	private String pairName;
+
+	public TradePairs() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public TradePairs(Integer trdpairsID, Categories category, String pairName) {
+		super();
+		this.trdpairsID = trdpairsID;
+		this.category = category;
+		this.pairName = pairName;
+	}
+
 	public Integer getTrdpairsID() {
 		return trdpairsID;
 	}
@@ -40,5 +51,5 @@ public class TradePairs {
 
 	public void setPairName(String pairName) {
 		this.pairName = pairName;
-	}      
+	}
 }

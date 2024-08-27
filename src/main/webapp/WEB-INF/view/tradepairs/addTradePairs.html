@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+
+<head>
+
+</head>
+<body>
+	<div id="main" class='layout-navbar'>
+		<div id="main-content">
+
+			<div class="page-heading">
+				<div class="page-title mb-5">
+					<div class="row">
+						<div class="col-12 col-md-6 order-md-1 order-last">
+							<h3>Trade Pairs</h3>
+							<!-- <p class="text-subtitle text-muted">Navbar will appear in top of the page.</p> -->
+						</div>
+					</div>
+				</div>
+				<section class="section blnk-db ">
+
+					<form th:action="@{/tradepairs/saveTradepairs}" method="post"
+						enctype="multipart/form-data" th:object="${tradePairs}">
+						<div class="card shadow">
+							<div class="card-body">
+								<h2 class="text-center"
+									th:text="${tradePairs != null? 'Edit Trade Pair' : 'Add  Trade Pair'}"></h2>
+							</div>
+						</div>
+						<div class="card shadow my-3">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-3"></div>
+									<div class="col-md-6">
+										<input type="hidden" name="trdpairsID"
+											th:if="${tradePairs != null}"
+											th:value="${tradePairs.trdpairsID}">
+										<div class="form-group">
+											<label for="category">Category</label> <select
+												class="form-control" id="category" name="catg">
+												<option value="">- Select Category -</option>
+												<option th:each="c : ${categoriesList}"
+													th:text="${c.categoryName}" th:value="${c.categoryID}"
+													th:selected="${tradePairs != null && tradePairs.category.categoryName == c.categoryName}"></option>
+											</select>
+										</div>
+
+										<div class="form-group ">
+											<label for="name">Pair Name</label> <input type="text"
+												class="form-control" id="name" name="pairName"
+												th:value="${tradePairs != null? tradePairs.pairName : ''}"
+												required>
+										</div>
+									</div>
+
+									<div class="form-group text-center mt-3">
+										<button type="submit" class="btn btn-primary col-md-3">
+											<i th:text="${tradePairs != null? 'Update' : 'Add'}"></i>
+										</button>
+										<a th:href="@{/tradepairs/allTradePairs}"
+											class="btn btn-danger col-md-3"> Cancel </a>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</form>
+				</section>
+
+			</div>
+
+			<footer>
+				<div class="footer clearfix mb-0 text-muted c-ftr">
+					<div class="float-start">
+						<p>2021 &copy; Banners Hallmark</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
+
+
+</body>
+
+</html>
