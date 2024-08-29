@@ -1,64 +1,85 @@
 package com.bannershallmark.entity;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "pnl")
 public class PNL {
-	
-    @Id
-    @Column(name = "pnlID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pnlID;
-    
-    @ManyToOne
+
+	@Id
+	@Column(name = "pnlID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer pnlID;
+
+	@ManyToOne
 	@JoinColumn(name = "trdpairsID")
 	private TradePairs tradePair;
-    
-    @ManyToOne
+
+	@ManyToOne
 	@JoinColumn(name = "accountID")
 	private Accounts accounts;
-    
-    private Date tradingDate;
-    private Double pnl;
-    private Double pnlPercent;
-    
+
+	private LocalDateTime tradingDate;
+	private Double pnl;
+	private Double pnlPercent;
+	private String comment;
+
 	public Integer getPnlID() {
 		return pnlID;
 	}
+
 	public void setPnlID(Integer pnlID) {
 		this.pnlID = pnlID;
 	}
+
 	public TradePairs getTradePair() {
 		return tradePair;
 	}
+
 	public void setTradePair(TradePairs tradePair) {
 		this.tradePair = tradePair;
 	}
+
 	public Accounts getAccounts() {
 		return accounts;
 	}
+
 	public void setAccounts(Accounts accounts) {
 		this.accounts = accounts;
 	}
-	public Date getTradingDate() {
+
+	public LocalDateTime getTradingDate() {
 		return tradingDate;
 	}
-	public void setTradingDate(Date tradingDate) {
+
+	public void setTradingDate(LocalDateTime tradingDate) {
 		this.tradingDate = tradingDate;
 	}
+
 	public Double getPnl() {
 		return pnl;
 	}
+
 	public void setPnl(Double pnl) {
 		this.pnl = pnl;
 	}
+
 	public Double getPnlPercent() {
 		return pnlPercent;
 	}
+
 	public void setPnlPercent(Double pnlPercent) {
 		this.pnlPercent = pnlPercent;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }

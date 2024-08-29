@@ -47,6 +47,17 @@
 												th:value="${marketInsight != null? marketInsight.marketInsightType : ''}"
 												required>
 										</div>
+
+
+									</div>
+									<div class="col-md-6">
+										<div class="form-group ">
+											<label for="marketInsightDate">Date</label> <input
+												type="date" class="form-control" id="marketInsightDate"
+												name="marketInsightDate"
+												th:value="${marketInsight != null? marketInsight.marketInsightDate : ''}"
+												required>
+										</div>
 										<div class="form-group ">
 											<label for="level">Level</label> <input type="text"
 												class="form-control" id="level" name="marketInsightLevel"
@@ -55,29 +66,43 @@
 										</div>
 
 
-									</div>
-									<div class="col-md-6">
-										<div class="form-group ">
-											<div class="form-group ">
-												<label for="marketInsightDate">Date</label> <input
-													type="date" class="form-control" id="marketInsightDate"
-													name="marketInsightDate"
-													th:value="${marketInsight != null? marketInsight.marketInsightDate : ''}"
-													required>
-											</div>
-											<div class="form-group ">
-												<label for="marketInsightDate">Attach File</label> <input
-													type="file" class="form-control" id="file" 
-													name="file">
-											</div>
-											<label for="marketInsightDetail">Detail</label>
-											<textarea cols="3" class="form-control"
-												id="marketInsightDetail" name="marketInsightDetail"
-												th:text="${marketInsight != null? marketInsight.marketInsightDetail : ''}"></textarea>
-										</div>
 
 									</div>
-
+									<table class="table" id="inputTable">
+										<tbody>
+											<tr id="inputRowTemplate">
+												<td>
+													<div class="row">
+														<div class="col-sm-6">
+															<div class="form-group ">
+																<label for="marketInsightDetail">Detail</label>
+																<textarea class="form-control" rows="5" cols="500"
+																	id="marketInsightDetail" name="marketInsightDetail"></textarea>
+															</div>
+														</div>
+														<div class="col-sm-6">
+															<div class="form-group ">
+																<label for="marketInsightDate">Attach File</label> <input
+																	type="file" class="form-control" id="files"
+																	name="files" required="required">
+															</div>
+														</div>
+													</div>
+												</td>
+												<td><button class="removeRowBtn btn" type="button"
+														onclick="removeRow(this)">
+														<i class="bi bi-x-circle-fill" style="font-size: 30px;"></i>
+													</button></td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="text-center">
+										<button type="button" onclick="addRow()" class="btn">
+											<i class="bi bi-plus-circle-fill" style="font-size: 40px;"
+												title="Add"></i>
+										</button>
+									</div>
+									<!-- <input type="hidden" id="rowCount" name="num" value="1"> -->
 									<div class="form-group text-center mt-3">
 										<button type="submit" class="btn btn-primary col-md-3">
 											<i th:text="${marketInsight != null? 'Update' : 'Add'}"></i>
@@ -105,7 +130,37 @@
 	</div>
 
 	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
+	<script type="text/javascript">
+		function addRow() {
+			var table = document.getElementById("inputTable");
+			var rowTemplate = document.getElementById("inputRowTemplate");
+			var newRow = rowTemplate.cloneNode(true);
+			newRow.removeAttribute("id");
+			var table = document.getElementById("inputTable");
+			table.appendChild(newRow);
 
+		}
+
+		function removeRow(button) {
+			var row = button.parentNode.parentNode;
+			var table = document.getElementById("inputTable");
+			var numRows = table.rows.length;
+			if (row.rowIndex !== 0) {
+				row.parentNode.removeChild(row);
+			}
+		}
+
+		/* function updateRowCount() {
+			var table = document.getElementById("inputTable");
+			var rows = table.querySelectorAll("tbody > tr");
+			var count = rows.length;
+			document.getElementById("rowCount").value = count;
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+			updateRowCount();
+		}); */
+	</script>
 
 </body>
 

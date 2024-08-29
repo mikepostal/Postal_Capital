@@ -1,6 +1,7 @@
 package com.bannershallmark.controller;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,13 +46,35 @@ public class AffectedByCalanderController {
 	}
 
 	@PostMapping("/saveAffectedByCalander")
-	public String saveAffectedByCalanders(AffectedByCalander affectedByCalander, @RequestParam("cal") int cal,
-			@RequestParam("trPair") int trPair) {
+	public String saveAffectedByCalander(AffectedByCalander affectedByCalander, @RequestParam("cal") int cal,
+			@RequestParam("trPair") List<Integer> trPair) {
 		Calander calander = calanderService.findCalanderById(cal);
-		TradePairs tradePairs = tradePairsService.FindById(trPair);
-		affectedByCalander.setCalander(calander);
-		affectedByCalander.setTradePairs(tradePairs);
-		affectedByCalanderService.save(affectedByCalander);
+		TradePairs selectedTradePairs;
+		if (calander == null) {
+			System.err.println("Error: Calendar not found with ID " + cal);
+			return "redirect:/calander/allAffectedByCalander?error=calendarNotFound";
+		}
+
+		for (Integer pairId : trPair) {
+			System.out.println("Processing TradePair ID: " + pairId);
+			selectedTradePairs = tradePairsService.FindById(pairId);
+			if (selectedTradePairs == null) {
+				System.err.println("Error: TradePairs not found with ID " + pairId);
+				continue;
+			}
+			if (affectedByCalander.getAffectedByCalanderID() != null) {
+				affectedByCalander.setCalander(calander);
+				affectedByCalander.setTradePairs(selectedTradePairs);
+				affectedByCalanderService.save(affectedByCalander);
+				return "redirect:/calander/allAffectedByCalander";
+			}
+			AffectedByCalander newAffectedByCalander = new AffectedByCalander();
+			newAffectedByCalander.setCalander(calander);
+			newAffectedByCalander.setTradePairs(selectedTradePairs);
+
+			affectedByCalanderService.save(newAffectedByCalander);
+		}
+
 		return "redirect:/calander/allAffectedByCalander";
 	}
 

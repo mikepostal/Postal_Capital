@@ -46,14 +46,28 @@
 											</select>
 										</div>
 										<div class="form-group">
-											<label for="tradePairs">Trade Pair</label> <select
-												class="form-control" id="tradePairs" name="trPair">
+											<label for="tradePairs">Trade Pair</label>
+
+											<!-- Select element with `multiple` attribute when `affectedByCalander` is null -->
+											<select class="form-control" id="tradePairs" name="trPair"
+												th:if="${affectedByCalander == null}" multiple="multiple">
+												<option th:each="t : ${tradePairs}" th:text="${t.pairName}"
+													th:value="${t.trdpairsID}"
+													th:selected="${affectedByCalander != null && affectedByCalander.tradePairs.pairName==t.pairName}">
+												</option>
+											</select>
+
+											<!-- Select element without `multiple` attribute when `affectedByCalander` is not null -->
+											<select class="form-control" id="tradePairsSingle"
+												name="trPair" th:unless="${affectedByCalander == null}">
 												<option value="">- Select Trade Pair -</option>
 												<option th:each="t : ${tradePairs}" th:text="${t.pairName}"
 													th:value="${t.trdpairsID}"
-													th:selected="${affectedByCalander != null && affectedByCalander.tradePairs.pairName == t.pairName}"></option>
+													th:selected="${affectedByCalander != null && affectedByCalander.tradePairs.pairName==t.pairName}">
+												</option>
 											</select>
 										</div>
+
 
 									</div>
 

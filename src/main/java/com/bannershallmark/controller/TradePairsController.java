@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bannershallmark.entity.AffectedByCalander;
 import com.bannershallmark.entity.Categories;
 import com.bannershallmark.entity.TradePairs;
 import com.bannershallmark.service.CategoriesService;
@@ -53,10 +54,22 @@ public class TradePairsController {
 	}
 
 	@PostMapping("/saveTradepairs")
-	public String saveTradePairs(TradePairs tradePairs, @RequestParam("catg") int catg) {
+	public String saveTradePairs(TradePairs tradePairs, @RequestParam("catg") int catg,
+			@RequestParam("pairName") List<String> pairName) {
 		Categories categories = categoriesService.FindById(catg);
-		tradePairs.setCategory(categories);
-		tradePairsService.save(tradePairs);
+		for (String pair : pairName) {
+			if (tradePairs.getTrdpairsID() != null) {
+				tradePairs.setCategory(categories);
+				tradePairs.setPairName(pair);
+				tradePairsService.save(tradePairs);
+				continue;
+			}
+			TradePairs newtradePairs = new TradePairs();
+			newtradePairs.setCategory(categories);
+			newtradePairs.setPairName(pair);
+			tradePairsService.save(newtradePairs);
+		}
+
 		return "redirect:/tradepairs/allTradePairs";
 	}
 }

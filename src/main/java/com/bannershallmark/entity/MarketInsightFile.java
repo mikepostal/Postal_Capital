@@ -16,6 +16,25 @@ public class MarketInsightFile {
 	@Column(columnDefinition = "longblob")
 	private byte[] data;
 
+	@ManyToOne
+	@JoinColumn(name = "miDescID", referencedColumnName = "miDescID")
+	private MarketInsightDescription miDescID;
+
+	public MarketInsightFile() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public MarketInsightFile(Integer marketInsightFileID, String fileName, String fileType, byte[] data,
+			MarketInsightDescription miDescID) {
+		super();
+		this.marketInsightFileID = marketInsightFileID;
+		this.fileName = fileName;
+		this.fileType = fileType;
+		this.data = data;
+		this.miDescID = miDescID;
+	}
+
 	public Integer getMarketInsightFileID() {
 		return marketInsightFileID;
 	}
@@ -46,6 +65,14 @@ public class MarketInsightFile {
 
 	public void setData(byte[] data) {
 		this.data = data;
+	}
+
+	public MarketInsightDescription getMiDescID() {
+		return miDescID;
+	}
+
+	public void setMiDescID(MarketInsightDescription miDescID) {
+		this.miDescID = miDescID;
 	}
 
 }

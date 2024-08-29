@@ -32,8 +32,7 @@
 								<div class="row">
 									<div class="col-md-6">
 										<input type="hidden" name="calanderID"
-											th:if="${calander != null}"
-											th:value="${calander.calanderID}">
+											th:if="${calander != null}" th:value="${calander.calanderID}">
 										<div class="form-group ">
 											<label for="name">Name</label> <input type="text"
 												class="form-control" id="name" name="calanderName"
@@ -41,36 +40,39 @@
 												required>
 										</div>
 										<div class="form-group ">
-											<label for="type">Type</label>
-											<input type="text" class="form-control"
-												id="type" name="type"
-												th:value="${calander != null? calander.type : ''}"
-												required>
+											<label for="type">Type</label> <input type="text"
+												class="form-control" id="type" name="type"
+												th:value="${calander != null? calander.type : ''}" required>
 										</div>
 										<div class="form-group ">
-											<label for="level">Level</label> <input type="text"
-												class="form-control" id="level" name="level"
-												th:value="${calander != null? calander.level : ''}"
-												required>
+											<label for="level">Level</label> <select class="form-control"
+												id="level" name="level" th:value=required>
+												<option> -Select Impact Level-</option>
+												<option value="High Impact"
+													th:selected="${calander != null &&  calander.level== 'High Impact'}">High
+													Impact</option>
+												<option value="Medium Impact"
+													th:selected="${calander != null &&  calander.level== 'Medium Impact'}">Medium
+													Impact</option>
+												<option value="Low Impact"
+													th:selected="${calander != null &&  calander.level== 'Low Impact'}">Low
+													Impact</option>
+											</select>
 										</div>
-										
+
 
 									</div>
 									<div class="col-md-6">
 										<div class="form-group ">
-											<label for="from">From</label> <input
-												type="datetime-local" class="form-control" id="from"
-												name="stfrom"
+											<label for="from">From</label> <input type="datetime-local"
+												class="form-control" id="from" name="stfrom"
 												th:value="${calander != null? calander.startfrom : ''}"
 												required>
 										</div>
 										<div class="form-group ">
-											<label for="to">To</label>
-											<input type="datetime-local" class="form-control"
-												id="to"
-												name="endDate"
-												th:value="${calander != null? calander.endto : ''}"
-												required>
+											<label for="to">To</label> <input type="datetime-local"
+												class="form-control" id="to" name="endDate"
+												th:value="${calander != null? calander.endto : ''}" required>
 										</div>
 									</div>
 
@@ -78,8 +80,8 @@
 										<button type="submit" class="btn btn-primary col-md-3">
 											<i th:text="${calander != null? 'Update' : 'Add'}"></i>
 										</button>
-										<a th:href="@{/calander/allCalanders}" class="btn btn-danger col-md-3">
-											Cancel </a>
+										<a th:href="@{/calander/allCalanders}"
+											class="btn btn-danger col-md-3"> Cancel </a>
 									</div>
 
 								</div>

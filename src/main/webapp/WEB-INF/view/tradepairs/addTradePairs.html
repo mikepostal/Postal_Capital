@@ -46,10 +46,35 @@
 										</div>
 
 										<div class="form-group ">
-											<label for="name">Pair Name</label> <input type="text"
-												class="form-control" id="name" name="pairName"
-												th:value="${tradePairs != null? tradePairs.pairName : ''}"
-												required>
+											<label for="name">Pair Name</label>
+											<div th:if="${tradePairs == null}">
+												<table class="table" id="inputTable">
+													<tbody>
+														<tr id="inputRowTemplate">
+															<td><input type="text" class="form-control"
+																id="name" name="pairName"
+																th:value="${tradePairs != null? tradePairs.pairName : ''}"
+																required></td>
+															<td><button class="removeRowBtn btn" type="button"
+																	onclick="removeRow(this)">
+																	<i class="bi bi-x-circle-fill" style="font-size: 30px;"></i>
+																</button></td>
+														</tr>
+													</tbody>
+												</table>
+												<div class="text-center">
+													<button type="button" onclick="addRow()" class="btn">
+														<i class="bi bi-plus-circle-fill" style="font-size: 40px;"
+															title="Add"></i>
+													</button>
+												</div>
+											</div>
+											<div th:unless="${tradePairs == null}">
+												<input type="text" class="form-control" id="name"
+													name="pairName"
+													th:value="${tradePairs != null? tradePairs.pairName : ''}"
+													required>
+											</div>
 										</div>
 									</div>
 
@@ -80,7 +105,27 @@
 	</div>
 
 	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
+	<script type="text/javascript">
+		function addRow() {
+			var table = document.getElementById("inputTable");
+			var rowTemplate = document.getElementById("inputRowTemplate");
+			var newRow = rowTemplate.cloneNode(true);
+			newRow.removeAttribute("id");
+			var table = document.getElementById("inputTable");
+			table.appendChild(newRow);
 
+		}
+
+		function removeRow(button) {
+			var row = button.parentNode.parentNode;
+			var table = document.getElementById("inputTable");
+			var numRows = table.rows.length;
+			if (row.rowIndex !== 0) {
+				row.parentNode.removeChild(row);
+			}
+
+		}
+	</script>
 
 </body>
 

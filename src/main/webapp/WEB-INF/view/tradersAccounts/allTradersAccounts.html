@@ -12,7 +12,7 @@
 				<div class="page-title mb-5">
 					<div class="row ">
 						<div class="col-12 col-md-6 order-md-1 order-last">
-							<h3>Affected By Calendar</h3>
+							<h3>Traders Accounts</h3>
 							<!-- <p class="text-subtitle text-muted">Navbar will appear in top of the page.</p> -->
 						</div>
 
@@ -21,8 +21,8 @@
 				<section class="section blnk-db ">
 					<div class="card shadow">
 						<div class="card-body">
-							<a href="addAffectedByCalander" class="btn btn-primary">Add
-								Affected By Calendar</a>
+							<a href="addTradersAccounts" class="btn btn-primary">Add
+								Traders Accounts</a>
 						</div>
 					</div>
 					<div class="card shadow mt-3">
@@ -32,22 +32,25 @@
 								style="width: 100%">
 								<thead>
 									<tr>
-										<th>Calendar</th>
-										<th>Trade Pair</th>
+										<th>User</th>
+										<th>Account Name</th>
+										<th>From</th>
+										<th>To</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="a :${affectedByCalanders}">
-										<td th:if="${a.calander != null}"
-											th:text="${a.calander.calanderName+' ('+a.calander.startfrom+' - '+a.calander.endto+')'}"></td>
-										<td th:if="${a.tradePairs != null}"
-											th:text="${a.tradePairs.pairName}"></td>
+									<tr th:each="t :${tradersAccountsList}">
+										<td th:text="${t.user.firstname+' '+t.user.lastname}"></td>
+										<td
+											th:text="${t.account.platform +' - '+ t.account.initalSize +' _ '+ t.account.leverage }"></td>
+										<td th:text="${t.startfrom}"></td>
+										<td th:text="${t.endto}"></td>
 										<td><a style="color: blue"
-											th:href="@{/calander/editAffectedByCalander (id=${a.affectedByCalanderID})}"><i
+											th:href="@{/tradersAccounts/editTradersAccounts (id=${t.trdAccountID})}"><i
 												class="bi bi-pencil-fill" style="margin: 4"></i></a> | <a
 											style="color: red"
-											th:href="@{/calander/deleteAffectedByCalander (id=${a.affectedByCalanderID})}"
+											th:href="@{/tradersAccounts/deleteTradersAccounts(id=${t.trdAccountID})}"
 											onclick="return confirm('Are you sure to delete?')"><i
 												class="bi bi-trash-fill" style="margin: 4"></i></a></td>
 									</tr>

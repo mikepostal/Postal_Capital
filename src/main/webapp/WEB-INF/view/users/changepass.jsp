@@ -71,7 +71,7 @@
 	                        </div> --%>
 
                             <div class="card tp-inpt">
-                                <div class="card-body">
+                                <div class="card-body shadow">
 
                                     <div class="row">
                                         <div class="col-md-4 col-12">

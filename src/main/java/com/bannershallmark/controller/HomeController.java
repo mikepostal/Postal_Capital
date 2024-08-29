@@ -62,7 +62,7 @@ public class HomeController {
 			// testNGlogger.error(e.getMessage());
 			return "errorpage/error";
 		}
-		return "redirect:" + "/dashboard/duplicatesAll";
+		return "redirect:" + "/calander/allCalanders";
 	}
 
 	// apps/pages/forms/general.html

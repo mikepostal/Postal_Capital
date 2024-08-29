@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+
+<head>
+
+</head>
+<body>
+	<div id="main" class='layout-navbar'>
+		<div id="main-content">
+
+			<div class="page-heading">
+				<div class="page-title mb-5">
+					<div class="row">
+						<div class="col-12 col-md-6 order-md-1 order-last">
+							<h3>Accounts</h3>
+							<!-- <p class="text-subtitle text-muted">Navbar will appear in top of the page.</p> -->
+						</div>
+					</div>
+				</div>
+				<section class="section blnk-db ">
+
+					<form th:action="@{/accounts/addNewAccount}" method="post"
+						enctype="multipart/form-data" th:object="${account}">
+						<div class="card shadow">
+							<div class="card-body">
+								<h2 class="text-center"
+									th:text="${account != null? 'Edit Account' : 'Add Account'}"></h2>
+							</div>
+						</div>
+						<div class="card shadow my-3">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-6">
+										<input type="hidden" name="accountID"
+											th:if="${account != null}" th:value="${account.accountID}">
+										<div class="form-group ">
+											<label for="platform">Platform</label> <input type="text"
+												class="form-control" id="platform" name="platform"
+												th:value="${account != null? account.platform : ''}"
+												required>
+										</div>
+										<div class="form-group ">
+											<label for="leverage">Leverage</label> <input type="number"
+												class="form-control" id="leverage" name="leverage"
+												th:value="${account != null? account.leverage : ''}"
+												required>
+										</div>
+										<div class="form-group ">
+											<label for="initalSize">Initial Size</label> <input
+												type="number" step="0.01" class="form-control"
+												id="initalSize" name="initalSize"
+												th:value="${account != null? account.initalSize : ''}"
+												required>
+										</div>
+
+
+									</div>
+									<div class="col-md-6">
+										<div class="form-group ">
+											<label for="createdON">Created On</label> <input type="date"
+												class="form-control" id="createdON" name="createdON"
+												th:value="${account != null? account.createdON : ''}"
+												required>
+										</div>
+										<div class="form-group ">
+											<label for="accountLogin">Account Login</label> <input
+												type="text" class="form-control" id="accountLogin"
+												name="accountLogin"
+												th:value="${account != null? account.accountLogin : ''}"
+												required>
+										</div>
+										<div class="form-group ">
+											<label for="active">Is Active</label> <select
+												class="form-control" id="acc" name="active">
+												<option value="">- Select Account -</option>
+												<option value="true"
+													th:selected="${account != null && account.active == true}">
+													Yes</option>
+												<option value="false"
+													th:selected="${account != null && account.active == false}">
+													No</option>
+											</select>
+										</div>
+
+									</div>
+
+									<div class="form-group text-center mt-3">
+										<button type="submit" class="btn btn-primary col-md-3">
+											<i th:text="${account != null? 'Update' : 'Add'}"></i>
+										</button>
+										<a th:href="@{/accounts/allAccounts}"
+											class="btn btn-danger col-md-3"> Cancel </a>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</form>
+				</section>
+
+			</div>
+
+			<footer>
+				<div class="footer clearfix mb-0 text-muted c-ftr">
+					<div class="float-start">
+						<p>2021 &copy; Banners Hallmark</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
+
+
+</body>
+
+</html>

@@ -44,7 +44,7 @@
 						<%@ include file="../common/error-and-success-message.jsp"%>
 
 						<div class="card tp-inpt">
-							<div class="card-body">
+							<div class="card-body shadow">
 
 								<div class="row" id="row1">
 									<div class="col-md-4 col-12">
@@ -78,83 +78,10 @@
 								<div class="row" id="row2">
 									<div class="col-md-4 col-12">
 										<div class="form-group">
-											<label for="addressLine1">Address</label>
-											<form:input type="text" maxlength="250" name="addressLine1"
-												id="addressLine1" path="addressLine1" class="form-control"
-												placeholder="Address Line 1" value="" />
-										</div>
-									</div>
-									<div class="col-md-4 col-12">
-										<div class="form-group">
-											<label for="addressLine2"></label>
-											<form:input type="text" maxlength="250" name="addressLine2"
-												id="addressLine2" path="addressLine2" class="form-control"
-												placeholder="Address Line 2" value="" />
-										</div>
-									</div>
-
-									<div class="col-md-4 col-12">
-										<div class="form-group">
-											<label for="addressLine3"></label>
-											<form:input type="text" maxlength="250" name="addressLine3"
-												id="addressLine3" path="addressLine3" class="form-control"
-												placeholder="Address Line 3" value="" />
-										</div>
-									</div>
-								</div>
-
-
-								<div class="row" id="row3">
-									<div class="col-md-4 col-12">
-										<div class="form-group">
-											<label for="country">Country</label>
-											<form:select type="text" name="country" id="country"
-												path="country" class="form-select" placeholder="Country"
-												value="">
-												<form:option value="USA">USA</form:option>
-												<form:option value="India">India</form:option>
-												<form:option value="Germany">Germany</form:option>
-											</form:select>
-										</div>
-									</div>
-									<div class="col-md-4 col-12">
-										<div class="form-group">
-											<label for="city">City</label>
-											<form:input type="text" maxlength="50" name="city" id="city"
-												path="city" class="form-control" placeholder="City" value="" />
-										</div>
-									</div>
-
-
-									<div class="col-md-4 col-12">
-										<div class="form-group">
-											<label for="state">State</label>
-
-											<form:input type="text" maxlength="50" name="state"
-												id="state" path="state" class="form-control"
-												placeholder="State" value="" />
-										</div>
-									</div>
-
-
-								</div>
-
-
-								<div class="row" id="row4">
-									<div class="col-md-4 col-12">
-										<div class="form-group">
-											<label for="zipCode">ZIP</label>
-											<form:input type="text" maxlength="10" name="zipCode"
-												id="zipCode" path="postalCode" class="form-control"
-												placeholder="Postal Code" value="" />
-										</div>
-									</div>
-									<div class="col-md-4 col-12">
-										<div class="form-group">
-											<label for="country">Phone</label>
-											<form:input type="text" maxlength="20" name="phoneNumber"
-												id="phoneNumber" path="phoneNumber" class="form-control"
-												placeholder=" Phone Number" value="" />
+											<label for="addressLine">Address</label>
+											<form:input type="text" maxlength="250" name="addressLine"
+												id="addressLine" path="addressLine" class="form-control"
+												placeholder="Address" value="" />
 										</div>
 									</div>
 									<div class="col-md-4 col-12">
@@ -172,10 +99,6 @@
 											</form:select>
 										</div>
 									</div>
-
-
-								</div>
-								<div class="row" id="row4">
 									<div class="col-md-4 col-12">
 										<div class="form-group">
 											<label for="username">Username</label>
@@ -185,6 +108,18 @@
 												readonly="true" />
 										</div>
 									</div>
+								</div>
+
+								<div class="row" id="row4">
+									<%-- <div class="col-md-4 col-12">
+										<div class="form-group">
+											<label for="username">Username</label>
+											<form:input type="text" maxlength="10" name="zipCode"
+												id="username" path="username" class="form-control"
+												placeholder="User Name" value="" required="true"
+												readonly="true" />
+										</div>
+									</div> --%>
 
 									<div class="col-md-4 col-12">
 										<div class="form-group">
@@ -195,23 +130,6 @@
 										</div>
 									</div>
 
-								</div>
-
-								<div class="row" id="row5">
-									<div class="col-md-4 col-12">
-										<div class="form-group">
-											<label for="site">Site</label>
-											<form:select type="text" name="site" id="site"
-												path="store.id" class="form-select" value="">
-												<form:option value="">--Select Site--</form:option>
-
-												<c:forEach items="${stores}" var="store">
-													<form:option value="${store.id}">${store.store} - ${store.storeName}</form:option>
-												</c:forEach>
-
-											</form:select>
-										</div>
-									</div>
 								</div>
 
 
