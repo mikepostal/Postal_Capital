@@ -43,6 +43,13 @@ public class MarketInsightController {
 		return "marketInsight/allMarketInsight.html";
 	}
 
+	@GetMapping("/marketInsightList")
+	public String marketInsightList(Model model) {
+		List<MarketInsight> marketInsightList = marketInsightService.FindAll();
+		model.addAttribute("marketInsightList", marketInsightList);
+		return "marketInsight/marketInsightList.html";
+	}
+
 	@GetMapping("/addMarketInsight")
 	public String addCategory() {
 		return "marketInsight/marketInsight.html";
@@ -141,4 +148,14 @@ public class MarketInsightController {
 		return new ResponseEntity<>(document.getData(), headers, HttpStatus.OK);
 
 	}
+
+	@GetMapping("/pictures/{id}")
+	public ResponseEntity<byte[]> getFile(@PathVariable int id) {
+		MarketInsightFile file = marketInsightFileService.FindById(id);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.IMAGE_JPEG);
+		headers.setContentLength(file.getData().length);
+		return new ResponseEntity<>(file.getData(), headers, HttpStatus.OK);
+	}
+
 }

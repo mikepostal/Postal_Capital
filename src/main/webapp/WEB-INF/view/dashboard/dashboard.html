@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.com">
 
 <head>
-
 </head>
 <body>
 	<div id="main" class='layout-navbar'>
@@ -15,16 +14,92 @@
 							<h3>Dashboard</h3>
 							<!-- <p class="text-subtitle text-muted">Navbar will appear in top of the page.</p> -->
 						</div>
-					
+
 					</div>
 				</div>
 				<section class="section blnk-db ">
-					<div class="card shadow">
-						<div class="card-body">
-							<a href="addCalander" class="btn btn-primary">Add
-								Calander</a>
+					<!-- Row start -->
+					<div class="row gx-3">
+						<div class="col-sm-12 col-12">
+							<div class="row">
+								<div class="col-xl-4 col-md-4 my-3"
+									th:each="acc : ${userAccountShortSummaries}">
+									<div class="card border-left-info shadow py-2">
+										<div class="card-body">
+											<div class="row no-gutters align-items-center">
+												<div class="col mr-2">
+													<div class="font-weight-bold text-info text-uppercase mb-1">
+														<i th:text="${acc.firstname +' '+acc.lastname}"></i>
+													</div>
+													<div class="row align-items-center">
+														<div class="h5 font-weight-bold text-gray-800">
+															<i th:text="'$' + ${acc.usertotalPnl}"></i>
+
+														</div>
+													</div>
+												</div>
+												<div class="col-auto">
+
+													<h3>
+														<i th:text="${acc.userpnlPercent}+'%'"></i>
+													</h3>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
+
+					<div class="card my-3 shadow">
+						<div class="card-body">
+
+							<h3>Daily Analysis</h3>
+							<!-- Example: Display data in a bar chart using Chart.js -->
+							<canvas id="dailyAnalysisChart" width="800" height="300"></canvas>
+
+							<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+							<script th:inline="javascript">
+        /* Thymeleaf variable to JavaScript array conversion */
+        var DailyAnalysisData = [[${userAccountDailySummaries}]];
+        var dlabels = DailyAnalysisData.map(data => data.tradingDate);
+        var dtotalPnl = DailyAnalysisData.map(data => data.totalPnl);
+        var dtrdpairsId = DailyAnalysisData.map(data => data.trdpairsId);
+        /* Chart.js code to render a bar chart */
+        var ctx = document.getElementById('dailyAnalysisChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dlabels,
+                datasets: [{
+                    label: 'Total PNL',
+                    data: dtotalPnl,
+                    fill: false, 
+                    backgroundColor: 'rgba(54, 162, 235, 1)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    tension: 0.1 
+                },{
+                    label: 'Trading Pair',
+                    data: dtrdpairsId,
+                    fill: false, // No fill beneath the line
+                    backgroundColor: 'yellow',
+                    borderColor: 'yellow', // Line color
+                    tension: 0.1 // Smoothing of the line
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+						</div>
+					</div>
+
 					<div class="card shadow mt-3">
 						<div class="card-body">
 							<table id="landlord"

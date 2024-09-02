@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ public class MarketInsightDescription {
 	@JoinColumn(name = "marketInsightID", referencedColumnName = "marketInsightID")
 	private MarketInsight marketInsightID;
 
-	@OneToMany(mappedBy = "miDescID", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "miDescID", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	List<MarketInsightFile> marketInsightFileList = new ArrayList<>();
 
 	public MarketInsightDescription() {

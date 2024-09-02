@@ -5,9 +5,12 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,6 +92,26 @@ public class CalanderController {
 		redirectAttributes.addFlashAttribute(Constants.AttributeNames.SUCCESS_MESSAGE, "Calander deleted");
 
 		return "redirect:/calander/allCalanders";
+	}
+
+	@GetMapping("/checkTime")
+	public ResponseEntity<String> checkTime(@RequestParam String currentTime) {
+		// Parse the incoming string to LocalDateTime
+		LocalDateTime parsedCurrentTime = LocalDateTime.parse(currentTime.replace(" ", "T"));
+		System.out.println("currentTime========================== " + parsedCurrentTime);
+
+		List<Calander> calanders = calanderService.findAllCalanders();
+		boolean shouldPlaySound = false;
+
+		for (Calander calander : calanders) {
+			// Use isEqual method for comparing two LocalDateTime objects
+			if (calander.getStartfrom().isEqual(parsedCurrentTime)) {
+				shouldPlaySound = true;
+				break; // Exit loop once a match is found
+			}
+		}
+
+		return ResponseEntity.ok(String.valueOf(shouldPlaySound));
 	}
 
 }

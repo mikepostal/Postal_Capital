@@ -43,7 +43,7 @@
 									<tr th:each="t :${tradersAccountsList}">
 										<td th:text="${t.user.firstname+' '+t.user.lastname}"></td>
 										<td
-											th:text="${t.account.platform +' - '+ t.account.initalSize +' _ '+ t.account.leverage }"></td>
+											th:text="${t.account.platform +' - '+ t.account.accountLogin}"></td>
 										<td th:text="${t.startfrom}"></td>
 										<td th:text="${t.endto}"></td>
 										<td><a style="color: blue"

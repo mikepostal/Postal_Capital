@@ -10,6 +10,9 @@
 						style="height: 100px" width="236px"
 						src="${pageContext.request.contextPath}/resources/assets/images/logo/LOGO TEST 002-1.png"
 						alt="Logo" srcset=""></a>
+					<audio id="notification-sound"
+						src="${pageContext.request.contextPath}/resources/assets/sounds/notification.wav"
+						preload="auto"></audio>
 				</div>
 				<div class="toggler">
 					<a href="#" class="sidebar-hide d-xl-none d-block"><i
@@ -22,7 +25,7 @@
 
 				<li
 					class="sidebar-item <c:if test="${requestScope['javax.servlet.forward.request_uri'].indexOf('/dashboard/') >= 0}"> active </c:if>">
-					<a href="${pageContext.request.contextPath}/dashboard/dashboards"
+					<a href="${pageContext.request.contextPath}/dashboard/dashboard"
 					class="sidebar-link"> <i class="bi bi-speedometer"></i><span>Dashboard</span></a>
 				</li>
 
@@ -166,4 +169,31 @@
 									.addClass('d-active');
 						}
 					});
+</script>
+
+<script>
+    function playNotificationSound() {
+        var sound = document.getElementById('notification-sound');
+        sound.play().catch(error => console.error('Error playing sound:', error));
+    }
+
+    function checkTime() {
+        var now = new Date();
+        // Format the time to ISO string without time zone (e.g., "YYYY-MM-DD HH:MM:SS")
+        var localDateTime = now.toISOString().replace("T", " ").substring(0, 19);
+        
+        console.log(localDateTime);
+        fetch("http://localhost:8080/Bannershallmark/calander/checkTime?currentTime=" + encodeURIComponent(localDateTime))
+            .then(response => response.text())
+            .then(result => {
+                console.log('Server response:', result);
+                if (result.trim() === 'true') {
+                    playNotificationSound();
+                }
+            })
+            .catch(error => console.error('Fetch error:', error));
+    }
+
+    // Check the time every second
+    setInterval(checkTime, 1000);
 </script>

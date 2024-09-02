@@ -19,7 +19,7 @@ public class MarketInsight {
 	private String marketInsightLevel;
 	private Date marketInsightDate;
 
-	@OneToMany(mappedBy = "marketInsightID", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "marketInsightID", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	List<MarketInsightDescription> marketInsightDescriptionList = new ArrayList<>();
 
 	public MarketInsight() {

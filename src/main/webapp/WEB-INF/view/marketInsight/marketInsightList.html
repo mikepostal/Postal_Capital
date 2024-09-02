@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+
+<head>
+<style type="text/css">
+.card-body img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 4px;
+}
+</style>
+</head>
+<body>
+	<div id="main" class='layout-navbar'>
+		<div id="main-content">
+
+			<div class="page-heading">
+				<div class="page-title mb-5">
+					<div class="row ">
+						<div class="col-12 col-md-6 order-md-1 order-last">
+							<h3>Market Insight</h3>
+						</div>
+
+					</div>
+				</div>
+				<section class="section blnk-db ">
+					<div class="card shadow"
+						th:each="marketInsight : ${marketInsightList}">
+						<div class="card-body">
+							<div class="ig-dflx ">
+								<b> Date : <i th:text="${marketInsight.marketInsightDate}"></i></b>
+							</div>
+							<h3 th:text="${marketInsight.marketInsightTitle}"></h3>
+
+							<div class="ig-dflx ">
+								<b> Type : <i th:text="${marketInsight.marketInsightType}"></i>
+								</b>
+							</div>
+							<div class="ig-dflx ">
+								<b>Level : <i th:text="${marketInsight.marketInsightLevel}"></i></b>
+							</div>
+							<div
+								th:each="marketInsightDesc : ${marketInsight.marketInsightDescriptionList}">
+								<p th:text="${marketInsightDesc.marketInsightDetail}"></p>
+								<div th:each="file : ${marketInsightDesc.marketInsightFileList}">
+
+									<div th:if="${file.fileType.startsWith('image')}">
+										<img
+											th:src="@{/marketInsight/pictures/{id}(id=${file.marketInsightFileID})}" />
+									</div>
+									<div th:unless="${file.fileType.startsWith('image')}">
+										<a
+											th:href="@{/marketInsight/download/{documentId} (documentId =${file.marketInsightFileID})}"
+											class="btn btn-primary"><i class="bi bi-download"></i>
+											Download</a>
+									</div>
+									<i th:text="${file.fileName}"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+			</div>
+
+			<footer>
+				<div class="footer clearfix mb-0 text-muted c-ftr">
+					<div class="float-start">
+						<p>2024 &copy; Banners Hallmark</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#landlord').DataTable({
+				responsive : true, // Make table responsive
+				paging : true, // Enable pagination
+				searching : true, // Enable search functionality
+				lengthChange : true, // Allow changing number of rows displayed
+				pageLength : 10, // Set default number of rows displayed per page
+			});
+		});
+	</script>
+</body>
+</html>

@@ -40,9 +40,9 @@
 												id="acc" name="accId">
 												<option value="">- Select Account -</option>
 												<option th:each="a : ${accountsList}"
-													th:text="${a.platform+' - '+a.initalSize+' - '+a.leverage}"
+													th:text="${a.platform+' - '+a.accountLogin}"
 													th:value="${a.accountID}"
-													th:selected="${tradersAccounts != null && tradersAccounts.account.platform == a.platform}"></option>
+													th:selected="${tradersAccounts != null && tradersAccounts.account.accountID == a.accountID}"></option>
 											</select>
 										</div>
 
