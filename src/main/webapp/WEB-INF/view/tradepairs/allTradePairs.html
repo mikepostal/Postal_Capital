@@ -19,12 +19,12 @@
 					</div>
 				</div>
 				<section class="section blnk-db ">
-					<div class="card shadow">
+					<!-- <div class="card shadow">
 						<div class="card-body">
 							<a href="addTradePairs" class="btn btn-primary">Add Trade
 								Pairs</a>
 						</div>
-					</div>
+					</div> -->
 					<div class="card shadow mt-3">
 						<div class="card-body">
 							<table id="landlord"
@@ -34,20 +34,20 @@
 									<tr>
 										<th>Category</th>
 										<th>Pair</th>
-										<th>Action</th>
+										<!-- <th>Action</th> -->
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="t :${tradePairsList}">
 										<td th:text="${t.category.categoryName}"></td>
 										<td th:text="${t.pairName}"></td>
-										<td><a style="color: blue"
+										<!-- <td><a style="color: blue"
 											th:href="@{/tradepairs/editTradePairs (id=${t.trdpairsID})}"><i
 												class="bi bi-pencil-fill" style="margin: 4"></i></a> | <a
 											style="color: red"
 											th:href="@{/tradepairs/deleteTradePairs (id=${t.trdpairsID})}"
 											onclick="return confirm('Are you sure to delete?')"><i
-												class="bi bi-trash-fill" style="margin: 4"></i></a></td>
+												class="bi bi-trash-fill" style="margin: 4"></i></a></td> -->
 									</tr>
 								</tbody>
 							</table>

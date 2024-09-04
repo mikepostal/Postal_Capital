@@ -1,6 +1,10 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<style>
+.sidebar::-webkit-scrollbar {
+	display: none; 
+}
+</style>
 <div id="sidebar" class="active">
 	<div class="sidebar-wrapper active shadow">
 		<div class="sidebar-header">
@@ -45,7 +49,7 @@
 					</ul>
 				</li>
 
-				<li
+				<%-- <li
 					class="sidebar-item  <c:if test="${requestScope['javax.servlet.forward.request_uri'].indexOf('/tradepairs/') >= 0 || requestScope['javax.servlet.forward.request_uri'].indexOf('/categories/') >= 0}"> active </c:if> has-sub">
 					<a href="#" class="sidebar-link"><i
 						class="bi bi-hdd-stack-fill"></i><span>Trade Pairs</span></a>
@@ -61,9 +65,15 @@
 						</a></li>
 
 					</ul>
+				</li> --%>
+
+				<li
+					class="sidebar-item <c:if test="${requestScope['javax.servlet.forward.request_uri'].indexOf('/tradepairs/') >= 0 || requestScope['javax.servlet.forward.request_uri'].indexOf('/categories/') >= 0}"> active </c:if>">
+					<a
+					href="${pageContext.request.contextPath}/categories/allCategories"
+					class="sidebar-link"> <i class="bi bi-hdd-stack-fill"></i><span>Trade
+							Pairs</span></a>
 				</li>
-
-
 				<!-- PODeatils -->
 				<li
 					class="sidebar-item <c:if test="${requestScope['javax.servlet.forward.request_uri'].indexOf('/marketInsight/') >= 0}"> active </c:if>">

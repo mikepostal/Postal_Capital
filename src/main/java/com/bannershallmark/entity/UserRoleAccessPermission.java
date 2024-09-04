@@ -14,17 +14,16 @@ import javax.persistence.Table;
 @Table(name = "userroleaccesspermission")
 public class UserRoleAccessPermission {
 	@Id
-    @Column(name = "userRoleAccessPermissionId")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)	    
-    private int id;
-	
-	
+	@Column(name = "userRoleAccessPermissionId")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
 	@ManyToOne
-	@JoinColumn(name="userRoleId")
+	@JoinColumn(name = "userRoleId")
 	private Role role;
-	
+
 	@OneToOne
-	@JoinColumn(name="accessPermissionId")
+	@JoinColumn(name = "accessPermissionId")
 	private AccessPermission accessPermission;
 
 	public int getId() {
@@ -50,6 +49,5 @@ public class UserRoleAccessPermission {
 	public void setAccessPermission(AccessPermission accessPermission) {
 		this.accessPermission = accessPermission;
 	}
-	
-	
+
 }

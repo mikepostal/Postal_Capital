@@ -63,13 +63,13 @@ public class PNLController {
 	}
 
 	@PostMapping("/savePnl")
-	public String savePnl(PNL pnl, @RequestParam("acc") int acc, @RequestParam("pair") int pair,@RequestParam("trDate") String trDate) {
+	public String savePnl(PNL pnl,@RequestParam("trDate") String trDate) {
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 		LocalDateTime tradingDate = LocalDateTime.parse(trDate, formatter);
-		Accounts accounts = accountsService.findAccountsById(acc);
-		TradePairs tradePairs = tradePairsService.FindById(pair);
-		pnl.setAccounts(accounts);
-		pnl.setTradePair(tradePairs);
+//		Accounts accounts = accountsService.findAccountsById(acc);
+//		TradePairs tradePairs = tradePairsService.FindById(pair);
+//		pnl.setAccounts(accounts);
+//		pnl.setTradePair(tradePairs);
 		pnl.setTradingDate(tradingDate);
 		pnlService.save(pnl);
 		return "redirect:/pnl/allpnl";

@@ -32,17 +32,18 @@ public class TradePairsController {
 	}
 
 	@GetMapping("/addTradePairs")
-	public String addTradePairs(Model model) {
-		List<Categories> categoriesList = categoriesService.FindAll();
-		model.addAttribute("categoriesList", categoriesList);
+	public String addTradePairs(@RequestParam("id") int id,Model model) {
+		Categories categories = categoriesService.FindById(id);
+		model.addAttribute("categories", categories);
 		return "tradepairs/addTradePairs.html";
 	}
 
 	@GetMapping("/editTradePairs")
-	public String editTradePairs(@RequestParam("id") int id, Model model) {
+	public String editTradePairs(@RequestParam("id") int id,@RequestParam("catId") int catId, Model model) {
 		TradePairs tradePairs = tradePairsService.FindById(id);
-		List<Categories> categoriesList = categoriesService.FindAll();
-		model.addAttribute("categoriesList", categoriesList);
+		Categories categories = categoriesService.FindById(catId);
+		model.addAttribute("categories", categories);
+		model.addAttribute("categories", categories);
 		model.addAttribute("tradePairs", tradePairs);
 		return "tradepairs/addTradePairs.html";
 	}
@@ -50,7 +51,7 @@ public class TradePairsController {
 	@GetMapping("/deleteTradePairs")
 	public String deleteTradePairs(@RequestParam("id") int id) {
 		tradePairsService.DeleteById(id);
-		return "redirect:/tradepairs/allTradePairs";
+		return "redirect:/categories/allCategories";
 	}
 
 	@PostMapping("/saveTradepairs")
@@ -70,6 +71,6 @@ public class TradePairsController {
 			tradePairsService.save(newtradePairs);
 		}
 
-		return "redirect:/tradepairs/allTradePairs";
+		return "redirect:/categories/allCategories";
 	}
 }

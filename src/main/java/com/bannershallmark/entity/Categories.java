@@ -14,7 +14,7 @@ public class Categories {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer categoryID;
 	private String categoryName;
-	@OneToMany(mappedBy = "category")
+	@OneToMany(mappedBy = "category",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private List<TradePairs> tradePairs = new ArrayList<>();
 
 	public Integer getCategoryID() {

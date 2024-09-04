@@ -43,8 +43,8 @@
 								<tbody>
 									<tr th:each="p :${pnlList}">
 										<td
-											th:text="${p.accounts.platform +' - '+ p.accounts.accountLogin}"></td>
-										<td th:text="${p.tradePair.pairName}"></td>
+											th:text="${p.accountLogin}"></td>
+										<td th:text="${p.pair}"></td>
 										<td th:text="${p.tradingDate}"></td>
 										<td th:text="${p.pnl}"></td>
 										<td th:text="${p.pnlPercent}"></td>

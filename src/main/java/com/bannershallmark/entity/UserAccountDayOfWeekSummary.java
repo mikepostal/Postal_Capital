@@ -1,5 +1,6 @@
 package com.bannershallmark.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -10,10 +11,14 @@ public class UserAccountDayOfWeekSummary {
 	@Id
 	private int id;
 	private String dayOfWeek;
-	private int trdpairID;
+	private String pair;
+	@Column(name = "total_pnl")
 	private double totalPnl;
 	private int userId;
-	private int accountID;
+	private String firstname;
+	private String lastname;
+	private String accountLogin;
+	private String platform;
 
 	public int getId() {
 		return id;
@@ -31,12 +36,12 @@ public class UserAccountDayOfWeekSummary {
 		this.dayOfWeek = dayOfWeek;
 	}
 
-	public int getTrdpairID() {
-		return trdpairID;
+	public String getPair() {
+		return pair;
 	}
 
-	public void setTrdpairID(int trdpairID) {
-		this.trdpairID = trdpairID;
+	public void setPair(String pair) {
+		this.pair = pair;
 	}
 
 	public double getTotalPnl() {
@@ -55,12 +60,36 @@ public class UserAccountDayOfWeekSummary {
 		this.userId = userId;
 	}
 
-	public int getAccountID() {
-		return accountID;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setAccountID(int accountID) {
-		this.accountID = accountID;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getAccountLogin() {
+		return accountLogin;
+	}
+
+	public void setAccountLogin(String accountLogin) {
+		this.accountLogin = accountLogin;
+	}
+
+	public String getPlatform() {
+		return platform;
+	}
+
+	public void setPlatform(String platform) {
+		this.platform = platform;
 	}
 
 }

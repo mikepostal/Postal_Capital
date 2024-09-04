@@ -35,12 +35,12 @@
 											th:value="${pnl.pnlID}">
 										<div class="form-group">
 											<label for="acc">Account</label> <select class="form-control"
-												id="acc" name="acc">
+												id="acc" name="accountLogin">
 												<option value="">- Select Account -</option>
 												<option th:each="a : ${accounts}"
 													th:text="${a.platform+' - '+a.accountLogin}"
-													th:value="${a.accountID}"
-													th:selected="${pnl != null && pnl.accounts.accountID == a.accountID}"></option>
+													th:value="${a.accountLogin}"
+													th:selected="${pnl != null && pnl.accountLogin == a.accountLogin}"></option>
 											</select>
 										</div>
 										<div class="form-group ">
@@ -48,8 +48,8 @@
 												class="form-control" id="pair" name="pair">
 												<option value="">- Select Trade Pairs -</option>
 												<option th:each="t : ${tradePairsList}"
-													th:text="${t.pairName}" th:value="${t.trdpairsID}"
-													th:selected="${pnl != null && pnl.tradePair.pairName == t.pairName}"></option>
+													th:text="${t.pairName}" th:value="${t.pairName}"
+													th:selected="${pnl != null && pnl.pair == t.pairName}"></option>
 											</select>
 										</div>
 										<div class="form-group ">

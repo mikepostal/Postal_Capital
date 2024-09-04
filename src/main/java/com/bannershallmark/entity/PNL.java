@@ -14,14 +14,16 @@ public class PNL {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer pnlID;
 
-	@ManyToOne
-	@JoinColumn(name = "trdpairsID")
-	private TradePairs tradePair;
+//	@ManyToOne
+//	@JoinColumn(name = "trdpairsID")
+//	private TradePairs tradePair;
+//
+//	@ManyToOne
+//	@JoinColumn(name = "accountID")
+//	private Accounts accounts;
 
-	@ManyToOne
-	@JoinColumn(name = "accountID")
-	private Accounts accounts;
-
+	private String accountLogin;
+	private String pair;
 	private LocalDateTime tradingDate;
 	private Double pnl;
 	private Double pnlPercent;
@@ -35,20 +37,20 @@ public class PNL {
 		this.pnlID = pnlID;
 	}
 
-	public TradePairs getTradePair() {
-		return tradePair;
+	public String getAccountLogin() {
+		return accountLogin;
 	}
 
-	public void setTradePair(TradePairs tradePair) {
-		this.tradePair = tradePair;
+	public void setAccountLogin(String accountLogin) {
+		this.accountLogin = accountLogin;
 	}
 
-	public Accounts getAccounts() {
-		return accounts;
+	public String getPair() {
+		return pair;
 	}
 
-	public void setAccounts(Accounts accounts) {
-		this.accounts = accounts;
+	public void setPair(String pair) {
+		this.pair = pair;
 	}
 
 	public LocalDateTime getTradingDate() {
@@ -82,4 +84,5 @@ public class PNL {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
 }

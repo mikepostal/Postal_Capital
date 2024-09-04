@@ -38,10 +38,9 @@
 										<div class="form-group">
 											<label for="category">Category</label> <select
 												class="form-control" id="category" name="catg">
-												<option value="">- Select Category -</option>
-												<option th:each="c : ${categoriesList}"
-													th:text="${c.categoryName}" th:value="${c.categoryID}"
-													th:selected="${tradePairs != null && tradePairs.category.categoryName == c.categoryName}"></option>
+												<option 
+													th:text="${categories.categoryName}" th:value="${categories.categoryID}"
+													th:selected="${tradePairs != null && tradePairs.category.categoryName == categories.categoryName}"></option>
 											</select>
 										</div>
 

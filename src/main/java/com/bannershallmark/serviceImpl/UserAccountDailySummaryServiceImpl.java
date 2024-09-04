@@ -20,4 +20,16 @@ public class UserAccountDailySummaryServiceImpl implements UserAccountDailySumma
 	public List<UserAccountDailySummary> FindAll() {
 		return userAccountDailySummaryDao.FindAll();
 	}
+
+	@Override
+	@Transactional
+	public List<UserAccountDailySummary> FindByUserPairAndAccountLogin(int userId, String pair, String accountLogin) {
+		return userAccountDailySummaryDao.FindByUserPairAndAccountLogin(userId, pair, accountLogin);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountDailySummary> FindByUserAndPair(int userId, String pair) {
+		return userAccountDailySummaryDao.FindByUserAndPair(userId,pair);
+	}
 }

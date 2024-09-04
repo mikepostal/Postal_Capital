@@ -98,7 +98,7 @@ public class CalanderController {
 	public ResponseEntity<String> checkTime(@RequestParam String currentTime) {
 		// Parse the incoming string to LocalDateTime
 		LocalDateTime parsedCurrentTime = LocalDateTime.parse(currentTime.replace(" ", "T"));
-		System.out.println("currentTime========================== " + parsedCurrentTime);
+//		System.out.println("currentTime========================== " + parsedCurrentTime);
 
 		List<Calander> calanders = calanderService.findAllCalanders();
 		boolean shouldPlaySound = false;
