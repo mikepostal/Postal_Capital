@@ -45,4 +45,34 @@ public class UserAccountDailySummaryDaoImpl implements UserAccountDailySummaryDa
 		query.setParameter("pair", pair);
 		return query.getResultList();
 	}
+
+	@Override
+	public List<UserAccountDailySummary> FindByUserAndAccountLogin(int userId, String accountLogin) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<UserAccountDailySummary> query = session.createQuery(
+				"from UserAccountDailySummary where userId = :userId AND accountLogin = :accountLogin AND accountLogin = :accountLogin",
+				UserAccountDailySummary.class);
+		query.setParameter("userId", userId);
+		query.setParameter("accountLogin", accountLogin);
+		query.setParameter("accountLogin", accountLogin);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<UserAccountDailySummary> FindByUser(int userId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<UserAccountDailySummary> query = session.createQuery(
+				"from UserAccountDailySummary where userId = :userId", UserAccountDailySummary.class);
+		query.setParameter("userId", userId);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<UserAccountDailySummary> FindByPair(String pair) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<UserAccountDailySummary> query = session.createQuery(
+				"from UserAccountDailySummary where pair = :pair", UserAccountDailySummary.class);
+		query.setParameter("pair", pair);
+		return query.getResultList();
+	}
 }

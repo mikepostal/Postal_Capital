@@ -83,5 +83,4 @@ public class UserAccountDailySummary {
 		this.accountID = accountID;
 	}
 
-	
 }

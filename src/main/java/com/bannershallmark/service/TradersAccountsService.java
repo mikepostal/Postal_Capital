@@ -14,4 +14,6 @@ public interface TradersAccountsService {
 
 	void DeleteById(int id);
 
+	List<TradersAccounts> findByUserId(int userId);
+
 }

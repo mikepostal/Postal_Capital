@@ -20,4 +20,34 @@ public class UserAccountWeeklySummaryServiceImpl implements UserAccountWeeklySum
 	public List<UserAccountWeeklySummary> FindAll() {
 		return userAccountWeeklySummaryDao.FindAll();
 	}
+
+	@Override
+	@Transactional
+	public List<UserAccountWeeklySummary> FindByUserPairAndAccountLogin(int userId, String pair, String accountLogin) {
+		return userAccountWeeklySummaryDao.FindByUserPairAndAccountLogin(userId,pair,accountLogin);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountWeeklySummary> FindByUserAndPair(int userId, String pair) {
+		return userAccountWeeklySummaryDao.FindByUserAndPair(userId,pair);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountWeeklySummary> FindByUserAndAccountLogin(int userId, String accountLogin) {
+		return userAccountWeeklySummaryDao.FindByUserAndAccountLogin(userId,accountLogin);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountWeeklySummary> FindByUser(int userId) {
+		return userAccountWeeklySummaryDao.FindByUser(userId);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountWeeklySummary> FindByPair(String pair) {
+		return userAccountWeeklySummaryDao.FindByPair(pair);
+	}
 }

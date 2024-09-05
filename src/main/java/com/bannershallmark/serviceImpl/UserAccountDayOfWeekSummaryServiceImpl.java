@@ -20,4 +20,35 @@ public class UserAccountDayOfWeekSummaryServiceImpl implements UserAccountDayOfW
 	public List<UserAccountDayOfWeekSummary> FindAll() {
 		return userAccountDayOfWeekSummaryDao.FindAll();
 	}
+
+	@Override
+	@Transactional
+	public List<UserAccountDayOfWeekSummary> FindByUserPairAndAccountLogin(int userId, String pair,
+			String accountLogin) {
+		return userAccountDayOfWeekSummaryDao.FindByUserPairAndAccountLogin(userId,pair,accountLogin);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountDayOfWeekSummary> FindByUserAndPair(int userId, String pair) {
+		return userAccountDayOfWeekSummaryDao.FindByUserAndPair(userId,pair);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountDayOfWeekSummary> FindByUserAndAccountLogin(int userId, String accountLogin) {
+		return userAccountDayOfWeekSummaryDao.FindByUserAndAccountLogin(userId,accountLogin);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountDayOfWeekSummary> FindByUser(int userId) {
+		return userAccountDayOfWeekSummaryDao.FindByUser(userId);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountDayOfWeekSummary> FindByPair(String pair) {
+		return userAccountDayOfWeekSummaryDao.FindByPair(pair);
+	}
 }

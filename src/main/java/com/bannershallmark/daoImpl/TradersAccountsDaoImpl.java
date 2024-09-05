@@ -42,4 +42,13 @@ public class TradersAccountsDaoImpl implements TradersAccountsDao {
 		TradersAccounts tradersAccounts = FindById(id);
 		session.delete(tradersAccounts);
 	}
+
+	@Override
+	public List<TradersAccounts> findByUserId(int userId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<TradersAccounts> query = session.createQuery("from TradersAccounts where user.id = :userId",
+				TradersAccounts.class);
+		query.setParameter("userId", userId);
+		return query.getResultList();
+	}
 }

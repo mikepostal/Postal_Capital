@@ -38,4 +38,10 @@ public class TradersAccountsServiceImpl implements TradersAccountsService {
 	public void DeleteById(int id) {
 		tradersAccountsDao.DeleteById(id);
 	}
+
+	@Override
+	@Transactional
+	public List<TradersAccounts> findByUserId(int userId) {
+		return tradersAccountsDao.findByUserId(userId);
+	}
 }

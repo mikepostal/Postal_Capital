@@ -14,4 +14,6 @@ public interface TradersAccountsDao {
 
 	void DeleteById(int id);
 
+	List<TradersAccounts> findByUserId(int userId);
+
 }

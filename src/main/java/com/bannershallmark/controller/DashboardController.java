@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bannershallmark.entity.Accounts;
 import com.bannershallmark.entity.TradePairs;
+import com.bannershallmark.entity.TradersAccounts;
 import com.bannershallmark.entity.UserAccountDailySummary;
 import com.bannershallmark.entity.UserAccountDayOfWeekSummary;
 import com.bannershallmark.entity.UserAccountMonthlySummary;
@@ -25,6 +27,7 @@ import com.bannershallmark.entity.UserAccountYearlySummary;
 import com.bannershallmark.entity.Users;
 import com.bannershallmark.service.AccountsService;
 import com.bannershallmark.service.TradePairsService;
+import com.bannershallmark.service.TradersAccountsService;
 import com.bannershallmark.service.UserAccountDailySummaryService;
 import com.bannershallmark.service.UserAccountDayOfWeekSummaryService;
 import com.bannershallmark.service.UserAccountMonthlySummaryService;
@@ -62,8 +65,12 @@ public class DashboardController {
 	private TradePairsService tradePairsService;
 	@Autowired
 	private AccountsService accountsService;
+	@Autowired
+	private TradersAccountsService tradersAccountsService;
 
 	private static Logger testNGlogger = Logger.getLogger(DashboardController.class);
+
+	public List<TradersAccounts> accounts = null;
 
 	@GetMapping("/dashboard")
 	public String dashboard(@RequestParam(value = "user", required = false) String user,
@@ -71,7 +78,6 @@ public class DashboardController {
 			@RequestParam(value = "accountLogin", required = false) String accountLogin, Model model) {
 
 		List<Users> usersList = userDetailsService.findAll();
-		List<Accounts> accounts = accountsService.findAllAccounts();
 		List<TradePairs> tradePairsList = tradePairsService.findAll();
 
 		List<UserAccountPnlSummary> accountPnlSummaryList = userAccountPnlSummaryService.FindAll();
@@ -86,13 +92,53 @@ public class DashboardController {
 			int userId = Integer.parseInt(user);
 			userAccountDailySummaries = userAccountDailySummaryService.FindByUserPairAndAccountLogin(userId, pair,
 					accountLogin);
+			userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService.FindByUserPairAndAccountLogin(userId,
+					pair, accountLogin);
+			userAccountMonthlySummaries = userAccountMonthlySummaryService.FindByUserPairAndAccountLogin(userId, pair,
+					accountLogin);
+			userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByUserPairAndAccountLogin(userId, pair,
+					accountLogin);
+			userAccountYearlySummaries = userAccountYearlySummaryService.FindByUserPairAndAccountLogin(userId, pair,
+					accountLogin);
 			model.addAttribute("userId", userId);
 			model.addAttribute("pair", pair);
 			model.addAttribute("accountLogin", accountLogin);
 		} else if (user != "" && user != null && pair != "" && pair != null) {
 			int userId = Integer.parseInt(user);
 			userAccountDailySummaries = userAccountDailySummaryService.FindByUserAndPair(userId, pair);
+			userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService.FindByUserAndPair(userId, pair);
+			userAccountMonthlySummaries = userAccountMonthlySummaryService.FindByUserAndPair(userId, pair);
+			userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByUserAndPair(userId, pair);
+			userAccountYearlySummaries = userAccountYearlySummaryService.FindByUserAndPair(userId, pair);
 			model.addAttribute("userId", userId);
+			model.addAttribute("pair", pair);
+		} else if (user != "" && user != null && accountLogin != "" && accountLogin != null) {
+			int userId = Integer.parseInt(user);
+			userAccountDailySummaries = userAccountDailySummaryService.FindByUserAndAccountLogin(userId, accountLogin);
+			userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService.FindByUserAndAccountLogin(userId,
+					accountLogin);
+			userAccountMonthlySummaries = userAccountMonthlySummaryService.FindByUserAndAccountLogin(userId,
+					accountLogin);
+			userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByUserAndAccountLogin(userId,
+					accountLogin);
+			userAccountYearlySummaries = userAccountYearlySummaryService.FindByUserAndAccountLogin(userId,
+					accountLogin);
+			model.addAttribute("userId", userId);
+			model.addAttribute("accountLogin", accountLogin);
+		} else if (user != "" && user != null) {
+			int userId = Integer.parseInt(user);
+			userAccountDailySummaries = userAccountDailySummaryService.FindByUser(userId);
+			userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService.FindByUser(userId);
+			userAccountMonthlySummaries = userAccountMonthlySummaryService.FindByUser(userId);
+			userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByUser(userId);
+			userAccountYearlySummaries = userAccountYearlySummaryService.FindByUser(userId);
+			model.addAttribute("userId", userId);
+		} else if (pair != "" && pair != null) {
+			userAccountDailySummaries = userAccountDailySummaryService.FindByPair(pair);
+			userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService.FindByPair(pair);
+			userAccountMonthlySummaries = userAccountMonthlySummaryService.FindByPair(pair);
+			userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByPair(pair);
+			userAccountYearlySummaries = userAccountYearlySummaryService.FindByPair(pair);
 			model.addAttribute("pair", pair);
 		}
 
@@ -142,5 +188,11 @@ public class DashboardController {
 		model.addAttribute("accounts", accounts);
 
 		return "/dashboard/dashboard.html";
+	}
+
+	@GetMapping("/tradersAccountsByUser")
+	public ResponseEntity<List<TradersAccounts>> getAccountsByUser(@RequestParam("userId") int userId) {
+		accounts = tradersAccountsService.findByUserId(userId);
+		return ResponseEntity.ok(accounts);
 	}
 }

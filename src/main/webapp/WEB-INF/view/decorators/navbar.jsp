@@ -192,11 +192,11 @@
         // Format the time to ISO string without time zone (e.g., "YYYY-MM-DD HH:MM:SS")
         var localDateTime = now.toISOString().replace("T", " ").substring(0, 19);
         
-        console.log(localDateTime);
+        //console.log(localDateTime);
         fetch("http://localhost:8080/Bannershallmark/calander/checkTime?currentTime=" + encodeURIComponent(localDateTime))
             .then(response => response.text())
             .then(result => {
-                console.log('Server response:', result);
+               // console.log('Server response:', result);
                 if (result.trim() === 'true') {
                     playNotificationSound();
                 }

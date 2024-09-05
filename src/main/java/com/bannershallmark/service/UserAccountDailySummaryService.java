@@ -12,4 +12,10 @@ public interface UserAccountDailySummaryService {
 
 	List<UserAccountDailySummary> FindByUserAndPair(int userId, String pair);
 
+	List<UserAccountDailySummary> FindByUserAndAccountLogin(int userId, String accountLogin);
+
+	List<UserAccountDailySummary> FindByUser(int userId);
+
+	List<UserAccountDailySummary> FindByPair(String pair);
+
 }

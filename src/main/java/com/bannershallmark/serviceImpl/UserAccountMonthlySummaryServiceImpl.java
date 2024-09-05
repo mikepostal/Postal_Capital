@@ -20,4 +20,34 @@ public class UserAccountMonthlySummaryServiceImpl implements UserAccountMonthlyS
 	public List<UserAccountMonthlySummary> FindAll() {
 		return userAccountMonthlySummaryDao.FindAll();
 	}
+
+	@Override
+	@Transactional
+	public List<UserAccountMonthlySummary> FindByUserPairAndAccountLogin(int userId, String pair, String accountLogin) {
+		return userAccountMonthlySummaryDao.FindByUserPairAndAccountLogin(userId,pair,accountLogin);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountMonthlySummary> FindByUserAndPair(int userId, String pair) {
+		return userAccountMonthlySummaryDao.FindByUserAndPair(userId,pair);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountMonthlySummary> FindByUserAndAccountLogin(int userId, String accountLogin) {
+		return userAccountMonthlySummaryDao.FindByUserAndAccountLogin(userId,accountLogin);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountMonthlySummary> FindByUser(int userId) {
+		return userAccountMonthlySummaryDao.FindByUser(userId);
+	}
+
+	@Override
+	@Transactional
+	public List<UserAccountMonthlySummary> FindByPair(String pair) {
+		return userAccountMonthlySummaryDao.FindByPair(pair);
+	}
 }

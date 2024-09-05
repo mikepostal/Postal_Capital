@@ -69,9 +69,9 @@
 										<label for="acc">Account</label> <select class="form-control"
 											id="acc" name="accountLogin">
 											<option value="">- Select Account -</option>
-											<option th:each="a : ${accounts}" th:text="${a.accountLogin}"
-												th:value="${a.accountLogin}"
-												th:selected="${accountLogin != null && accountLogin == a.accountLogin}"></option>
+											 <option th:each="a : ${accounts}" th:text="${a.account.accountLogin}"
+												th:value="${a.account.accountLogin}"
+												th:selected="${accountLogin != null && accountLogin == a.account.accountLogin}"></option> 
 										</select>
 									</div>
 									<div class="form-group col-md-3">
@@ -84,16 +84,17 @@
 										</select>
 									</div>
 									<div class="col-md-3 my-2">
-									
+
 										<button type="submit" class="btn btn-primary col-md-3 ">
-											<i class="bi bi-search"></i></button>
+											<i class="bi bi-search"></i>
+										</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</form>
 					<div class="row">
-						<div class="card m-2 col-md-5 shadow">
+						<div class="card my-2 me-2 col-md-5 shadow">
 							<div class="card-body">
 
 								<h3>Day of week Analysis</h3>
@@ -130,7 +131,7 @@
     </script>
 							</div>
 						</div>
-						<div class="card m-2 col-md-6 shadow">
+						<div class="card my-2 col-md-6 shadow">
 							<div class="card-body">
 
 								<h3>Monthly Analysis</h3>
@@ -334,6 +335,56 @@
 				pageLength : 10, // Set default number of rows displayed per page
 			});
 		});
+	</script>
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+	    $('#userId').on('change', function() {
+	        var userId = $(this).val();
+	        var $accountSelect = $('#acc');
+	        
+	        if (userId) {
+	            $.ajax({
+	                url: 'tradersAccountsByUser', 
+	                type: 'GET',
+	                data: { userId: userId },
+	                success: function(data) {
+	                    console.log('Data received:', data);
+
+	                    $accountSelect.empty(); 
+
+	                    $accountSelect.append('<option value="">- Select Account -</option>');
+
+	                    $.each(data, function(index, account) {
+	                        if (account.account.accountLogin) { 
+	                            $accountSelect.append('<option value="' + account.account.accountLogin + '">' + account.account.accountLogin + '</option>');
+	                        }
+	                    });
+
+	                    // Optional: Set the previously selected value if available
+	                    var previousValue = $accountSelect.data('previous-value');
+	                    if (previousValue) {
+	                        $accountSelect.val(previousValue);
+	                    }
+	                },
+	                error: function(xhr, status, error) {
+	                    console.error('Error fetching accounts:', status, error);
+	                    alert('Error fetching accounts. Check console for details.');
+	                }
+	            });
+	        } else {
+	            // Clear the dropdown or reset to default state
+	            $accountSelect.empty().append('<option value="">- Select Account -</option>');
+	        }
+	    });
+
+	    // Save the previously selected value
+	    $('#acc').on('change', function() {
+	        $(this).data('previous-value', $(this).val());
+	    });
+	});
+
+
 	</script>
 </body>
 </html>
