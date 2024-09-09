@@ -91,7 +91,7 @@
 												id="role" path="role.id" class="form-select" value="">
 												<form:option value="">--Select Role--</form:option>
 
-												<c:forEach items="${role}" var="role">
+												<c:forEach items="${roles}" var="role">
 													<form:option value="${role.id}">${role.name}</form:option>
 												</c:forEach>
 

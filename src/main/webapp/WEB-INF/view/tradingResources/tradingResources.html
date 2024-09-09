@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+
+<head>
+
+</head>
+<body>
+	<div id="main" class='layout-navbar'>
+		<div id="main-content">
+
+			<div class="page-heading">
+				<div class="page-title mb-5">
+					<div class="row">
+						<div class="col-12 col-md-6 order-md-1 order-last">
+							<h3>Resource</h3>
+							<!-- <p class="text-subtitle text-muted">Navbar will appear in top of the page.</p> -->
+						</div>
+					</div>
+				</div>
+				<section class="section blnk-db ">
+
+					<form th:action="@{/tradingResources/saveTradingResources}"
+						method="post" enctype="multipart/form-data"
+						th:object="${tradingResources}">
+						<div class="card shadow">
+							<div class="card-body">
+								<h2 class="text-center"
+									th:text="${tradingResources != null? 'Edit Resource' : 'Add Resource'}"></h2>
+							</div>
+						</div>
+						<div class="card shadow my-3">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-6">
+										<input type="hidden" name="resId"
+											th:if="${tradingResources != null}"
+											th:value="${tradingResources.resId}">
+										<div class="form-group ">
+											<label for="video">Title</label> <input type="text"
+												class="form-control" id="title" name="title"
+												th:text="${tradingResources != null? tradingResources.title : ''}"
+												required>
+										</div>
+
+										<div class="form-group ">
+											<label for="video">Video</label> <input type="file"
+												class="form-control" id="video" name="video"
+												accept="video/*">
+										</div>
+
+										<div class="form-group ">
+											<label for="doc">Document</label> <input type="file"
+												class="form-control" id="doc" name="doc">
+										</div>
+
+									</div>
+									<div class="col-md-6">
+
+										<div class="form-group ">
+											<label for="description">Description</label>
+											<textarea class="form-control" id="description" rows="5"
+												name="description"
+												th:text="${tradingResources != null? tradingResources.description : ''}"></textarea>
+										</div>
+
+									</div>
+
+									<div class="form-group text-center mt-3">
+										<button type="submit" class="btn btn-primary col-md-3">
+											<i th:text="${tradingResources != null? 'Update' : 'Add'}"></i>
+										</button>
+										<a th:href="@{/tradingResources/allTradingResources}"
+											class="btn btn-danger col-md-3"> Cancel </a>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</form>
+				</section>
+
+			</div>
+
+			<footer>
+				<div class="footer clearfix mb-0 text-muted c-ftr">
+					<div class="float-start">
+						<p>2021 &copy; Banners Hallmark</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
+
+
+</body>
+
+</html>

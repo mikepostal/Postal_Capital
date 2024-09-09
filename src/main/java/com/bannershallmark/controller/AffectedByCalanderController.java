@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.bannershallmark.entity.AffectedByCalander;
 import com.bannershallmark.entity.Calander;
 import com.bannershallmark.entity.TradePairs;
+import com.bannershallmark.entity.Users;
 import com.bannershallmark.service.AffectedByCalanderService;
 import com.bannershallmark.service.CalanderService;
+import com.bannershallmark.service.MyUserDetails;
 import com.bannershallmark.service.TradePairsService;
 
 @Controller
@@ -32,6 +35,10 @@ public class AffectedByCalanderController {
 	@GetMapping("/allAffectedByCalander")
 	public String allAffectedByCalanders(Model model) {
 		List<AffectedByCalander> affectedByCalanders = affectedByCalanderService.FindAll();
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		model.addAttribute("role", role);
 		model.addAttribute("affectedByCalanders", affectedByCalanders);
 		return "calander/allAffectedByCalander.html";
 	}
@@ -40,6 +47,10 @@ public class AffectedByCalanderController {
 	public String addAffectedByCalander(Model model) {
 		List<Calander> calanders = calanderService.findAllCalanders();
 		List<TradePairs> tradePairs = tradePairsService.findAll();
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		model.addAttribute("role", role);
 		model.addAttribute("calanders", calanders);
 		model.addAttribute("tradePairs", tradePairs);
 		return "calander/affectedByCalander.html";
@@ -83,6 +94,12 @@ public class AffectedByCalanderController {
 		AffectedByCalander affectedByCalander = affectedByCalanderService.FindById(id);
 		List<Calander> calanders = calanderService.findAllCalanders();
 		List<TradePairs> tradePairs = tradePairsService.findAll();
+		////to Access user role////////////////
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		model.addAttribute("role", role);
+///////////////////////		end//////////
 		model.addAttribute("calanders", calanders);
 		model.addAttribute("tradePairs", tradePairs);
 		model.addAttribute("affectedByCalander", affectedByCalander);

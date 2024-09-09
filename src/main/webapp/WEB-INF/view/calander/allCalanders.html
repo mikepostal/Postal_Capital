@@ -19,7 +19,7 @@
 					</div>
 				</div>
 				<section class="section blnk-db ">
-					<div class="card shadow">
+					<div class="card shadow" th:if="${role == 1}">
 						<div class="card-body">
 							<a href="addCalander" class="btn btn-primary">Add Calander</a>
 						</div>
@@ -36,17 +36,41 @@
 										<th>Level</th>
 										<th>From</th>
 										<th>To</th>
-										<th>Action</th>
+										<th th:if="${role == 1}">Action</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="c :${calanders}">
-										<td th:text="${c.calanderName}"></td>
+										<td><a class="text-dark" data-bs-toggle="collapse"
+											th:href="'#collapsePairs-' + ${c.calanderID}" role="button"
+											aria-expanded="false"
+											th:attr="aria-controls='collapsePairs-' + ${c.calanderID}"
+											th:text="${c.calanderName}"> </a>
+											<div class="collapse"
+												th:id="'collapsePairs-' + ${c.calanderID}">
+												<div class="card card-body mt-2">
+													<table class="table table-striped table-bordered"
+														style="width: 100%">
+														<thead>
+															<tr>
+																<th>Affected By Calendar</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr th:each="pair : ${c.affectedByCalanders}"
+																th:if="${pair != null}">
+																<td th:text="${pair.tradePairs.pairName}"></td>
+
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div></td>
 										<td th:text="${c.type}"></td>
 										<td th:text="${c.level}"></td>
 										<td th:text="${c.startfrom}"></td>
 										<td th:text="${c.endto}"></td>
-										<td><a style="color: blue"
+										<td th:if="${role == 1}"><a style="color: blue"
 											th:href="@{/calander/getCalander/{calanderId}(calanderId=${c.calanderID})}"><i
 												class="bi bi-pencil-fill" style="margin: 4"></i></a> | <a
 											style="color: red"

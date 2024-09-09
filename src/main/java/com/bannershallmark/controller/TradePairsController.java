@@ -3,6 +3,7 @@ package com.bannershallmark.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.bannershallmark.entity.AffectedByCalander;
 import com.bannershallmark.entity.Categories;
 import com.bannershallmark.entity.TradePairs;
+import com.bannershallmark.entity.Users;
 import com.bannershallmark.service.CategoriesService;
+import com.bannershallmark.service.MyUserDetails;
 import com.bannershallmark.service.TradePairsService;
 
 @Controller
@@ -27,6 +30,10 @@ public class TradePairsController {
 	@GetMapping("/allTradePairs")
 	public String allTradePairs(Model model) {
 		List<TradePairs> tradePairsList = tradePairsService.findAll();
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		model.addAttribute("role", role);
 		model.addAttribute("tradePairsList", tradePairsList);
 		return "tradepairs/allTradePairs.html";
 	}
@@ -34,6 +41,12 @@ public class TradePairsController {
 	@GetMapping("/addTradePairs")
 	public String addTradePairs(@RequestParam("id") int id,Model model) {
 		Categories categories = categoriesService.FindById(id);
+	////to Access user role////////////////
+			MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Users users = user.getUser();
+			int role = users.getRole().getId();
+			model.addAttribute("role", role);
+	///////////////////////		end//////////
 		model.addAttribute("categories", categories);
 		return "tradepairs/addTradePairs.html";
 	}
@@ -42,6 +55,12 @@ public class TradePairsController {
 	public String editTradePairs(@RequestParam("id") int id,@RequestParam("catId") int catId, Model model) {
 		TradePairs tradePairs = tradePairsService.FindById(id);
 		Categories categories = categoriesService.FindById(catId);
+	////to Access user role////////////////
+			MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Users users = user.getUser();
+			int role = users.getRole().getId();
+			model.addAttribute("role", role);
+	///////////////////////		end//////////
 		model.addAttribute("categories", categories);
 		model.addAttribute("categories", categories);
 		model.addAttribute("tradePairs", tradePairs);

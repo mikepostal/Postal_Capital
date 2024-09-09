@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<head>
+<style type="text/css">
+.card-body img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 4px;
+}
+</style>
+</head>
+<body>
+	<div id="main" class='layout-navbar'>
+		<div id="main-content">
+
+			<div class="page-heading">
+				<div class="page-title mb-5">
+					<div class="row ">
+						<div class="col-12 col-md-6 order-md-1 order-last">
+							<h3>Resource</h3>
+						</div>
+
+					</div>
+				</div>
+				<section class="section blnk-db ">
+					<div class="card shadow"
+						th:each="resource : ${displayTradingResources}">
+						<div class="card-body">
+							<h3 th:text="${resource.title}"></h3>
+							<p th:if="${resource.description != null}"
+								th:text="${resource.description}"></p>
+							<div th:if="${resource.videoData != null}">
+								<video width="600" height="400" controls>
+									<source
+										th:src="@{/tradingResources/getVideo/{id}(id=${resource.resId})}"
+										type="video/mp4">
+
+								</video>
+								<!-- <a
+										th:href="@{/tradingResources/downloadVideo/{id}(id=${resource.resId})}"
+										class="btn btn-primary btn-sm">Download Video</a> -->
+
+							</div>
+							<div th:unless="${resource.videoData != null}"></div>
+
+							<div th:if="${resource.documentData != null}">
+								<!-- <iframe width="600" height="400"
+									th:src="@{/tradingResources/getDocument/{id}(id=${resource.resId})}"
+									type="application/pdf">
+									<a
+										th:href="@{/tradingResources/getDocument/{id}(id=${resource.resId})}">Download
+										the PDF</a>.
+								</iframe> -->
+								<a
+									th:href="@{/tradingResources/getDocument/{id}(id=${resource.resId})}"
+									target="_blank">Download the PDF</a>.
+							</div>
+							<div th:unless="${resource.documentData != null}"></div>
+
+						</div>
+					</div>
+				</section>
+
+			</div>
+
+			<footer>
+				<div class="footer clearfix mb-0 text-muted c-ftr">
+					<div class="float-start">
+						<p>2024 &copy; Banners Hallmark</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			$('#landlord').DataTable({
+				responsive : true, // Make table responsive
+				paging : true, // Enable pagination
+				searching : true, // Enable search functionality
+				lengthChange : true, // Allow changing number of rows displayed
+				pageLength : 10, // Set default number of rows displayed per page
+			});
+		});
+	</script>
+</body>
+</html>

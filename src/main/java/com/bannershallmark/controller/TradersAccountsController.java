@@ -3,6 +3,7 @@ package com.bannershallmark.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import com.bannershallmark.entity.Accounts;
 import com.bannershallmark.entity.TradersAccounts;
 import com.bannershallmark.entity.Users;
 import com.bannershallmark.service.AccountsService;
+import com.bannershallmark.service.MyUserDetails;
 import com.bannershallmark.service.TradersAccountsService;
 import com.bannershallmark.service.UsersDetailsService;
 
@@ -30,6 +32,10 @@ public class TradersAccountsController {
 	@GetMapping("/allTradersAccounts")
 	public String allTradersAccounts(Model model) {
 		List<TradersAccounts> tradersAccountsList = tradersAccountsService.FindAll();
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		model.addAttribute("role", role);
 		model.addAttribute("tradersAccountsList", tradersAccountsList);
 		return "tradersAccounts/allTradersAccounts.html";
 	}
@@ -38,6 +44,12 @@ public class TradersAccountsController {
 	public String addTradersAccounts(Model model) {
 		List<Users> usersList = usersDetailsService.findAll();
 		List<Accounts> accountsList = accountsService.findAllAccounts();
+	////to Access user role////////////////
+			MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Users users = user.getUser();
+			int role = users.getRole().getId();
+			model.addAttribute("role", role);
+	///////////////////////		end//////////
 		model.addAttribute("accountsList", accountsList);
 		model.addAttribute("usersList", usersList);
 		return "tradersAccounts/tradersAccounts.html";
@@ -59,6 +71,12 @@ public class TradersAccountsController {
 		TradersAccounts tradersAccounts = tradersAccountsService.FindById(id);
 		List<Users> usersList = usersDetailsService.findAll();
 		List<Accounts> accountsList = accountsService.findAllAccounts();
+	////to Access user role////////////////
+			MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Users users = user.getUser();
+			int role = users.getRole().getId();
+			model.addAttribute("role", role);
+	///////////////////////		end//////////
 		model.addAttribute("accountsList", accountsList);
 		model.addAttribute("usersList", usersList);
 		model.addAttribute("tradersAccounts", tradersAccounts);

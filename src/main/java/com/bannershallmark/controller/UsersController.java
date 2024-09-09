@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,7 @@ import com.bannershallmark.entity.ForgotPassword;
 import com.bannershallmark.entity.Role;
 import com.bannershallmark.entity.Users;
 import com.bannershallmark.service.ForgotPasswordService;
+import com.bannershallmark.service.MyUserDetails;
 import com.bannershallmark.service.UsersDetailsService;
 import com.bannershallmark.util.AccessPermissionUtil;
 import com.bannershallmark.util.Constants;
@@ -69,11 +71,14 @@ public class UsersController {
 	@Autowired
 	WebSecurityConfig webSecurityConfig;
 
-
 	@GetMapping("/usersData")
 	public String Paybys(Model model, RedirectAttributes redirectAttributes) throws Exception {
 
 		try {
+			MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Users users1 = user.getUser();
+			int role = users1.getRole().getId();
+			model.addAttribute("role", role);
 			boolean accessStatus = true;
 //					accessPermissionUtil.isAccessPermission("users/usersData");
 			if (accessStatus) {
@@ -81,6 +86,7 @@ public class UsersController {
 
 					List<Users> users = usersDetailsService.findAll();
 					model.addAttribute("users", users);
+
 				} catch (Exception e) {
 					testNGlogger.info("users/usersData" + ",ERROR MESSAGES : " + e.getMessage());
 					return "errorpage/error";
@@ -101,19 +107,25 @@ public class UsersController {
 	@GetMapping("/addUsers")
 	public String addPayby(Model model, RedirectAttributes redirectAttributes) throws Exception {
 
-		boolean accessStatus = accessPermissionUtil.isAccessPermission("users/addUsers");
+		boolean accessStatus = true;
+//				accessPermissionUtil.isAccessPermission("users/addUsers");
 		if (accessStatus) {
+			MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Users users1 = user.getUser();
+			int role = users1.getRole().getId();
+			model.addAttribute("role", role);
 			try {
 				Users users = new Users();
 				model.addAttribute("users", users);
-				List<Role> role = usersDetailsService.findAllRole();
-				model.addAttribute("role", role);
+				List<Role> roles = usersDetailsService.findAllRole();
+				model.addAttribute("roles", roles);
 			} catch (Exception e) {
 
 				testNGlogger.info("users/usersData" + ",ERROR MESSAGES : " + e.getMessage());
 
 				return "errorpage/error";
 			}
+			
 			return "users/addUsers";
 		} else {
 			redirectAttributes.addFlashAttribute(Constants.AttributeNames.MESSAGE,
@@ -125,7 +137,8 @@ public class UsersController {
 	@PostMapping("/addNewUsers")
 	public String addNewPayby(@ModelAttribute Users users, RedirectAttributes redirectAttributes) throws Exception {
 
-		boolean accessStatus = accessPermissionUtil.isAccessPermission("users/addNewUsers");
+		boolean accessStatus = true;
+//		accessPermissionUtil.isAccessPermission("users/addNewUsers");
 		if (accessStatus) {
 			try {
 
@@ -146,7 +159,6 @@ public class UsersController {
 					BCryptPasswordEncoder encryptPwd = webSecurityConfig.passwordEncoder();
 					// System.out.println("================="+users.getPassword());
 
-					
 					users.setPassword(encryptPwd.encode(users.getPassword()));
 					usersDetailsService.save(users);
 					redirectAttributes.addFlashAttribute(Constants.AttributeNames.SUCCESS_MESSAGE,
@@ -174,15 +186,16 @@ public class UsersController {
 			throws Exception {
 
 		try {
-			boolean accessStatus = accessPermissionUtil.isAccessPermission("users/getUsers");
+			boolean accessStatus = true;
+//			accessPermissionUtil.isAccessPermission("users/getUsers");
 			if (accessStatus) {
 				try {
 					String id = request.getParameter("id");
 					if (!id.equals("")) {
 						Users users = usersDetailsService.findById(Integer.parseInt(id));
 						model.addAttribute("users", users);
-						List<Role> role = usersDetailsService.findAllRole();
-						model.addAttribute("role", role);
+						List<Role> roles = usersDetailsService.findAllRole();
+						model.addAttribute("roles", roles);
 					} else {
 						return "redirect:" + "/";
 					}
@@ -191,6 +204,13 @@ public class UsersController {
 					testNGlogger.info("users/getUses" + ",ERROR MESSAGES : " + e.getMessage());
 					return "redirect:" + "/";
 				}
+				//// to Access user role////////////////
+				MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication()
+						.getPrincipal();
+				Users users = user.getUser();
+				int role1 = users.getRole().getId();
+				model.addAttribute("role", role1);
+				/////////////////////// end//////////
 				return "users/editUsers";
 
 			} else {
@@ -208,7 +228,8 @@ public class UsersController {
 	@PostMapping("/updateUsers")
 	public String updatePayby(@ModelAttribute Users users, RedirectAttributes redirectAttributes) throws Exception {
 
-		boolean accessStatus = accessPermissionUtil.isAccessPermission("users/updateUsers");
+		boolean accessStatus = true;
+//		accessPermissionUtil.isAccessPermission("users/updateUsers");
 		if (accessStatus) {
 			try {
 				usersDetailsService.save(users);
@@ -234,7 +255,8 @@ public class UsersController {
 	@GetMapping("/deleteUsers/{id}")
 	public String deletePayby(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) throws Exception {
 
-		boolean accessStatus = accessPermissionUtil.isAccessPermission("users/deleteUsers");
+		boolean accessStatus = true;
+//		accessPermissionUtil.isAccessPermission("users/deleteUsers");
 		if (accessStatus) {
 			try {
 				usersDetailsService.deleteById(id);
@@ -254,7 +276,8 @@ public class UsersController {
 	@GetMapping("/changepassword")
 	public String Changepass(Model model, RedirectAttributes redirectAttributes) throws Exception {
 		try {
-			boolean accessStatus = accessPermissionUtil.isAccessPermission("users/changepassword");
+			boolean accessStatus = true;
+//			accessPermissionUtil.isAccessPermission("users/changepassword");
 			if (accessStatus) {
 				try {
 					Users users = new Users();
@@ -263,6 +286,13 @@ public class UsersController {
 					testNGlogger.info("users/changepassword" + ",ERROR MESSAGES : " + e.getMessage());
 					return "errorpage/error";
 				}
+				//// to Access user role////////////////
+				MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication()
+						.getPrincipal();
+				Users users = user.getUser();
+				int role = users.getRole().getId();
+				model.addAttribute("role", role);
+				/////////////////////// end//////////
 				return "users/changepass";
 
 			} else {
@@ -282,7 +312,8 @@ public class UsersController {
 			throws Exception {
 
 		try {
-			boolean accessStatus = accessPermissionUtil.isAccessPermission("users/updatepassword");
+			boolean accessStatus = true;
+//			accessPermissionUtil.isAccessPermission("users/updatepassword");
 			if (accessStatus) {
 				try {
 					Users byIddata = usersDetailsService.findById(users.getId());
@@ -320,7 +351,12 @@ public class UsersController {
 
 	@GetMapping("/reset/forgot")
 	public String forgotpage(Model model, RedirectAttributes redirectAttributes) {
-
+		//// to Access user role////////////////
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		model.addAttribute("role", role);
+		/////////////////////// end//////////
 		return "forgotpage";
 	}
 

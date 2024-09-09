@@ -31,6 +31,7 @@
 								style="width: 100%">
 								<thead>
 									<tr>
+										<th>Full Name</th>
 										<th>Account Name</th>
 										<th>Trade Pair</th>
 										<th>Date</th>
@@ -42,8 +43,8 @@
 								</thead>
 								<tbody>
 									<tr th:each="p :${pnlList}">
-										<td
-											th:text="${p.accountLogin}"></td>
+										<td th:text="${p.firstname +' '+p.lastname}"></td>
+										<td th:text="${p.accountLogin}"></td>
 										<td th:text="${p.pair}"></td>
 										<td th:text="${p.tradingDate}"></td>
 										<td th:text="${p.pnl}"></td>

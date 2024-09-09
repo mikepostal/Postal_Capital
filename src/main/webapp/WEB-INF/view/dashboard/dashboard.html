@@ -69,9 +69,10 @@
 										<label for="acc">Account</label> <select class="form-control"
 											id="acc" name="accountLogin">
 											<option value="">- Select Account -</option>
-											 <option th:each="a : ${accounts}" th:text="${a.account.accountLogin}"
+											<option th:each="a : ${accounts}"
+												th:text="${a.account.accountLogin}"
 												th:value="${a.account.accountLogin}"
-												th:selected="${accountLogin != null && accountLogin == a.account.accountLogin}"></option> 
+												th:selected="${accountLogin != null && accountLogin == a.account.accountLogin}"></option>
 										</select>
 									</div>
 									<div class="form-group col-md-3">
@@ -369,7 +370,7 @@
 	                },
 	                error: function(xhr, status, error) {
 	                    console.error('Error fetching accounts:', status, error);
-	                    alert('Error fetching accounts. Check console for details.');
+	                   /*  alert('Error fetching accounts. Check console for details.'); */
 	                }
 	            });
 	        } else {

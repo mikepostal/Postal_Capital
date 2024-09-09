@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bannershallmark.entity.MarketInsight;
 import com.bannershallmark.entity.MarketInsightDescription;
 import com.bannershallmark.entity.MarketInsightFile;
+import com.bannershallmark.entity.Users;
 import com.bannershallmark.service.MarketInsightDescriptionService;
 import com.bannershallmark.service.MarketInsightFileService;
 import com.bannershallmark.service.MarketInsightService;
+import com.bannershallmark.service.MyUserDetails;
 
 @Controller
 @RequestMapping("/marketInsight")
@@ -39,19 +42,39 @@ public class MarketInsightController {
 	@GetMapping("/allMarketInsight")
 	public String allMarketInsight(Model model) {
 		List<MarketInsight> marketInsights = marketInsightService.FindAll();
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		model.addAttribute("role", role);
 		model.addAttribute("marketInsights", marketInsights);
 		return "marketInsight/allMarketInsight.html";
 	}
+	
 
 	@GetMapping("/marketInsightList")
-	public String marketInsightList(Model model) {
-		List<MarketInsight> marketInsightList = marketInsightService.FindAll();
-		model.addAttribute("marketInsightList", marketInsightList);
+	public String marketInsightList(@RequestParam(value = "id",required = false) Integer id, Model model) {
+		
+		if(id != null) {
+			MarketInsight marketInsight = marketInsightService.FindById(id);
+			model.addAttribute("marketInsightList", marketInsight);
+		}else {
+			List<MarketInsight> marketInsightList = marketInsightService.FindAll();
+			model.addAttribute("marketInsightList", marketInsightList);
+		}
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		model.addAttribute("role", role);
+		
 		return "marketInsight/marketInsightList.html";
 	}
 
 	@GetMapping("/addMarketInsight")
-	public String addCategory() {
+	public String addCategory(Model model) {
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		model.addAttribute("role", role);
 		return "marketInsight/marketInsight.html";
 	}
 

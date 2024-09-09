@@ -8,4 +8,6 @@ public interface UserAccountShortSummaryService {
 
 	List<UserAccountShortSummary> FindAll();
 
+	List<UserAccountShortSummary> findByUserId(int userId);
+
 }

@@ -23,4 +23,13 @@ public class UserAccountShortSummaryDaoImpl implements UserAccountShortSummaryDa
 				UserAccountShortSummary.class);
 		return query.getResultList();
 	}
+
+	@Override
+	public List<UserAccountShortSummary> findByUserId(int userId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<UserAccountShortSummary> query = session
+				.createQuery("from UserAccountShortSummary where userId = :userId", UserAccountShortSummary.class);
+		query.setParameter("userId", userId);
+		return query.getResultList();
+	}
 }

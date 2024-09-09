@@ -20,7 +20,7 @@ public class Calander {
 	private String level;
 	private LocalDateTime startfrom;
 	private LocalDateTime endto;
-	@OneToMany(mappedBy = "calander", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "calander", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	List<AffectedByCalander> affectedByCalanders = new ArrayList<>();
 
 	public Integer getCalanderID() {

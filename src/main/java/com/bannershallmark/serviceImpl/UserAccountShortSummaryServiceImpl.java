@@ -20,4 +20,10 @@ public class UserAccountShortSummaryServiceImpl implements UserAccountShortSumma
 	public List<UserAccountShortSummary> FindAll() {
 		return userAccountShortSummaryDao.FindAll();
 	}
+
+	@Override
+	@Transactional
+	public List<UserAccountShortSummary> findByUserId(int userId) {
+		return userAccountShortSummaryDao.findByUserId(userId);
+	}
 }

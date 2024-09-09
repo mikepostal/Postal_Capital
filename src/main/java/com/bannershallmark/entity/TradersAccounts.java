@@ -12,7 +12,7 @@ public class TradersAccounts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer trdAccountID;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "accountID")
 	private Accounts account;
     

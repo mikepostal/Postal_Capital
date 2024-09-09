@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+
+<head>
+</head>
+<body>
+	<div id="main" class='layout-navbar'>
+		<div id="main-content">
+
+			<div class="page-heading">
+				<div class="page-title mb-5">
+					<div class="row ">
+						<div class="col-12 col-md-6 order-md-1 order-last">
+							<h3>Dashboard</h3>
+							<!-- <p class="text-subtitle text-muted">Navbar will appear in top of the page.</p> -->
+						</div>
+
+					</div>
+				</div>
+				<section class="section blnk-db ">
+					<!-- Row start -->
+					<div class="row gx-3">
+						<div class="col-sm-12 col-12">
+							<div class="row">
+								<div class="col-xl-4 col-md-6 my-3"
+									th:each="acc : ${userAccountShortSummaries}">
+									<div class="card border-left-info shadow py-2">
+										<div class="card-body">
+											<div class="row no-gutters align-items-center">
+												<div class="col mr-2">
+													<div class="font-weight-bold text-info text-uppercase mb-1">
+														<i th:text="${acc.firstname +' '+acc.lastname}"></i>
+													</div>
+													<div class="row align-items-center">
+														<div class="h5 font-weight-bold text-gray-800">
+															<i th:text="'$' + ${acc.usertotalPnl}"></i>
+
+														</div>
+													</div>
+												</div>
+												<div class="col-auto">
+
+													<h3>
+														<i th:text="${acc.userpnlPercent}+'%'"></i>
+													</h3>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<form th:action="@{/dashboard/tradersDashboard}" method="get">
+						<div class="card shadow my-3">
+							<div class="card-body">
+								<div class="row">
+									<div class="form-group col-md-3">
+										<label for="acc">Account</label> <select class="form-control"
+											id="acc" name="accountLogin">
+											<option value="">- Select Account -</option>
+											<option th:each="a : ${accounts}"
+												th:text="${a.account.accountLogin}"
+												th:value="${a.account.accountLogin}"
+												th:selected="${accountLogin != null && accountLogin == a.account.accountLogin}"></option>
+										</select>
+									</div>
+									<div class="form-group col-md-3">
+										<label for="pair">Pair</label> <select class="form-control"
+											id="pair" name="pair">
+											<option value="">- Select Pair -</option>
+											<option th:each="t : ${tradePairsList}"
+												th:text="${t.pairName}" th:value="${t.pairName}"
+												th:selected="${pair != null && pair == t.pairName}"></option>
+										</select>
+									</div>
+									<div class="col-md-3 my-2">
+
+										<button type="submit" class="btn btn-primary col-md-3 ">
+											<i class="bi bi-search"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="row">
+						<div class="card my-2 me-2 col-md-5 shadow">
+							<div class="card-body">
+
+								<h3>Day of week Analysis</h3>
+								<!-- Example: Display data in a bar chart using Chart.js -->
+								<canvas id="dayofweekAnalysisChart" width="800" height="400"></canvas>
+
+								<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+								<script th:inline="javascript">
+        /* Thymeleaf variable to JavaScript array conversion */
+        var DayofweekAnalysis = /*[[${userAccountDayOfWeekSummaries}]]*/[];
+        var labels = DayofweekAnalysis.map(data => data.dayOfWeek);
+        var pnl = DayofweekAnalysis.map(data => data.totalPnl);
+        var ctx = document.getElementById('dayofweekAnalysisChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total PNL',
+                    data: pnl,
+                    backgroundColor: pnl.map(value => value > 0 ? 'green' : 'red'),
+                    borderColor: pnl.map(value => value > 0 ? 'green' : 'red'),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+							</div>
+						</div>
+						<div class="card my-2 col-md-6 shadow">
+							<div class="card-body">
+
+								<h3>Monthly Analysis</h3>
+
+								<!-- Canvas element for the line chart -->
+								<canvas id="MonthlyAnalysisChart" width="800" height="400"></canvas>
+
+								<!-- Include Chart.js library -->
+								<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+								<!-- JavaScript to render the line chart -->
+								<script th:inline="javascript">
+        /* Convert Thymeleaf variable to JavaScript array */
+        var monthlyAnalysisData = /*[[${userAccountMonthlySummaries}]]*/ [];
+        
+        /* Prepare data for the chart */
+        var mlabels = monthlyAnalysisData.map(data => data.monthName);
+        var pnl = monthlyAnalysisData.map(data => data.totalPnl);
+        
+        /* Chart.js code to render the line chart */
+        var ctx = document.getElementById('MonthlyAnalysisChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: mlabels,
+                datasets: [{
+                    label: 'Total PNL',
+                    data: pnl,
+                    fill: false, // No fill beneath the line
+                    backgroundColor: pnl.map(value => value > 0 ? 'green' : 'red'),
+                    borderColor: pnl.map(value => value > 0 ? 'green' : 'red'), 
+                    tension: 0.1 // Smoothing of the line
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true // Start y-axis from zero
+                    }
+                }
+            }
+        });
+    </script>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="card my-3 shadow">
+						<div class="card-body">
+
+							<h3>Daily Analysis</h3>
+							<canvas id="dailyAnalysisChart" width="800" height="300"></canvas>
+
+							<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+							<script th:inline="javascript">
+        /* Thymeleaf variable to JavaScript array conversion */
+        var DailyAnalysisData = /*[[${userAccountDailySummaries}]]*/ [];
+        var dlabels = DailyAnalysisData.map(data => data.tradingDate);
+        var dtotalPnl = DailyAnalysisData.map(data => data.totalPnl);
+        /* Chart.js code to render a bar chart */
+        var ctx = document.getElementById('dailyAnalysisChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dlabels,
+                datasets: [{
+                    label: 'Total PNL',
+                    data: dtotalPnl,
+                    fill: false, 
+                    backgroundColor: dtotalPnl.map(value => value > 0 ? 'green' : 'red'),
+                    borderColor: dtotalPnl.map(value => value > 0 ? 'green' : 'red'),
+                    tension: 0.1 
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+						</div>
+					</div>
+					<div class="card m-2 shadow">
+						<div class="card-body">
+
+							<h3>Weekly Analysis</h3>
+
+							<!-- Canvas element for the line chart -->
+							<canvas id="WeeklyAnalysisChart" width="800" height="400"></canvas>
+
+							<!-- Include Chart.js library -->
+							<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+							<!-- JavaScript to render the line chart -->
+							<script th:inline="javascript">
+        /* Convert Thymeleaf variable to JavaScript array */
+        var weeklyAnalysisData = /*[[${userAccountWeeklySummaries}]]*/ [];
+        
+        /* Prepare data for the chart */
+       var mlabels = weeklyAnalysisData.map(data => `${data.tradingYear}-${data.tradingWeek}`);
+        var pnl = weeklyAnalysisData.map(data => data.totalPnl);
+        
+        /* Chart.js code to render the line chart */
+        var ctx = document.getElementById('WeeklyAnalysisChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: mlabels,
+                datasets: [{
+                    label: 'Total PNL',
+                    data: pnl,
+                    fill: false, // No fill beneath the line
+                    backgroundColor: pnl.map(value => value > 0 ? 'green' : 'red'),
+                    borderColor: pnl.map(value => value > 0 ? 'green' : 'red'), 
+                    tension: 0.1 // Smoothing of the line
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true // Start y-axis from zero
+                    }
+                }
+            }
+        });
+    </script>
+						</div>
+					</div>
+					<div class="card m-2 shadow">
+						<div class="card-body">
+
+							<h3>Yearly Analysis</h3>
+
+							<!-- Canvas element for the line chart -->
+							<canvas id="YearlyAnalysisChart" width="800" height="400"></canvas>
+
+							<!-- Include Chart.js library -->
+							<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+							<!-- JavaScript to render the line chart -->
+							<script th:inline="javascript">
+        /* Convert Thymeleaf variable to JavaScript array */
+        var yearlyAnalysisData = /*[[${userAccountYearlySummaries}]]*/ [];
+        
+        /* Prepare data for the chart */
+       var mlabels = yearlyAnalysisData.map(data => data.tradingYear);
+        var pnl = yearlyAnalysisData.map(data => data.totalPnl);
+        
+        /* Chart.js code to render the line chart */
+        var ctx = document.getElementById('YearlyAnalysisChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: mlabels,
+                datasets: [{
+                    label: 'Total PNL',
+                    data: pnl,
+                    fill: false, // No fill beneath the line
+                    backgroundColor: pnl.map(value => value > 0 ? 'green' : 'red'),
+                    borderColor: pnl.map(value => value > 0 ? 'green' : 'red'), 
+                    tension: 0.1 // Smoothing of the line
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true // Start y-axis from zero
+                    }
+                }
+            }
+        });
+    </script>
+						</div>
+					</div>
+				</section>
+
+			</div>
+
+			<footer>
+				<div class="footer clearfix mb-0 text-muted c-ftr">
+					<div class="float-start">
+						<p>2021 &copy; Banners Hallmark</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#landlord').DataTable({
+				responsive : true, // Make table responsive
+				paging : true, // Enable pagination
+				searching : true, // Enable search functionality
+				lengthChange : true, // Allow changing number of rows displayed
+				pageLength : 10, // Set default number of rows displayed per page
+			});
+		});
+	</script>
+
+</body>
+</html>

@@ -8,4 +8,6 @@ public interface UserAccountShortSummaryDao {
 
 	List<UserAccountShortSummary> FindAll();
 
+	List<UserAccountShortSummary> findByUserId(int userId);
+
 }

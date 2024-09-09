@@ -42,12 +42,12 @@ public class HomeController {
 			String r = auth.getAuthorities().toString();
 
 			MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			int role = user.getUser().getRole().getId();
+//			Date date = new Date();
+//			DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+//			String formattedDate = dateFormat.format(date);
 
-			Date date = new Date();
-			DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-			String formattedDate = dateFormat.format(date);
-
-			model.addAttribute("serverTime", formattedDate);
+//			model.addAttribute("serverTime", formattedDate);
 			session.setAttribute("user", n);
 			session.setAttribute("role", r);
 			if (user.getFirstname() != null)
@@ -55,6 +55,10 @@ public class HomeController {
 			session.setAttribute("id", user.getId());
 			session.setAttribute("userNameId", user.getUsername());
 			session.setAttribute("path", userRoleAccessPermissionDao.findAccessPermissionByRole(r));
+			
+			if(role == 2) {
+				return "redirect:" + "/dashboard/tradersDashboard";
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

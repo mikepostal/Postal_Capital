@@ -21,9 +21,9 @@
 				<section class="section blnk-db ">
 					<div class="card shadow">
 						<div class="card-body">
-							<a href="addMarketInsight" class="btn btn-primary">Add Market
-								Insight</a>
-								<a href="marketInsightList" class="btn btn-primary">View Market
+							<a th:if="${role == 1}" href="addMarketInsight"
+								class="btn btn-primary">Add Market Insight</a> <a
+								href="marketInsightList" class="btn btn-primary">View Market
 								Insight</a>
 						</div>
 					</div>
@@ -38,22 +38,26 @@
 										<th>Type</th>
 										<th>Level</th>
 										<th>Date</th>
-										<th>Action</th>
+										<th th:if="${role == 1}">Action</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="m :${marketInsights}">
-										<td th:text="${m.marketInsightTitle}"></td>
+										<td><a
+											th:href="@{/marketInsight/marketInsightList (id=${m.marketInsightID})}"><i
+												th:text="${m.marketInsightTitle}"></i></a></td>
 										<td th:text="${m.marketInsightType}"></td>
 										<td th:text="${m.marketInsightLevel}"></td>
 										<td th:text="${m.marketInsightDate}"></td>
-										<td><!-- <a style="color: blue"
+										<td th:if="${role == 1}">
+											<!-- <a style="color: blue"
 											th:href="@{/marketInsight/editMarketInsight (id=${m.marketInsightID})}"><i
 												class="bi bi-pencil-fill" style="margin: 4"></i></a> | --> <a
 											style="color: red"
 											th:href="@{/marketInsight/deleteMarketInsight (id=${m.marketInsightID})}"
 											onclick="return confirm('Are you sure to delete?')"><i
-												class="bi bi-trash-fill" style="margin: 4"></i></a></td>
+												class="bi bi-trash-fill" style="margin: 4"></i></a>
+										</td>
 									</tr>
 								</tbody>
 							</table>
