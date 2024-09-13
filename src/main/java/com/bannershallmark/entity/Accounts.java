@@ -1,6 +1,8 @@
 package com.bannershallmark.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -18,6 +20,9 @@ public class Accounts {
 	private Date createdON;
 	private String accountLogin;
 	private boolean active;
+	
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+	private List<TradersAccounts> accounts = new ArrayList<>();
 
 	public Integer getAccountID() {
 		return accountID;
@@ -73,6 +78,14 @@ public class Accounts {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public List<TradersAccounts> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<TradersAccounts> accounts) {
+		this.accounts = accounts;
 	}
 
 }

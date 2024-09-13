@@ -36,7 +36,7 @@
 				<c:if test="${role == 2}">
 					<li
 						class="sidebar-item <c:if test="${requestScope['javax.servlet.forward.request_uri'].indexOf('/dashboard/') >= 0}"> active </c:if>">
-						<a href="${pageContext.request.contextPath}/dashboard/dashboard1"
+						<a href="${pageContext.request.contextPath}/dashboard/tradersDashboard"
 						class="sidebar-link"> <i class="bi bi-speedometer"></i><span>Dashboard</span></a>
 					</li>
 				</c:if>

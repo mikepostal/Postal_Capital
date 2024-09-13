@@ -39,7 +39,7 @@
 								</thead>
 								<tbody>
 									<tr th:each="t :${tradeComments}">
-										<td th:text="${t.userId.firstname +' '+t.userId.lastname}"></td>
+										<td th:text="${t.user.firstname +' '+t.user.lastname}"></td>
 										<td th:text="${t.description}"></td>
 										<td th:text="${t.date}"></td>
 										<td><a style="color: blue"

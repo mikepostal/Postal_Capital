@@ -46,7 +46,7 @@ public class TradersAccountsDaoImpl implements TradersAccountsDao {
 	@Override
 	public List<TradersAccounts> findByUserId(int userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<TradersAccounts> query = session.createQuery("from TradersAccounts where user.id = :userId",
+		Query<TradersAccounts> query = session.createQuery("from TradersAccounts where userId = :userId",
 				TradersAccounts.class);
 		query.setParameter("userId", userId);
 		return query.getResultList();

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bannershallmark.entity.AccessPermission;
 import com.bannershallmark.entity.AccessPermissionsByGroup;
 import com.bannershallmark.entity.UserRoleAccessPermission;
+import com.bannershallmark.entity.Users;
 import com.bannershallmark.service.AccessPermissionService;
+import com.bannershallmark.service.MyUserDetails;
 import com.bannershallmark.util.AccessPermissionUtil;
 import com.bannershallmark.util.Constants;
 
@@ -35,8 +38,13 @@ public class AccessPermissionController {
 	@GetMapping("/accessPermissionData")
 	public String getAllData(Model model, RedirectAttributes redirectAttributes) {
 
-		boolean accessStatus = accessPermissionUtil.isAccessPermission("accessPermission/accessPermissionData");
+		boolean accessStatus = true;
+//				accessPermissionUtil.isAccessPermission("accessPermission/accessPermissionData");
 		if (accessStatus) {
+			MyUserDetails user1 = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Users users = user1.getUser();
+			int role = users.getRole().getId();
+			model.addAttribute("role", role);
 			try {
 
 				List<AccessPermission> accessPermission = accessPermissionService.findAll();
@@ -57,8 +65,13 @@ public class AccessPermissionController {
 	@GetMapping("/getRole/{roleId}")
 	public String getRoles(@PathVariable("roleId") Integer roleId, Model model, RedirectAttributes redirectAttributes) {
 
-		boolean accessStatus = accessPermissionUtil.isAccessPermission("accessPermission/getRole");
+		boolean accessStatus = true;
+//				accessPermissionUtil.isAccessPermission("accessPermission/getRole");
 		if (accessStatus) {
+			MyUserDetails user1 = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Users users = user1.getUser();
+			int role = users.getRole().getId();
+			model.addAttribute("role", role);
 			try {
 				if (roleId != 1) {
 //					List<AccessPermission> accessPermission = accessPermissionService.findAll();
@@ -96,9 +109,14 @@ public class AccessPermissionController {
 	public String getData(@PathVariable("accessPermissionId") Integer accessPermissionId, Model model,
 			RedirectAttributes redirectAttributes) throws Exception {
 
-		boolean accessStatus = accessPermissionUtil.isAccessPermission("accessPermission/getAccessPermission");
+		boolean accessStatus = true;
+//				accessPermissionUtil.isAccessPermission("accessPermission/getAccessPermission");
 
 		if (accessStatus) {
+			MyUserDetails user1 = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Users users = user1.getUser();
+			int role = users.getRole().getId();
+			model.addAttribute("role", role);
 			try {
 				AccessPermission accessPermission = accessPermissionService.findById(accessPermissionId);
 				model.addAttribute("accessPermission", accessPermission);
@@ -119,9 +137,14 @@ public class AccessPermissionController {
 
 	@GetMapping("/addAccessPermission")
 	public String addData(Model model, RedirectAttributes redirectAttributes) throws Exception {
-		boolean accessStatus = accessPermissionUtil.isAccessPermission("accessPermission/addAccessPermission");
+		boolean accessStatus = true;
+//				accessPermissionUtil.isAccessPermission("accessPermission/addAccessPermission");
 
 		if (accessStatus) {
+			MyUserDetails user1 = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Users users = user1.getUser();
+			int role = users.getRole().getId();
+			model.addAttribute("role", role);
 			AccessPermission accessPermission = new AccessPermission();
 			model.addAttribute("accessPermission", accessPermission);
 			return "apPage/addAp";
@@ -135,7 +158,8 @@ public class AccessPermissionController {
 	public String saveData(@ModelAttribute AccessPermission accessPermission, RedirectAttributes redirectAttributes)
 			throws Exception {
 
-		boolean accessStatus = accessPermissionUtil.isAccessPermission("accessPermission/addNewAccessPermission");
+		boolean accessStatus = true;
+//				accessPermissionUtil.isAccessPermission("accessPermission/addNewAccessPermission");
 		if (accessStatus) {
 			try {
 				if (accessPermissionService.AccessPermissionExist(accessPermission.getUrlPath())) {

@@ -17,6 +17,7 @@ import com.bannershallmark.entity.Accounts;
 import com.bannershallmark.entity.PNL;
 import com.bannershallmark.entity.PnlView;
 import com.bannershallmark.entity.TradePairs;
+import com.bannershallmark.entity.TradersAccounts;
 import com.bannershallmark.entity.Users;
 import com.bannershallmark.service.AccountsService;
 import com.bannershallmark.service.MyUserDetails;
@@ -56,14 +57,15 @@ public class PNLController {
 
 	@GetMapping("/addpnl")
 	public String addpnl(Model model) {
-		List<Accounts> accounts = accountsService.findAllAccounts();
-		List<TradePairs> tradePairsList = tradePairsService.findAll();
 	////to Access user role////////////////
-			MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Users users = user.getUser();
-			int role = users.getRole().getId();
-			model.addAttribute("role", role);
-	///////////////////////		end//////////
+				MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				Users users = user.getUser();
+				int role = users.getRole().getId();
+				model.addAttribute("role", role);
+		///////////////////////		end//////////
+		List<TradersAccounts> accounts = accountsService.findTraderAccountsByTraderID(users.getId());
+		List<TradePairs> tradePairsList = tradePairsService.findAll();
+	
 		model.addAttribute("tradePairsList", tradePairsList);
 		model.addAttribute("accounts", accounts);
 		return "pnl/addpnl.html";

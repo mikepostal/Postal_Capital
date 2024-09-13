@@ -31,7 +31,7 @@
 								<b th:text="${comment.date}"> </b>
 							</div>
 							<h5
-								th:text="${comment.userId.firstname+' '+comment.userId.lastname}"></h5>
+								th:text="${comment.user.firstname+' '+comment.user.lastname}"></h5>
 							<p th:if="${comment.description != null}"
 								th:text="${comment.description}"></p>
 

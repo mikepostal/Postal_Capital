@@ -2,6 +2,7 @@ package com.bannershallmark.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import com.bannershallmark.entity.MarketInsight;
 import com.bannershallmark.entity.MarketInsightDescription;
 import com.bannershallmark.entity.MarketInsightFile;
 import com.bannershallmark.entity.Users;
+import com.bannershallmark.entity.UsersMonthlyAnalaysis;
 import com.bannershallmark.service.MarketInsightDescriptionService;
 import com.bannershallmark.service.MarketInsightFileService;
 import com.bannershallmark.service.MarketInsightService;
@@ -59,6 +61,7 @@ public class MarketInsightController {
 			model.addAttribute("marketInsightList", marketInsight);
 		}else {
 			List<MarketInsight> marketInsightList = marketInsightService.FindAll();
+			marketInsightList.sort(Comparator.comparing(MarketInsight::getMarketInsightDate).reversed());
 			model.addAttribute("marketInsightList", marketInsightList);
 		}
 		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
