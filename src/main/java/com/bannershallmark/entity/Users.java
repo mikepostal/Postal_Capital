@@ -42,6 +42,9 @@ public class Users {
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	private List<TradeComment> tradeComments = new ArrayList<>();
 
+//	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//	private List<TradersAccounts> tradersAccounts = new ArrayList<>();
+
 	public int getId() {
 		return id;
 	}
@@ -121,5 +124,13 @@ public class Users {
 	public void setTradeComments(List<TradeComment> tradeComments) {
 		this.tradeComments = tradeComments;
 	}
+
+//	public List<TradersAccounts> getTradersAccounts() {
+//		return tradersAccounts;
+//	}
+//
+//	public void setTradersAccounts(List<TradersAccounts> tradersAccounts) {
+//		this.tradersAccounts = tradersAccounts;
+//	}
 
 }

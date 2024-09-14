@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "accounts")
 public class Accounts {
@@ -21,7 +24,8 @@ public class Accounts {
 	private String accountLogin;
 	private boolean active;
 	
-	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<TradersAccounts> accounts = new ArrayList<>();
 
 	public Integer getAccountID() {

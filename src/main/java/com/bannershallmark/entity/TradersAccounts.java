@@ -4,6 +4,9 @@ import java.sql.Date;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name = "tradersAccounts")
 public class TradersAccounts {
@@ -13,7 +16,7 @@ public class TradersAccounts {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer trdAccountID;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "accountID")
 	private Accounts account;
 
@@ -25,15 +28,6 @@ public class TradersAccounts {
 	private Date endto;
 
 	public TradersAccounts() {
-	}
-
-	public TradersAccounts(Integer trdAccountID, Accounts account, Users user, Date startfrom, Date endto) {
-		super();
-		this.trdAccountID = trdAccountID;
-		this.account = account;
-		this.user = user;
-		this.startfrom = startfrom;
-		this.endto = endto;
 	}
 
 	public Integer getTrdAccountID() {
