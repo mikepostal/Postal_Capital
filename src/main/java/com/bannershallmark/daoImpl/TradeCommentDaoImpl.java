@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bannershallmark.dao.TradeCommentDao;
+import com.bannershallmark.entity.CommentReplay;
 import com.bannershallmark.entity.TradeComment;
 import com.bannershallmark.entity.Users;
 
@@ -49,6 +50,48 @@ public class TradeCommentDaoImpl implements TradeCommentDao {
 		Session session = sessionFactory.getCurrentSession();
 		Query<TradeComment> query = session.createQuery("from TradeComment where userId = :users", TradeComment.class);
 		query.setParameter("users", users);
+		return query.getResultList();
+	}
+
+	@Override
+	public void saveReplayMessage(CommentReplay commentReplay) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(commentReplay);
+
+	}
+
+	@Override
+	public List<CommentReplay> FindAllCommentReplaies() {
+		Session session = sessionFactory.getCurrentSession();
+		Query<CommentReplay> query = session.createQuery("from CommentReplay", CommentReplay.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<TradeComment> findAllWithReplays() {
+		Session session = sessionFactory.getCurrentSession();
+		Query<TradeComment> query = session.createQuery(
+				"SELECT DISTINCT c from TradeComment c LEFT JOIN FETCH c.commentReplays", TradeComment.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<TradeComment> findBydUserWithReplays(Users users) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<TradeComment> query = session.createQuery(
+				"SELECT DISTINCT c from TradeComment c LEFT JOIN FETCH c.commentReplays WHERE c.user = :users",
+				TradeComment.class);
+		query.setParameter("users", users);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<TradeComment> findBydUserWithReplays(Integer commentId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<TradeComment> query = session.createQuery(
+				"SELECT DISTINCT c from TradeComment c LEFT JOIN FETCH c.commentReplays WHERE c.commentId = :commentId",
+				TradeComment.class);
+		query.setParameter("commentId", commentId);
 		return query.getResultList();
 	}
 }

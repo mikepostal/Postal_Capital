@@ -1,6 +1,8 @@
 package com.bannershallmark.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,9 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class TradeComment {
@@ -34,6 +37,10 @@ public class TradeComment {
 	@ManyToOne
 	@JoinColumn(name = "userId", referencedColumnName = "userId")
 	private Users user;
+	
+	@OneToMany(mappedBy = "tradeComment", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<CommentReplay> commentReplays = new ArrayList<>();
 
 	public Integer getCommentId() {
 		return commentId;
@@ -65,6 +72,14 @@ public class TradeComment {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public List<CommentReplay> getCommentReplays() {
+		return commentReplays;
+	}
+
+	public void setCommentReplays(List<CommentReplay> commentReplays) {
+		this.commentReplays = commentReplays;
 	}
 
 }

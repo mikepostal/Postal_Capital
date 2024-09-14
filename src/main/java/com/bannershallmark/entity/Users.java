@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "userlogin")
 public class Users {
@@ -39,9 +41,13 @@ public class Users {
 	private Role role;
 	private String active;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<TradeComment> tradeComments = new ArrayList<>();
 
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<CommentReplay> commentReplays = new ArrayList<>();
 //	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 //	private List<TradersAccounts> tradersAccounts = new ArrayList<>();
 
@@ -115,6 +121,14 @@ public class Users {
 
 	public void setActive(String active) {
 		this.active = active;
+	}
+
+	public List<CommentReplay> getCommentReplays() {
+		return commentReplays;
+	}
+
+	public void setCommentReplays(List<CommentReplay> commentReplays) {
+		this.commentReplays = commentReplays;
 	}
 
 	public List<TradeComment> getTradeComments() {

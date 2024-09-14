@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bannershallmark.entity.CommentReplay;
 import com.bannershallmark.entity.TradeComment;
 import com.bannershallmark.entity.Users;
 import com.bannershallmark.service.MyUserDetails;
@@ -78,7 +79,7 @@ public class TradeCommentController {
 
 	@GetMapping("/deleteTradeComment")
 	public String deleteTradeComment(@RequestParam("id") int id) {
-		TradeComment comment = tradeCommentService.FindById(id); // fetch the comment first
+		TradeComment comment = tradeCommentService.FindById(id); 
 
 		if (comment != null) {
 			Users user = comment.getUser();
@@ -94,14 +95,36 @@ public class TradeCommentController {
 	}
 
 	@GetMapping("/displayTradeComment")
-	public String displayTradeComment(Model model) {
-		List<TradeComment> tradeComments = tradeCommentService.FindAll();
+	public String displayTradeComment( @RequestParam(value = "id",required = false ) Integer commentId,Model model) {
+//		List<TradeComment> tradeComments2 = tradeCommentService.FindAll();
+		List<TradeComment> tradeComments = tradeCommentService.findAllWithReplays();
+		List<CommentReplay> commentReplays = tradeCommentService.FindAllCommentReplaies();
 		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Users users = user.getUser();
 		int role = users.getRole().getId();
+		if(role == 2) {
+			tradeComments = tradeCommentService.findBydUserWithReplays(users);
+		}
+		if(commentId != null) {
+			tradeComments = tradeCommentService.findBydIdWithReplays(commentId);
+		}
+		tradeComments.sort(Comparator.comparing(TradeComment::getDate).reversed());
+		model.addAttribute("users", users);
 		model.addAttribute("role", role);
 		model.addAttribute("tradeComments", tradeComments);
+		model.addAttribute("commentReplays", commentReplays);
 		return "tradeComment/displayTradeComment.html";
+	}
+
+	@PostMapping("/saveReplayMessage")
+	public String saveReplayMessage(CommentReplay commentReplay, @RequestParam("commentId") int commentId) {
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		commentReplay.setDate(new Date(System.currentTimeMillis()));
+		commentReplay.setUser(users);
+		commentReplay.setTradeComment(tradeCommentService.FindById(commentId));
+		tradeCommentService.saveReplayMessage(commentReplay);
+		return "redirect:/comment/displayTradeComment";
 	}
 
 }
