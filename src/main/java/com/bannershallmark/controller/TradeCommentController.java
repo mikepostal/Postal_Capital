@@ -67,12 +67,10 @@ public class TradeCommentController {
 	@GetMapping("/editTradeComment")
 	public String editTradeComment(@RequestParam("id") int id, Model model) {
 		TradeComment tradeComment = tradeCommentService.FindById(id);
-		//// to Access user role////////////////
 		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Users users = user.getUser();
 		int role = users.getRole().getId();
 		model.addAttribute("role", role);
-		/////////////////////// end//////////
 		model.addAttribute("tradeComment", tradeComment);
 		return "tradeComment/addTradeComment.html";
 	}
