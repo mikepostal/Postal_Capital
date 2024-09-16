@@ -38,9 +38,9 @@
 												id="acc" name="accountLogin">
 												<option value="">- Select Account -</option>
 												<option th:each="a : ${accounts}"
-													th:text="${a.platform+' - '+a.accountLogin}"
-													th:value="${a.accountLogin}"
-													th:selected="${pnl != null && pnl.accountLogin == a.accountLogin}"></option>
+													th:text="${a.account.platform+' - '+a.account.accountLogin}"
+													th:value="${a.account.accountLogin}"
+													th:selected="${pnl != null && pnl.accountLogin == a.account.accountLogin}"></option>
 											</select>
 										</div>
 										<div class="form-group ">

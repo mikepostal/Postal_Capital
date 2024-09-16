@@ -1,14 +1,21 @@
 package com.bannershallmark.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class TradeComment {
@@ -19,11 +26,21 @@ public class TradeComment {
 
 	@Column(columnDefinition = "longblob")
 	private String description;
+	@Column(name = "date", nullable = false)
 	private Date date;
+
+	@PrePersist
+	protected void onCreate() {
+		this.date = new Date(System.currentTimeMillis());
+	}
 
 	@ManyToOne
 	@JoinColumn(name = "userId", referencedColumnName = "userId")
-	private Users userId;
+	private Users user;
+	
+	@OneToMany(mappedBy = "tradeComment", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<CommentReplay> commentReplays = new ArrayList<>();
 
 	public Integer getCommentId() {
 		return commentId;
@@ -41,12 +58,12 @@ public class TradeComment {
 		this.description = description;
 	}
 
-	public Users getUserId() {
-		return userId;
+	public Users getUser() {
+		return user;
 	}
 
-	public void setUserId(Users userId) {
-		this.userId = userId;
+	public void setUser(Users user) {
+		this.user = user;
 	}
 
 	public Date getDate() {
@@ -55,6 +72,14 @@ public class TradeComment {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public List<CommentReplay> getCommentReplays() {
+		return commentReplays;
+	}
+
+	public void setCommentReplays(List<CommentReplay> commentReplays) {
+		this.commentReplays = commentReplays;
 	}
 
 }

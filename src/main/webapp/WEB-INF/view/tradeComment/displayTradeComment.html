@@ -9,6 +9,28 @@
 	height: auto;
 	border-radius: 4px;
 }
+
+.message {
+	padding: 10px 15px;
+	border-radius: 15px;
+}
+
+.sender-message {
+	background-color: #FAF0E6;
+}
+
+.receiver-message {
+	background-color: #FFE4E1;
+}
+
+textarea {
+	box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.5);
+	outline: none;
+}
+
+textarea:focus {
+	outline: none;
+}
 </style>
 </head>
 <body>
@@ -30,11 +52,35 @@
 							<div class="ig-dflx ">
 								<b th:text="${comment.date}"> </b>
 							</div>
-							<h5
-								th:text="${comment.userId.firstname+' '+comment.userId.lastname}"></h5>
+							<h5 th:text="${comment.user.firstname+' '+comment.user.lastname}"></h5>
 							<p th:if="${comment.description != null}"
 								th:text="${comment.description}"></p>
-
+							<hr>
+							<!-- Display Replays -->
+							<div class="replay-section"
+								th:each="replay : ${comment.commentReplays}">
+								<div class="ig-dflx mt-2 ms-5"
+									th:if="${users.id == replay.user.id}">
+									<div class="message sender-message ms-5"
+										th:text="${replay.replayMessage}"></div>
+								</div>
+								<div class="mt-2 me-5" th:unless="${users.id == replay.user.id}">
+									<div class="message receiver-message me-5"
+										th:text="${replay.replayMessage}"></div>
+								</div>
+							</div>
+							<form th:action="@{/comment/saveReplayMessage}" method="post">
+								<input type="hidden" name="commentId"
+									th:value="${comment.commentId}">
+								<div class="form-group mt-3">
+									<textarea cols="3" class="form-control" id="replayMessage"
+										name="replayMessage" placeholder="Reply message" required></textarea>
+								</div>
+								<div class="form-group text-center mt-3 ig-dflx ">
+									<button type="submit" class="btn btn-primary col-md-3 shadow">
+										Reply</button>
+								</div>
+							</form>
 
 						</div>
 					</div>

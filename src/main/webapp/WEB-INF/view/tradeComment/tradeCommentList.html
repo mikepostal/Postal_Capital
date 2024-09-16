@@ -22,6 +22,8 @@
 						<div class="card-body">
 							<a href="addTradeComment" class="btn btn-primary">Add Trade
 								Comment</a> 
+								<a href="displayTradeComment" class="btn btn-primary">Display Trade
+								Comment</a> 
 						</div>
 					</div>
 					<div class="card shadow mt-3">
@@ -39,8 +41,9 @@
 								</thead>
 								<tbody>
 									<tr th:each="t :${tradeComments}">
-										<td th:text="${t.userId.firstname +' '+t.userId.lastname}"></td>
-										<td th:text="${t.description}"></td>
+										<td th:text="${t.user.firstname +' '+t.user.lastname}"></td>
+										<td >
+										<a th:href="@{/comment/displayTradeComment (id=${t.commentId})}"><i th:text="${t.description}"></i></a> </td>
 										<td th:text="${t.date}"></td>
 										<td><a style="color: blue"
 											th:href="@{/comment/editTradeComment (id=${t.commentId})}"><i

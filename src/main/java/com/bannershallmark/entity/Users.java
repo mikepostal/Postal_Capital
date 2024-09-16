@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "userlogin")
@@ -38,8 +41,15 @@ public class Users {
 	private Role role;
 	private String active;
 
-	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<TradeComment> tradeComments = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<CommentReplay> commentReplays = new ArrayList<>();
+//	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//	private List<TradersAccounts> tradersAccounts = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -113,6 +123,14 @@ public class Users {
 		this.active = active;
 	}
 
+	public List<CommentReplay> getCommentReplays() {
+		return commentReplays;
+	}
+
+	public void setCommentReplays(List<CommentReplay> commentReplays) {
+		this.commentReplays = commentReplays;
+	}
+
 	public List<TradeComment> getTradeComments() {
 		return tradeComments;
 	}
@@ -120,5 +138,13 @@ public class Users {
 	public void setTradeComments(List<TradeComment> tradeComments) {
 		this.tradeComments = tradeComments;
 	}
+
+//	public List<TradersAccounts> getTradersAccounts() {
+//		return tradersAccounts;
+//	}
+//
+//	public void setTradersAccounts(List<TradersAccounts> tradersAccounts) {
+//		this.tradersAccounts = tradersAccounts;
+//	}
 
 }

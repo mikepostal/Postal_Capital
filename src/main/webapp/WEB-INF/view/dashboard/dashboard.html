@@ -338,7 +338,7 @@
 		});
 	</script>
 
-	<script type="text/javascript">
+	<script>
 	$(document).ready(function() {
 	    $('#userId').on('change', function() {
 	        var userId = $(this).val();
@@ -370,7 +370,7 @@
 	                },
 	                error: function(xhr, status, error) {
 	                    console.error('Error fetching accounts:', status, error);
-	                   /*  alert('Error fetching accounts. Check console for details.'); */
+	                    // alert('Error fetching accounts. Check console for details.'); 
 	                }
 	            });
 	        } else {
@@ -386,6 +386,7 @@
 	});
 
 
-	</script>
+	</script> 
+	
 </body>
 </html>
