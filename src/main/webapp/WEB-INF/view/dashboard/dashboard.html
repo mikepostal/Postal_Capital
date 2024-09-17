@@ -32,17 +32,23 @@
 														<i th:text="${acc.firstname +' '+acc.lastname}"></i>
 													</div>
 													<div class="row align-items-center">
-														<div class="h5 font-weight-bold text-gray-800">
-															<i th:text="'$' + ${acc.usertotalPnl}"></i>
-
+														<div th:if="${acc.usertotalPnl > 0}" class="h5 font-weight-bold text-green-800">
+															<i style="color: green;" th:text="'$' + ${acc.usertotalPnl}"></i>
+														</div>
+														<div th:if="${acc.usertotalPnl < 0}" class="h5 font-weight-bold text-red-800">
+															<i style="color: red;" th:text="'$' + ${acc.usertotalPnl}"></i>
 														</div>
 													</div>
 												</div>
 												<div class="col-auto">
 
-													<h3>
+													<h3 style="color: green;" th:if="${acc.usertotalPnl > 0}">
 														<i th:text="${acc.userpnlPercent}+'%'"></i>
 													</h3>
+													<h3 style="color: red;" th:if="${acc.usertotalPnl < 0}">
+														<i th:text="${acc.userpnlPercent}+'%'"></i>
+													</h3>
+													
 												</div>
 											</div>
 										</div>
