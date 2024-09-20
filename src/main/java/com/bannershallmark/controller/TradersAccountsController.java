@@ -3,6 +3,7 @@ package com.bannershallmark.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,4 +89,10 @@ public class TradersAccountsController {
 		tradersAccountsService.DeleteById(id);
 		return "redirect:/tradersAccounts/allTradersAccounts";
 	}
+	
+	@GetMapping("/checkAssignedAccount")
+    public ResponseEntity<Boolean> existsByAccountId(@RequestParam("accountId") int accountId) {
+        boolean exists = accountsService.existsByAccountId(accountId);
+        return ResponseEntity.ok(exists);
+    }
 }

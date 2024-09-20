@@ -2,6 +2,9 @@ package com.bannershallmark.service;
 
 import java.util.List;
 
+import com.bannershallmark.entity.DailyAnalaysisByPair;
+import com.bannershallmark.entity.DailyAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.DailyAnalaysisByUserAndPair;
 import com.bannershallmark.entity.UserAccountDailySummary;
 
 public interface UserAccountDailySummaryService {
@@ -10,12 +13,12 @@ public interface UserAccountDailySummaryService {
 
 	List<UserAccountDailySummary> FindByUserPairAndAccountLogin(int userId, String pair, String accountLogin);
 
-	List<UserAccountDailySummary> FindByUserAndPair(int userId, String pair);
+	List<DailyAnalaysisByUserAndPair> FindByUserAndPair(int userId, String pair);
 
-	List<UserAccountDailySummary> FindByUserAndAccountLogin(int userId, String accountLogin);
+	List<DailyAnalaysisByUserAndAccount> FindByUserAndAccountLogin(int userId, String accountLogin);
 
 	List<UserAccountDailySummary> FindByUser(int userId);
 
-	List<UserAccountDailySummary> FindByPair(String pair);
+	List<DailyAnalaysisByPair> FindByPair(String pair);
 
 }

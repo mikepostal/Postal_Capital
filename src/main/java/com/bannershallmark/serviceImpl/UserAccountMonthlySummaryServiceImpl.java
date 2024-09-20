@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bannershallmark.dao.UserAccountMonthlySummaryDao;
+import com.bannershallmark.entity.MonthlyAnalaysisByPair;
+import com.bannershallmark.entity.MonthlyAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.MonthlyAnalaysisByUserAndPair;
 import com.bannershallmark.entity.UserAccountMonthlySummary;
 import com.bannershallmark.service.UserAccountMonthlySummaryService;
 
@@ -29,13 +32,13 @@ public class UserAccountMonthlySummaryServiceImpl implements UserAccountMonthlyS
 
 	@Override
 	@Transactional
-	public List<UserAccountMonthlySummary> FindByUserAndPair(int userId, String pair) {
+	public List<MonthlyAnalaysisByUserAndPair> FindByUserAndPair(int userId, String pair) {
 		return userAccountMonthlySummaryDao.FindByUserAndPair(userId,pair);
 	}
 
 	@Override
 	@Transactional
-	public List<UserAccountMonthlySummary> FindByUserAndAccountLogin(int userId, String accountLogin) {
+	public List<MonthlyAnalaysisByUserAndAccount> FindByUserAndAccountLogin(int userId, String accountLogin) {
 		return userAccountMonthlySummaryDao.FindByUserAndAccountLogin(userId,accountLogin);
 	}
 
@@ -47,7 +50,7 @@ public class UserAccountMonthlySummaryServiceImpl implements UserAccountMonthlyS
 
 	@Override
 	@Transactional
-	public List<UserAccountMonthlySummary> FindByPair(String pair) {
+	public List<MonthlyAnalaysisByPair> FindByPair(String pair) {
 		return userAccountMonthlySummaryDao.FindByPair(pair);
 	}
 }

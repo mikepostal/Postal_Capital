@@ -21,10 +21,11 @@ public class Accounts {
 	private Integer leverage;
 	private Double initalSize;
 	private Date createdON;
+	@Column(unique = true)
 	private String accountLogin;
 	private boolean active;
-	
-	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<TradersAccounts> accounts = new ArrayList<>();
 

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bannershallmark.dao.UserAccountDailySummaryDao;
+import com.bannershallmark.entity.DailyAnalaysisByPair;
+import com.bannershallmark.entity.DailyAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.DailyAnalaysisByUserAndPair;
 import com.bannershallmark.entity.UserAccountDailySummary;
 import com.bannershallmark.service.UserAccountDailySummaryService;
 
@@ -29,13 +32,13 @@ public class UserAccountDailySummaryServiceImpl implements UserAccountDailySumma
 
 	@Override
 	@Transactional
-	public List<UserAccountDailySummary> FindByUserAndPair(int userId, String pair) {
+	public List<DailyAnalaysisByUserAndPair> FindByUserAndPair(int userId, String pair) {
 		return userAccountDailySummaryDao.FindByUserAndPair(userId, pair);
 	}
 
 	@Override
 	@Transactional
-	public List<UserAccountDailySummary> FindByUserAndAccountLogin(int userId, String accountLogin) {
+	public List<DailyAnalaysisByUserAndAccount> FindByUserAndAccountLogin(int userId, String accountLogin) {
 		return userAccountDailySummaryDao.FindByUserAndAccountLogin(userId, accountLogin);
 	}
 
@@ -47,7 +50,7 @@ public class UserAccountDailySummaryServiceImpl implements UserAccountDailySumma
 
 	@Override
 	@Transactional
-	public List<UserAccountDailySummary> FindByPair(String pair) {
+	public List<DailyAnalaysisByPair> FindByPair(String pair) {
 		return userAccountDailySummaryDao.FindByPair(pair);
 	}
 }

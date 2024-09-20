@@ -8,11 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "dailyanalysis")
-public class DailyAnalaysis {
+@Table(name = "dailyanalysisbypair")
+public class DailyAnalaysisByPair {
 	@Id
 	private int id;
 	private Date tradingDate;
+	private String pair;
 	@Column(name = "total_pnl")
 	private double totalPnl;
 	@Column(name = "cumulative_pnl")
@@ -48,6 +49,14 @@ public class DailyAnalaysis {
 
 	public void setCumulativePnl(double cumulativePnl) {
 		this.cumulativePnl = cumulativePnl;
+	}
+
+	public String getPair() {
+		return pair;
+	}
+
+	public void setPair(String pair) {
+		this.pair = pair;
 	}
 
 }

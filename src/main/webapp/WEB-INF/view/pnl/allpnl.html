@@ -34,6 +34,7 @@
 										<th>Full Name</th>
 										<th>Account Name</th>
 										<th>Trade Pair</th>
+										<th>Type</th>
 										<th>Date</th>
 										<th>PNL</th>
 										<th>PNL Percent</th>
@@ -46,6 +47,7 @@
 										<td th:text="${p.firstname +' '+p.lastname}"></td>
 										<td th:text="${p.accountLogin}"></td>
 										<td th:text="${p.pair}"></td>
+										<td th:text="${p.position}"></td>
 										<td th:text="${p.tradingDate}"></td>
 										<td th:text="${p.pnl}"></td>
 										<td th:text="${p.pnlPercent}"></td>

@@ -1,25 +1,24 @@
 package com.bannershallmark.entity;
 
-import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "usersdailyanalysis")
-public class UsersDailyAnalaysis {
+@Table(name = "monthlyanalysisbyuserandpair")
+public class MonthlyAnalaysisByUserAndPair {
 	@Id
 	private int id;
-	private Date tradingDate;
+	private int tradingYear;
+	private int tradingMonth;
+	private String monthName;
+	private String pair;
 	@Column(name = "total_pnl")
 	private double totalPnl;
 	private int userId;
 	private String firstname;
 	private String lastname;
-	@Column(name = "cumulative_pnl")
-	private double cumulativePnl;
 
 	public int getId() {
 		return id;
@@ -29,12 +28,28 @@ public class UsersDailyAnalaysis {
 		this.id = id;
 	}
 
-	public Date getTradingDate() {
-		return tradingDate;
+	public int getTradingYear() {
+		return tradingYear;
 	}
 
-	public void setTradingDate(Date tradingDate) {
-		this.tradingDate = tradingDate;
+	public void setTradingYear(int tradingYear) {
+		this.tradingYear = tradingYear;
+	}
+
+	public int getTradingMonth() {
+		return tradingMonth;
+	}
+
+	public void setTradingMonth(int tradingMonth) {
+		this.tradingMonth = tradingMonth;
+	}
+
+	public String getMonthName() {
+		return monthName;
+	}
+
+	public void setMonthName(String monthName) {
+		this.monthName = monthName;
 	}
 
 	public double getTotalPnl() {
@@ -43,6 +58,14 @@ public class UsersDailyAnalaysis {
 
 	public void setTotalPnl(double totalPnl) {
 		this.totalPnl = totalPnl;
+	}
+
+	public String getPair() {
+		return pair;
+	}
+
+	public void setPair(String pair) {
+		this.pair = pair;
 	}
 
 	public int getUserId() {
@@ -67,14 +90,6 @@ public class UsersDailyAnalaysis {
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
-	}
-
-	public double getCumulativePnl() {
-		return cumulativePnl;
-	}
-
-	public void setCumulativePnl(double cumulativePnl) {
-		this.cumulativePnl = cumulativePnl;
 	}
 
 }

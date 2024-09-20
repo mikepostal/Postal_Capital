@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bannershallmark.dao.UserAccountWeeklySummaryDao;
 import com.bannershallmark.entity.UserAccountWeeklySummary;
+import com.bannershallmark.entity.WeeklyAnalaysisByPair;
+import com.bannershallmark.entity.WeeklyAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.WeeklyAnalaysisByUserAndPair;
 import com.bannershallmark.service.UserAccountWeeklySummaryService;
 
 @Service
@@ -29,13 +32,13 @@ public class UserAccountWeeklySummaryServiceImpl implements UserAccountWeeklySum
 
 	@Override
 	@Transactional
-	public List<UserAccountWeeklySummary> FindByUserAndPair(int userId, String pair) {
+	public List<WeeklyAnalaysisByUserAndPair> FindByUserAndPair(int userId, String pair) {
 		return userAccountWeeklySummaryDao.FindByUserAndPair(userId,pair);
 	}
 
 	@Override
 	@Transactional
-	public List<UserAccountWeeklySummary> FindByUserAndAccountLogin(int userId, String accountLogin) {
+	public List<WeeklyAnalaysisByUserAndAccount> FindByUserAndAccountLogin(int userId, String accountLogin) {
 		return userAccountWeeklySummaryDao.FindByUserAndAccountLogin(userId,accountLogin);
 	}
 
@@ -47,7 +50,7 @@ public class UserAccountWeeklySummaryServiceImpl implements UserAccountWeeklySum
 
 	@Override
 	@Transactional
-	public List<UserAccountWeeklySummary> FindByPair(String pair) {
+	public List<WeeklyAnalaysisByPair> FindByPair(String pair) {
 		return userAccountWeeklySummaryDao.FindByPair(pair);
 	}
 }

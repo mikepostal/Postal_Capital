@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bannershallmark.dao.UserAccountDayOfWeekSummaryDao;
-import com.bannershallmark.entity.UserAccountDailySummary;
+import com.bannershallmark.entity.DayOfWeekAnalaysisByPair;
+import com.bannershallmark.entity.DayOfWeekAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.DayOfWeekAnalaysisByUserAndPair;
 import com.bannershallmark.entity.UserAccountDayOfWeekSummary;
 
 @Repository
@@ -24,38 +26,41 @@ public class UserAccountDayOfWeekSummaryDaoImpl implements UserAccountDayOfWeekS
 				UserAccountDayOfWeekSummary.class);
 		return query.getResultList();
 	}
-	
+
 	@Override
-	public List<UserAccountDayOfWeekSummary> FindByUserPairAndAccountLogin(int userId, String pair, String accountLogin) {
+	public List<UserAccountDayOfWeekSummary> FindByUserPairAndAccountLogin(int userId, String pair,
+			String accountLogin) {
 		Session session = sessionFactory.getCurrentSession();
 		Query<UserAccountDayOfWeekSummary> query = session.createQuery(
-				"from UserAccountDayOfWeekSummary where userId = :userId AND pair = :pair AND accountLogin = :accountLogin",
+				"from UserAccountDayOfWeekSummary where userId = :userId AND pair LIKE :pair AND accountLogin = :accountLogin",
 				UserAccountDayOfWeekSummary.class);
 		query.setParameter("userId", userId);
-		query.setParameter("pair", pair);
+		query.setParameter("pair", pair + "%");
 		query.setParameter("accountLogin", accountLogin);
 		return query.getResultList();
 	}
 
 	@Override
-	public List<UserAccountDayOfWeekSummary> FindByUserAndPair(int userId, String pair) {
+	public List<DayOfWeekAnalaysisByUserAndPair> FindByUserAndPair(int userId, String pair) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<UserAccountDayOfWeekSummary> query = session.createQuery(
-				"from UserAccountDayOfWeekSummary where userId = :userId AND pair = :pair", UserAccountDayOfWeekSummary.class);
+		Query<DayOfWeekAnalaysisByUserAndPair> query = session.createQuery(
+				"from DayOfWeekAnalaysisByUserAndPair where userId = :userId AND pair LIKE :pair",
+				DayOfWeekAnalaysisByUserAndPair.class);
 		query.setParameter("userId", userId);
-		query.setParameter("pair", pair);
+		query.setParameter("pair", pair + "%");
 		return query.getResultList();
 	}
 
 	@Override
-	public List<UserAccountDayOfWeekSummary> FindByUserAndAccountLogin(int userId, String accountLogin) {
+	public List<DayOfWeekAnalaysisByUserAndAccount> FindByUserAndAccountLogin(int userId, String accountLogin) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<UserAccountDayOfWeekSummary> query = session.createQuery(
-				"from UserAccountDayOfWeekSummary where userId = :userId AND accountLogin = :accountLogin AND accountLogin = :accountLogin",
-				UserAccountDayOfWeekSummary.class);
+		Query<DayOfWeekAnalaysisByUserAndAccount> query = session.createQuery(
+				"from DayOfWeekAnalaysisByUserAndAccount where userId = :userId AND accountLogin = :accountLogin",
+				DayOfWeekAnalaysisByUserAndAccount.class);
 		query.setParameter("userId", userId);
 		query.setParameter("accountLogin", accountLogin);
-		query.setParameter("accountLogin", accountLogin);
+		System.out.println("User ID: " + userId + ", Account Login: " + accountLogin);
+
 		return query.getResultList();
 	}
 
@@ -69,11 +74,11 @@ public class UserAccountDayOfWeekSummaryDaoImpl implements UserAccountDayOfWeekS
 	}
 
 	@Override
-	public List<UserAccountDayOfWeekSummary> FindByPair(String pair) {
+	public List<DayOfWeekAnalaysisByPair> FindByPair(String pair) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<UserAccountDayOfWeekSummary> query = session.createQuery(
-				"from UserAccountDayOfWeekSummary where pair = :pair", UserAccountDayOfWeekSummary.class);
-		query.setParameter("pair", pair);
+		Query<DayOfWeekAnalaysisByPair> query = session
+				.createQuery("from DayOfWeekAnalaysisByPair where pair LIKE :pair", DayOfWeekAnalaysisByPair.class);
+		query.setParameter("pair", pair + "%");
 		return query.getResultList();
 	}
 }

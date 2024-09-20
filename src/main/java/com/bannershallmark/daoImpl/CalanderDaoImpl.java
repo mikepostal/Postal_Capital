@@ -1,5 +1,7 @@
 package com.bannershallmark.daoImpl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -41,6 +43,21 @@ public class CalanderDaoImpl implements CalanderDao {
 		Session session=sessionFactory.getCurrentSession();
 		Calander calander=findCalanderById(calanderId);
 		session.delete(calander);
+	}
+
+	@Override
+	public List<Calander> findByDateBefore(LocalDateTime thresholdDate) {
+		Session session=sessionFactory.getCurrentSession();
+		Query<Calander> query=session.createQuery("from Calander where startfrom < :thresholdDate", Calander.class);
+		query.setParameter("thresholdDate", thresholdDate);
+		return query.getResultList();
+	}
+
+	@Override
+	public void delete(Calander calander) {
+		Session session=sessionFactory.getCurrentSession();
+		session.delete(calander);
+		
 	}
 
 }

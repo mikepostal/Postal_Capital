@@ -14,6 +14,8 @@ public interface AccountsService {
 	void save(Accounts account);
 	
 	void deleteAccountById(Integer accountId);
+
+	boolean existsByAccountLogin(String accountLogin);
 	
 	////// Linking Account with a trader ///////
 	
@@ -24,5 +26,7 @@ public interface AccountsService {
 	void save(TradersAccounts tradersAccount);
 	
 	void deleteTraderAccountById(Integer trdAccountID);
+	
+	boolean existsByAccountId(int accountId);
 	
 }

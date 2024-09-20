@@ -62,13 +62,17 @@
 												th:value="${account != null? account.createdON : ''}"
 												required>
 										</div>
-										<div class="form-group ">
+										<div class="form-group">
 											<label for="accountLogin">Account Login</label> <input
 												type="text" class="form-control" id="accountLogin"
 												name="accountLogin"
-												th:value="${account != null? account.accountLogin : ''}"
-												required>
+												th:value="${account != null ? account.accountLogin : ''}"
+												required> <small id="accountLoginFeedback"
+												class="form-text text-muted"></small>
 										</div>
+
+
+
 										<div class="form-group ">
 											<label for="active">Is Active</label> <select
 												class="form-control" id="acc" name="active">
@@ -112,7 +116,38 @@
 
 	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
 
+	<script>
+    let debounceTimeout;
 
+    document.getElementById('accountLogin').addEventListener('input', function () {
+        clearTimeout(debounceTimeout);
+        const accountLogin = this.value;
+        const feedback = document.getElementById('accountLoginFeedback');
+
+        if (accountLogin) {
+            debounceTimeout = setTimeout(() => {
+                fetch('checkAccountLogin?accountLogin=' + accountLogin)
+                    .then(response => response.json())
+                    .then(isTaken => {
+                        if (isTaken) {
+                            feedback.textContent = 'This account login is already taken.';
+                            feedback.style.color = 'red';
+                            document.getElementById('accountLogin').value="";
+                        } else {
+                            feedback.textContent = 'This account login is available.';
+                            feedback.style.color = 'green';
+                        }
+                    })
+                    .catch(error => {
+                        feedback.textContent = 'Error checking account login.';
+                        feedback.style.color = 'red';
+                    });
+            }, 300); 
+        } else {
+            feedback.textContent = '';
+        }
+    });
+</script>
 </body>
 
 </html>

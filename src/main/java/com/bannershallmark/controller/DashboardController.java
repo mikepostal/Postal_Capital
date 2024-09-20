@@ -21,8 +21,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bannershallmark.entity.Accounts;
 import com.bannershallmark.entity.DailyAnalaysis;
+import com.bannershallmark.entity.DailyAnalaysisByPair;
+import com.bannershallmark.entity.DailyAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.DailyAnalaysisByUserAndPair;
 import com.bannershallmark.entity.DayOfWeekAnalaysis;
+import com.bannershallmark.entity.DayOfWeekAnalaysisByPair;
+import com.bannershallmark.entity.DayOfWeekAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.DayOfWeekAnalaysisByUserAndPair;
 import com.bannershallmark.entity.MonthlyAnalaysis;
+import com.bannershallmark.entity.MonthlyAnalaysisByPair;
+import com.bannershallmark.entity.MonthlyAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.MonthlyAnalaysisByUserAndPair;
 import com.bannershallmark.entity.TradePairs;
 import com.bannershallmark.entity.TradersAccounts;
 import com.bannershallmark.entity.UserAccountDailySummary;
@@ -39,7 +48,13 @@ import com.bannershallmark.entity.UsersMonthlyAnalaysis;
 import com.bannershallmark.entity.UsersWeeklyAnalaysis;
 import com.bannershallmark.entity.UsersYearlyAnalaysis;
 import com.bannershallmark.entity.WeeklyAnalaysis;
+import com.bannershallmark.entity.WeeklyAnalaysisByPair;
+import com.bannershallmark.entity.WeeklyAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.WeeklyAnalaysisByUserAndPair;
 import com.bannershallmark.entity.YearlyAnalaysis;
+import com.bannershallmark.entity.YearlyAnalaysisByPair;
+import com.bannershallmark.entity.YearlyAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.YearlyAnalaysisByUserAndPair;
 import com.bannershallmark.service.AccountsService;
 import com.bannershallmark.service.DailyAnalaysisService;
 import com.bannershallmark.service.DayOfWeekAnalaysisService;
@@ -111,8 +126,8 @@ public class DashboardController {
 	private UsersDetailsService userDetailsService;
 	@Autowired
 	private TradePairsService tradePairsService;
-	@Autowired
-	private AccountsService accountsService;
+//	@Autowired
+//	private AccountsService accountsService;
 	@Autowired
 	private TradersAccountsService tradersAccountsService;
 
@@ -134,51 +149,172 @@ public class DashboardController {
 		List<Users> usersList = userDetailsService.findAll();
 		List<TradePairs> tradePairsList = tradePairsService.findAll();
 
-		List<UserAccountPnlSummary> accountPnlSummaryList = userAccountPnlSummaryService.FindAll();
 		List<UserAccountShortSummary> userAccountShortSummaries = userAccountShortSummaryService.FindAll();
-		List<UserAccountDailySummary> userAccountDailySummaries;
-		List<UserAccountDayOfWeekSummary> userAccountDayOfWeekSummaries;
-		List<UserAccountMonthlySummary> userAccountMonthlySummaries;
-		List<UserAccountWeeklySummary> userAccountWeeklySummaries;
-		List<UserAccountYearlySummary> userAccountYearlySummaries;
 
 		if (user != "" && user != null && pair != "" && pair != null && accountLogin != "" && accountLogin != null) {
 			int userId = Integer.parseInt(user);
-			userAccountDailySummaries = userAccountDailySummaryService.FindByUserPairAndAccountLogin(userId, pair,
-					accountLogin);
-			userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService.FindByUserPairAndAccountLogin(userId,
-					pair, accountLogin);
-			userAccountMonthlySummaries = userAccountMonthlySummaryService.FindByUserPairAndAccountLogin(userId, pair,
-					accountLogin);
-			userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByUserPairAndAccountLogin(userId, pair,
-					accountLogin);
-			userAccountYearlySummaries = userAccountYearlySummaryService.FindByUserPairAndAccountLogin(userId, pair,
-					accountLogin);
+			List<UserAccountDailySummary> userAccountDailySummaries = userAccountDailySummaryService
+					.FindByUserPairAndAccountLogin(userId, pair, accountLogin);
+			List<UserAccountDayOfWeekSummary> userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService
+					.FindByUserPairAndAccountLogin(userId, pair, accountLogin);
+			List<UserAccountMonthlySummary> userAccountMonthlySummaries = userAccountMonthlySummaryService
+					.FindByUserPairAndAccountLogin(userId, pair, accountLogin);
+			List<UserAccountWeeklySummary> userAccountWeeklySummaries = userAccountWeeklySummaryService
+					.FindByUserPairAndAccountLogin(userId, pair, accountLogin);
+			List<UserAccountYearlySummary> userAccountYearlySummaries = userAccountYearlySummaryService
+					.FindByUserPairAndAccountLogin(userId, pair, accountLogin);
+
+			userAccountDayOfWeekSummaries.sort(Comparator.comparing(d -> {
+				switch (d.getDayOfWeek()) {
+				case "Monday":
+					return 1;
+				case "Tuesday":
+					return 2;
+				case "Wednesday":
+					return 3;
+				case "Thursday":
+					return 4;
+				case "Friday":
+					return 5;
+				case "Saturday":
+					return 6;
+				case "Sunday":
+					return 7;
+				default:
+					return 0;
+				}
+			}));
+
+			Collections.sort(userAccountDailySummaries, new Comparator<UserAccountDailySummary>() {
+				@Override
+				public int compare(UserAccountDailySummary o1, UserAccountDailySummary o2) {
+					return o1.getTradingDate().compareTo(o2.getTradingDate());
+				}
+			});
+
+			userAccountMonthlySummaries.sort(Comparator.comparing(UserAccountMonthlySummary::getTradingMonth));
+			userAccountWeeklySummaries.sort(Comparator.comparing(UserAccountWeeklySummary::getTradingYear)
+					.thenComparing(UserAccountWeeklySummary::getTradingWeek));
+			userAccountYearlySummaries.sort(Comparator.comparing(UserAccountYearlySummary::getTradingYear));
+
+			model.addAttribute("userAccountDailySummaries", userAccountDailySummaries);
+			model.addAttribute("userAccountDayOfWeekSummaries", userAccountDayOfWeekSummaries);
+			model.addAttribute("userAccountMonthlySummaries", userAccountMonthlySummaries);
+			model.addAttribute("userAccountWeeklySummaries", userAccountWeeklySummaries);
+			model.addAttribute("userAccountYearlySummaries", userAccountYearlySummaries);
+
 			model.addAttribute("userId", userId);
 			model.addAttribute("pair", pair);
 			model.addAttribute("accountLogin", accountLogin);
+
 		} else if (user != "" && user != null && pair != "" && pair != null) {
 			int userId = Integer.parseInt(user);
-			userAccountDailySummaries = userAccountDailySummaryService.FindByUserAndPair(userId, pair);
-			userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService.FindByUserAndPair(userId, pair);
-			userAccountMonthlySummaries = userAccountMonthlySummaryService.FindByUserAndPair(userId, pair);
-			userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByUserAndPair(userId, pair);
-			userAccountYearlySummaries = userAccountYearlySummaryService.FindByUserAndPair(userId, pair);
+			List<DailyAnalaysisByUserAndPair> userAccountDailySummaries = userAccountDailySummaryService
+					.FindByUserAndPair(userId, pair);
+			List<DayOfWeekAnalaysisByUserAndPair> userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService
+					.FindByUserAndPair(userId, pair);
+			List<MonthlyAnalaysisByUserAndPair> userAccountMonthlySummaries = userAccountMonthlySummaryService
+					.FindByUserAndPair(userId, pair);
+			List<WeeklyAnalaysisByUserAndPair> userAccountWeeklySummaries = userAccountWeeklySummaryService
+					.FindByUserAndPair(userId, pair);
+			List<YearlyAnalaysisByUserAndPair> userAccountYearlySummaries = userAccountYearlySummaryService
+					.FindByUserAndPair(userId, pair);
+
+			Collections.sort(userAccountDailySummaries, new Comparator<DailyAnalaysisByUserAndPair>() {
+				@Override
+				public int compare(DailyAnalaysisByUserAndPair o1, DailyAnalaysisByUserAndPair o2) {
+					return o1.getTradingDate().compareTo(o2.getTradingDate());
+				}
+			});
+
+			userAccountDayOfWeekSummaries.sort(Comparator.comparing(d -> {
+				switch (d.getDayOfWeek()) {
+				case "Monday":
+					return 1;
+				case "Tuesday":
+					return 2;
+				case "Wednesday":
+					return 3;
+				case "Thursday":
+					return 4;
+				case "Friday":
+					return 5;
+				case "Saturday":
+					return 6;
+				case "Sunday":
+					return 7;
+				default:
+					return 0;
+				}
+			}));
+
+			userAccountMonthlySummaries.sort(Comparator.comparing(MonthlyAnalaysisByUserAndPair::getTradingMonth));
+			userAccountWeeklySummaries.sort(Comparator.comparing(WeeklyAnalaysisByUserAndPair::getTradingYear)
+					.thenComparing(WeeklyAnalaysisByUserAndPair::getTradingWeek));
+			userAccountYearlySummaries.sort(Comparator.comparing(YearlyAnalaysisByUserAndPair::getTradingYear));
+
 			model.addAttribute("userId", userId);
 			model.addAttribute("pair", pair);
+
+			model.addAttribute("userAccountDailySummaries", userAccountDailySummaries);
+			model.addAttribute("userAccountDayOfWeekSummaries", userAccountDayOfWeekSummaries);
+			model.addAttribute("userAccountMonthlySummaries", userAccountMonthlySummaries);
+			model.addAttribute("userAccountWeeklySummaries", userAccountWeeklySummaries);
+			model.addAttribute("userAccountYearlySummaries", userAccountYearlySummaries);
+
 		} else if (user != "" && user != null && accountLogin != "" && accountLogin != null) {
 			int userId = Integer.parseInt(user);
-			userAccountDailySummaries = userAccountDailySummaryService.FindByUserAndAccountLogin(userId, accountLogin);
-			userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService.FindByUserAndAccountLogin(userId,
-					accountLogin);
-			userAccountMonthlySummaries = userAccountMonthlySummaryService.FindByUserAndAccountLogin(userId,
-					accountLogin);
-			userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByUserAndAccountLogin(userId,
-					accountLogin);
-			userAccountYearlySummaries = userAccountYearlySummaryService.FindByUserAndAccountLogin(userId,
-					accountLogin);
+			List<DailyAnalaysisByUserAndAccount> userAccountDailySummaries = userAccountDailySummaryService
+					.FindByUserAndAccountLogin(userId, accountLogin);
+			List<DayOfWeekAnalaysisByUserAndAccount> userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService
+					.FindByUserAndAccountLogin(userId, accountLogin);
+			List<MonthlyAnalaysisByUserAndAccount> userAccountMonthlySummaries = userAccountMonthlySummaryService
+					.FindByUserAndAccountLogin(userId, accountLogin);
+			List<WeeklyAnalaysisByUserAndAccount> userAccountWeeklySummaries = userAccountWeeklySummaryService
+					.FindByUserAndAccountLogin(userId, accountLogin);
+			List<YearlyAnalaysisByUserAndAccount> userAccountYearlySummaries = userAccountYearlySummaryService
+					.FindByUserAndAccountLogin(userId, accountLogin);
+
+			Collections.sort(userAccountDailySummaries, new Comparator<DailyAnalaysisByUserAndAccount>() {
+				@Override
+				public int compare(DailyAnalaysisByUserAndAccount o1, DailyAnalaysisByUserAndAccount o2) {
+					return o1.getTradingDate().compareTo(o2.getTradingDate());
+				}
+			});
+			userAccountDayOfWeekSummaries.sort(Comparator.comparing(d -> {
+				switch (d.getDayOfWeek()) {
+				case "Monday":
+					return 1;
+				case "Tuesday":
+					return 2;
+				case "Wednesday":
+					return 3;
+				case "Thursday":
+					return 4;
+				case "Friday":
+					return 5;
+				case "Saturday":
+					return 6;
+				case "Sunday":
+					return 7;
+				default:
+					return 0;
+				}
+			}));
+
+			userAccountMonthlySummaries.sort(Comparator.comparing(MonthlyAnalaysisByUserAndAccount::getTradingMonth));
+			userAccountWeeklySummaries.sort(Comparator.comparing(WeeklyAnalaysisByUserAndAccount::getTradingYear)
+					.thenComparing(WeeklyAnalaysisByUserAndAccount::getTradingWeek));
+			userAccountYearlySummaries.sort(Comparator.comparing(YearlyAnalaysisByUserAndAccount::getTradingYear));
+
 			model.addAttribute("userId", userId);
 			model.addAttribute("accountLogin", accountLogin);
+			model.addAttribute("userAccountDailySummaries", userAccountDailySummaries);
+			model.addAttribute("userAccountDayOfWeekSummaries", userAccountDayOfWeekSummaries);
+			model.addAttribute("userAccountMonthlySummaries", userAccountMonthlySummaries);
+			model.addAttribute("userAccountWeeklySummaries", userAccountWeeklySummaries);
+			model.addAttribute("userAccountYearlySummaries", userAccountYearlySummaries);
+
 		} else if (user != "" && user != null) {
 			int userId = Integer.parseInt(user);
 			List<UsersDailyAnalaysis> usersDailyAnalaysis = usersDailyAnalaysisService.FindByUser(userId);
@@ -220,30 +356,62 @@ public class DashboardController {
 					.thenComparing(UsersWeeklyAnalaysis::getTradingWeek));
 			usersYearlyAnalaysis.sort(Comparator.comparing(UsersYearlyAnalaysis::getTradingYear));
 
-			model.addAttribute("accountPnlSummaryList", accountPnlSummaryList);
-			model.addAttribute("userAccountShortSummaries", userAccountShortSummaries);
 			model.addAttribute("userAccountDailySummaries", usersDailyAnalaysis);
 			model.addAttribute("userAccountDayOfWeekSummaries", usersDayOfWeekAnalaysis);
 			model.addAttribute("userAccountMonthlySummaries", usersMonthlyAnalaysis);
 			model.addAttribute("userAccountWeeklySummaries", usersWeeklyAnalaysis);
 			model.addAttribute("userAccountYearlySummaries", usersYearlyAnalaysis);
 
-			model.addAttribute("usersList", usersList);
-			model.addAttribute("tradePairsList", tradePairsList);
-			model.addAttribute("accounts", accounts);
-			if (accounts == null) {
-				model.addAttribute("accounts", accountt1);
-			}
 			model.addAttribute("userId", userId);
-			return "/dashboard/dashboard.html";
 
 		} else if (pair != "" && pair != null) {
-			userAccountDailySummaries = userAccountDailySummaryService.FindByPair(pair);
-			userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService.FindByPair(pair);
-			userAccountMonthlySummaries = userAccountMonthlySummaryService.FindByPair(pair);
-			userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByPair(pair);
-			userAccountYearlySummaries = userAccountYearlySummaryService.FindByPair(pair);
+			List<DailyAnalaysisByPair> userAccountDailySummaries = userAccountDailySummaryService.FindByPair(pair);
+			List<DayOfWeekAnalaysisByPair> userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService
+					.FindByPair(pair);
+			List<MonthlyAnalaysisByPair> userAccountMonthlySummaries = userAccountMonthlySummaryService
+					.FindByPair(pair);
+			List<WeeklyAnalaysisByPair> userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByPair(pair);
+			List<YearlyAnalaysisByPair> userAccountYearlySummaries = userAccountYearlySummaryService.FindByPair(pair);
+
+			Collections.sort(userAccountDailySummaries, new Comparator<DailyAnalaysisByPair>() {
+				@Override
+				public int compare(DailyAnalaysisByPair o1, DailyAnalaysisByPair o2) {
+					return o1.getTradingDate().compareTo(o2.getTradingDate());
+				}
+			});
+			userAccountDayOfWeekSummaries.sort(Comparator.comparing(d -> {
+				switch (d.getDayOfWeek()) {
+				case "Monday":
+					return 1;
+				case "Tuesday":
+					return 2;
+				case "Wednesday":
+					return 3;
+				case "Thursday":
+					return 4;
+				case "Friday":
+					return 5;
+				case "Saturday":
+					return 6;
+				case "Sunday":
+					return 7;
+				default:
+					return 0;
+				}
+			}));
+
+			userAccountMonthlySummaries.sort(Comparator.comparing(MonthlyAnalaysisByPair::getTradingMonth));
+			userAccountWeeklySummaries.sort(Comparator.comparing(WeeklyAnalaysisByPair::getTradingYear)
+					.thenComparing(WeeklyAnalaysisByPair::getTradingWeek));
+			userAccountYearlySummaries.sort(Comparator.comparing(YearlyAnalaysisByPair::getTradingYear));
+
 			model.addAttribute("pair", pair);
+			model.addAttribute("userAccountDailySummaries", userAccountDailySummaries);
+			model.addAttribute("userAccountDayOfWeekSummaries", userAccountDayOfWeekSummaries);
+			model.addAttribute("userAccountMonthlySummaries", userAccountMonthlySummaries);
+			model.addAttribute("userAccountWeeklySummaries", userAccountWeeklySummaries);
+			model.addAttribute("userAccountYearlySummaries", userAccountYearlySummaries);
+
 		} else {
 			List<DailyAnalaysis> dailyAnalaysis = dailyAnalaysisService.FindAll();
 			List<DayOfWeekAnalaysis> dayOfWeekAnalaysis = dayOfWeekAnalaysisService.FindAll();
@@ -284,65 +452,15 @@ public class DashboardController {
 					.thenComparing(WeeklyAnalaysis::getTradingWeek));
 			yearlyAnalaysis.sort(Comparator.comparing(YearlyAnalaysis::getTradingYear));
 
-			model.addAttribute("accountPnlSummaryList", accountPnlSummaryList);
-			model.addAttribute("userAccountShortSummaries", userAccountShortSummaries);
 			model.addAttribute("userAccountDailySummaries", dailyAnalaysis);
 			model.addAttribute("userAccountDayOfWeekSummaries", dayOfWeekAnalaysis);
 			model.addAttribute("userAccountMonthlySummaries", monthlyAnalaysis);
 			model.addAttribute("userAccountWeeklySummaries", weeklyAnalaysis);
 			model.addAttribute("userAccountYearlySummaries", yearlyAnalaysis);
 
-			model.addAttribute("usersList", usersList);
-			model.addAttribute("tradePairsList", tradePairsList);
-			model.addAttribute("accounts", accounts);
-			if (accounts == null) {
-				model.addAttribute("accounts", accountt1);
-			}
-
-			return "/dashboard/dashboard.html";
 		}
 
-		userAccountDayOfWeekSummaries.sort(Comparator.comparing(d -> {
-			switch (d.getDayOfWeek()) {
-			case "Monday":
-				return 1;
-			case "Tuesday":
-				return 2;
-			case "Wednesday":
-				return 3;
-			case "Thursday":
-				return 4;
-			case "Friday":
-				return 5;
-			case "Saturday":
-				return 6;
-			case "Sunday":
-				return 7;
-			default:
-				return 0;
-			}
-		}));
-
-		Collections.sort(userAccountDailySummaries, new Comparator<UserAccountDailySummary>() {
-			@Override
-			public int compare(UserAccountDailySummary o1, UserAccountDailySummary o2) {
-				return o1.getTradingDate().compareTo(o2.getTradingDate());
-			}
-		});
-
-		userAccountMonthlySummaries.sort(Comparator.comparing(UserAccountMonthlySummary::getTradingMonth));
-		userAccountWeeklySummaries.sort(Comparator.comparing(UserAccountWeeklySummary::getTradingYear)
-				.thenComparing(UserAccountWeeklySummary::getTradingWeek));
-		userAccountYearlySummaries.sort(Comparator.comparing(UserAccountYearlySummary::getTradingYear));
-
-		model.addAttribute("accountPnlSummaryList", accountPnlSummaryList);
 		model.addAttribute("userAccountShortSummaries", userAccountShortSummaries);
-		model.addAttribute("userAccountDailySummaries", userAccountDailySummaries);
-		model.addAttribute("userAccountDayOfWeekSummaries", userAccountDayOfWeekSummaries);
-		model.addAttribute("userAccountMonthlySummaries", userAccountMonthlySummaries);
-		model.addAttribute("userAccountWeeklySummaries", userAccountWeeklySummaries);
-		model.addAttribute("userAccountYearlySummaries", userAccountYearlySummaries);
-
 		model.addAttribute("usersList", usersList);
 		model.addAttribute("tradePairsList", tradePairsList);
 		model.addAttribute("accounts", accounts);
@@ -355,13 +473,13 @@ public class DashboardController {
 
 	@GetMapping("/tradersAccountsByUser")
 	public ResponseEntity<List<TradersAccounts>> getAccountsByUser(@RequestParam("userId") int userId, Model model) {
-		
+
 		try {
 			List<TradersAccounts> accounts = tradersAccountsService.findByUserId(userId);
 			if (accounts == null) {
 				return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
 			}
-			System.out.println("acccc =========================== " + accounts.size());
+//			System.out.println("acccc =========================== " + accounts.size());
 			return ResponseEntity.ok(accounts);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -381,47 +499,165 @@ public class DashboardController {
 
 		List<TradePairs> tradePairsList = tradePairsService.findAll();
 		List<TradersAccounts> accountsList = tradersAccountsService.findByUserId(userId);
-
-		List<UserAccountShortSummary> userAccountShortSummaries = userAccountShortSummaryService.findByUserId(userId);
-		List<UserAccountDailySummary> userAccountDailySummaries = userAccountDailySummaryService.FindByUser(userId);
-		List<UserAccountDayOfWeekSummary> userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService
-				.FindByUser(userId);
-		List<UserAccountMonthlySummary> userAccountMonthlySummaries = userAccountMonthlySummaryService
-				.FindByUser(userId);
-		List<UserAccountWeeklySummary> userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByUser(userId);
-		List<UserAccountYearlySummary> userAccountYearlySummaries = userAccountYearlySummaryService.FindByUser(userId);
+		List<UserAccountShortSummary> userAccountShortSummaries = userAccountShortSummaryService.FindAll();
 
 		if (pair != "" && pair != null && accountLogin != "" && accountLogin != null) {
-			userAccountDailySummaries = userAccountDailySummaryService.FindByUserPairAndAccountLogin(userId, pair,
-					accountLogin);
-			userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService.FindByUserPairAndAccountLogin(userId,
-					pair, accountLogin);
-			userAccountMonthlySummaries = userAccountMonthlySummaryService.FindByUserPairAndAccountLogin(userId, pair,
-					accountLogin);
-			userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByUserPairAndAccountLogin(userId, pair,
-					accountLogin);
-			userAccountYearlySummaries = userAccountYearlySummaryService.FindByUserPairAndAccountLogin(userId, pair,
-					accountLogin);
+			List<UserAccountDailySummary> userAccountDailySummaries = userAccountDailySummaryService
+					.FindByUserPairAndAccountLogin(userId, pair, accountLogin);
+			List<UserAccountDayOfWeekSummary> userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService
+					.FindByUserPairAndAccountLogin(userId, pair, accountLogin);
+			List<UserAccountMonthlySummary> userAccountMonthlySummaries = userAccountMonthlySummaryService
+					.FindByUserPairAndAccountLogin(userId, pair, accountLogin);
+			List<UserAccountWeeklySummary> userAccountWeeklySummaries = userAccountWeeklySummaryService
+					.FindByUserPairAndAccountLogin(userId, pair, accountLogin);
+			List<UserAccountYearlySummary> userAccountYearlySummaries = userAccountYearlySummaryService
+					.FindByUserPairAndAccountLogin(userId, pair, accountLogin);
+
+			Collections.sort(userAccountDailySummaries, new Comparator<UserAccountDailySummary>() {
+				@Override
+				public int compare(UserAccountDailySummary o1, UserAccountDailySummary o2) {
+					return o1.getTradingDate().compareTo(o2.getTradingDate());
+				}
+			});
+
+			userAccountDayOfWeekSummaries.sort(Comparator.comparing(d -> {
+				switch (d.getDayOfWeek()) {
+				case "Monday":
+					return 1;
+				case "Tuesday":
+					return 2;
+				case "Wednesday":
+					return 3;
+				case "Thursday":
+					return 4;
+				case "Friday":
+					return 5;
+				case "Saturday":
+					return 6;
+				case "Sunday":
+					return 7;
+				default:
+					return 0;
+				}
+			}));
+
+			userAccountMonthlySummaries.sort(Comparator.comparing(UserAccountMonthlySummary::getTradingMonth));
+			userAccountWeeklySummaries.sort(Comparator.comparing(UserAccountWeeklySummary::getTradingYear)
+					.thenComparing(UserAccountWeeklySummary::getTradingWeek));
+			userAccountYearlySummaries.sort(Comparator.comparing(UserAccountYearlySummary::getTradingYear));
+
+			model.addAttribute("userAccountDailySummaries", userAccountDailySummaries);
+			model.addAttribute("userAccountDayOfWeekSummaries", userAccountDayOfWeekSummaries);
+			model.addAttribute("userAccountMonthlySummaries", userAccountMonthlySummaries);
+			model.addAttribute("userAccountWeeklySummaries", userAccountWeeklySummaries);
+			model.addAttribute("userAccountYearlySummaries", userAccountYearlySummaries);
+
 			model.addAttribute("pair", pair);
 			model.addAttribute("accountLogin", accountLogin);
 		} else if (pair != "" && pair != null) {
-			userAccountDailySummaries = userAccountDailySummaryService.FindByUserAndPair(userId, pair);
-			userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService.FindByUserAndPair(userId, pair);
-			userAccountMonthlySummaries = userAccountMonthlySummaryService.FindByUserAndPair(userId, pair);
-			userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByUserAndPair(userId, pair);
-			userAccountYearlySummaries = userAccountYearlySummaryService.FindByUserAndPair(userId, pair);
+			List<DailyAnalaysisByUserAndPair> userAccountDailySummaries = userAccountDailySummaryService
+					.FindByUserAndPair(userId, pair);
+			List<DayOfWeekAnalaysisByUserAndPair> userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService
+					.FindByUserAndPair(userId, pair);
+			List<MonthlyAnalaysisByUserAndPair> userAccountMonthlySummaries = userAccountMonthlySummaryService
+					.FindByUserAndPair(userId, pair);
+			List<WeeklyAnalaysisByUserAndPair> userAccountWeeklySummaries = userAccountWeeklySummaryService
+					.FindByUserAndPair(userId, pair);
+			List<YearlyAnalaysisByUserAndPair> userAccountYearlySummaries = userAccountYearlySummaryService
+					.FindByUserAndPair(userId, pair);
+
+			Collections.sort(userAccountDailySummaries, new Comparator<DailyAnalaysisByUserAndPair>() {
+				@Override
+				public int compare(DailyAnalaysisByUserAndPair o1, DailyAnalaysisByUserAndPair o2) {
+					return o1.getTradingDate().compareTo(o2.getTradingDate());
+				}
+			});
+
+			userAccountDayOfWeekSummaries.sort(Comparator.comparing(d -> {
+				switch (d.getDayOfWeek()) {
+				case "Monday":
+					return 1;
+				case "Tuesday":
+					return 2;
+				case "Wednesday":
+					return 3;
+				case "Thursday":
+					return 4;
+				case "Friday":
+					return 5;
+				case "Saturday":
+					return 6;
+				case "Sunday":
+					return 7;
+				default:
+					return 0;
+				}
+			}));
+
+			userAccountMonthlySummaries.sort(Comparator.comparing(MonthlyAnalaysisByUserAndPair::getTradingMonth));
+			userAccountWeeklySummaries.sort(Comparator.comparing(WeeklyAnalaysisByUserAndPair::getTradingYear)
+					.thenComparing(WeeklyAnalaysisByUserAndPair::getTradingWeek));
+			userAccountYearlySummaries.sort(Comparator.comparing(YearlyAnalaysisByUserAndPair::getTradingYear));
+
+			model.addAttribute("userAccountDailySummaries", userAccountDailySummaries);
+			model.addAttribute("userAccountDayOfWeekSummaries", userAccountDayOfWeekSummaries);
+			model.addAttribute("userAccountMonthlySummaries", userAccountMonthlySummaries);
+			model.addAttribute("userAccountWeeklySummaries", userAccountWeeklySummaries);
+			model.addAttribute("userAccountYearlySummaries", userAccountYearlySummaries);
+
 			model.addAttribute("userId", userId);
 			model.addAttribute("pair", pair);
 		} else if (accountLogin != "" && accountLogin != null) {
-			userAccountDailySummaries = userAccountDailySummaryService.FindByUserAndAccountLogin(userId, accountLogin);
-			userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService.FindByUserAndAccountLogin(userId,
-					accountLogin);
-			userAccountMonthlySummaries = userAccountMonthlySummaryService.FindByUserAndAccountLogin(userId,
-					accountLogin);
-			userAccountWeeklySummaries = userAccountWeeklySummaryService.FindByUserAndAccountLogin(userId,
-					accountLogin);
-			userAccountYearlySummaries = userAccountYearlySummaryService.FindByUserAndAccountLogin(userId,
-					accountLogin);
+			List<DailyAnalaysisByUserAndAccount> userAccountDailySummaries = userAccountDailySummaryService
+					.FindByUserAndAccountLogin(userId, accountLogin);
+			List<DayOfWeekAnalaysisByUserAndAccount> userAccountDayOfWeekSummaries = userAccountDayOfWeekSummaryService
+					.FindByUserAndAccountLogin(userId, accountLogin);
+			List<MonthlyAnalaysisByUserAndAccount> userAccountMonthlySummaries = userAccountMonthlySummaryService
+					.FindByUserAndAccountLogin(userId, accountLogin);
+			List<WeeklyAnalaysisByUserAndAccount> userAccountWeeklySummaries = userAccountWeeklySummaryService
+					.FindByUserAndAccountLogin(userId, accountLogin);
+			List<YearlyAnalaysisByUserAndAccount> userAccountYearlySummaries = userAccountYearlySummaryService
+					.FindByUserAndAccountLogin(userId, accountLogin);
+
+			Collections.sort(userAccountDailySummaries, new Comparator<DailyAnalaysisByUserAndAccount>() {
+				@Override
+				public int compare(DailyAnalaysisByUserAndAccount o1, DailyAnalaysisByUserAndAccount o2) {
+					return o1.getTradingDate().compareTo(o2.getTradingDate());
+				}
+			});
+
+			userAccountDayOfWeekSummaries.sort(Comparator.comparing(d -> {
+				switch (d.getDayOfWeek()) {
+				case "Monday":
+					return 1;
+				case "Tuesday":
+					return 2;
+				case "Wednesday":
+					return 3;
+				case "Thursday":
+					return 4;
+				case "Friday":
+					return 5;
+				case "Saturday":
+					return 6;
+				case "Sunday":
+					return 7;
+				default:
+					return 0;
+				}
+			}));
+
+			userAccountMonthlySummaries.sort(Comparator.comparing(MonthlyAnalaysisByUserAndAccount::getTradingMonth));
+			userAccountWeeklySummaries.sort(Comparator.comparing(WeeklyAnalaysisByUserAndAccount::getTradingYear)
+					.thenComparing(WeeklyAnalaysisByUserAndAccount::getTradingWeek));
+			userAccountYearlySummaries.sort(Comparator.comparing(YearlyAnalaysisByUserAndAccount::getTradingYear));
+
+			model.addAttribute("userAccountDailySummaries", userAccountDailySummaries);
+			model.addAttribute("userAccountDayOfWeekSummaries", userAccountDayOfWeekSummaries);
+			model.addAttribute("userAccountMonthlySummaries", userAccountMonthlySummaries);
+			model.addAttribute("userAccountWeeklySummaries", userAccountWeeklySummaries);
+			model.addAttribute("userAccountYearlySummaries", userAccountYearlySummaries);
+
 			model.addAttribute("userId", userId);
 			model.addAttribute("accountLogin", accountLogin);
 		} else {
@@ -474,50 +710,9 @@ public class DashboardController {
 
 			model.addAttribute("tradePairsList", tradePairsList);
 			model.addAttribute("accounts", accountsList);
-
-			return "/dashboard/traderDashboard.html";
 		}
 
-		userAccountDayOfWeekSummaries.sort(Comparator.comparing(d -> {
-			switch (d.getDayOfWeek()) {
-			case "Monday":
-				return 1;
-			case "Tuesday":
-				return 2;
-			case "Wednesday":
-				return 3;
-			case "Thursday":
-				return 4;
-			case "Friday":
-				return 5;
-			case "Saturday":
-				return 6;
-			case "Sunday":
-				return 7;
-			default:
-				return 0;
-			}
-		}));
-
-		Collections.sort(userAccountDailySummaries, new Comparator<UserAccountDailySummary>() {
-			@Override
-			public int compare(UserAccountDailySummary o1, UserAccountDailySummary o2) {
-				return o1.getTradingDate().compareTo(o2.getTradingDate());
-			}
-		});
-
-		userAccountMonthlySummaries.sort(Comparator.comparing(UserAccountMonthlySummary::getTradingMonth));
-		userAccountWeeklySummaries.sort(Comparator.comparing(UserAccountWeeklySummary::getTradingYear)
-				.thenComparing(UserAccountWeeklySummary::getTradingWeek));
-		userAccountYearlySummaries.sort(Comparator.comparing(UserAccountYearlySummary::getTradingYear));
-
 		model.addAttribute("userAccountShortSummaries", userAccountShortSummaries);
-		model.addAttribute("userAccountDailySummaries", userAccountDailySummaries);
-		model.addAttribute("userAccountDayOfWeekSummaries", userAccountDayOfWeekSummaries);
-		model.addAttribute("userAccountMonthlySummaries", userAccountMonthlySummaries);
-		model.addAttribute("userAccountWeeklySummaries", userAccountWeeklySummaries);
-		model.addAttribute("userAccountYearlySummaries", userAccountYearlySummaries);
-
 		model.addAttribute("tradePairsList", tradePairsList);
 		model.addAttribute("accounts", accountsList);
 

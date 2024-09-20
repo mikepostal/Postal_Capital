@@ -13,5 +13,7 @@ public interface CalanderService {
 	void save(Calander calander);
 	
 	void deleteCalanderById(Integer calanderId);
+
+	void deleteOldCalanders();
 	
 }

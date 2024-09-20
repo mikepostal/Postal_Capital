@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bannershallmark.dao.UserAccountDayOfWeekSummaryDao;
+import com.bannershallmark.entity.DayOfWeekAnalaysisByPair;
+import com.bannershallmark.entity.DayOfWeekAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.DayOfWeekAnalaysisByUserAndPair;
 import com.bannershallmark.entity.UserAccountDayOfWeekSummary;
 import com.bannershallmark.service.UserAccountDayOfWeekSummaryService;
 
@@ -30,13 +33,13 @@ public class UserAccountDayOfWeekSummaryServiceImpl implements UserAccountDayOfW
 
 	@Override
 	@Transactional
-	public List<UserAccountDayOfWeekSummary> FindByUserAndPair(int userId, String pair) {
+	public List<DayOfWeekAnalaysisByUserAndPair> FindByUserAndPair(int userId, String pair) {
 		return userAccountDayOfWeekSummaryDao.FindByUserAndPair(userId,pair);
 	}
 
 	@Override
 	@Transactional
-	public List<UserAccountDayOfWeekSummary> FindByUserAndAccountLogin(int userId, String accountLogin) {
+	public List<DayOfWeekAnalaysisByUserAndAccount> FindByUserAndAccountLogin(int userId, String accountLogin) {
 		return userAccountDayOfWeekSummaryDao.FindByUserAndAccountLogin(userId,accountLogin);
 	}
 
@@ -48,7 +51,7 @@ public class UserAccountDayOfWeekSummaryServiceImpl implements UserAccountDayOfW
 
 	@Override
 	@Transactional
-	public List<UserAccountDayOfWeekSummary> FindByPair(String pair) {
+	public List<DayOfWeekAnalaysisByPair> FindByPair(String pair) {
 		return userAccountDayOfWeekSummaryDao.FindByPair(pair);
 	}
 }
