@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bannershallmark.dao.UserAccountWeeklySummaryDao;
-import com.bannershallmark.entity.UserAccountDailySummary;
 import com.bannershallmark.entity.UserAccountWeeklySummary;
+import com.bannershallmark.entity.WeeklyAnalaysisByPair;
+import com.bannershallmark.entity.WeeklyAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.WeeklyAnalaysisByUserAndPair;
 
 @Repository
 public class UserAccountWeeklySummaryDaoImpl implements UserAccountWeeklySummaryDao {
@@ -29,33 +31,32 @@ public class UserAccountWeeklySummaryDaoImpl implements UserAccountWeeklySummary
 	public List<UserAccountWeeklySummary> FindByUserPairAndAccountLogin(int userId, String pair, String accountLogin) {
 		Session session = sessionFactory.getCurrentSession();
 		Query<UserAccountWeeklySummary> query = session.createQuery(
-				"from UserAccountWeeklySummary where userId = :userId AND pair = :pair AND accountLogin = :accountLogin",
+				"from UserAccountWeeklySummary where userId = :userId AND pair LIKE :pair AND accountLogin = :accountLogin",
 				UserAccountWeeklySummary.class);
 		query.setParameter("userId", userId);
-		query.setParameter("pair", pair);
+		query.setParameter("pair", pair + "%");
 		query.setParameter("accountLogin", accountLogin);
 		return query.getResultList();
 	}
 
 	@Override
-	public List<UserAccountWeeklySummary> FindByUserAndPair(int userId, String pair) {
+	public List<WeeklyAnalaysisByUserAndPair> FindByUserAndPair(int userId, String pair) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<UserAccountWeeklySummary> query = session.createQuery(
-				"from UserAccountWeeklySummary where userId = :userId AND pair = :pair",
-				UserAccountWeeklySummary.class);
+		Query<WeeklyAnalaysisByUserAndPair> query = session.createQuery(
+				"from WeeklyAnalaysisByUserAndPair where userId = :userId AND pair LIKE :pair",
+				WeeklyAnalaysisByUserAndPair.class);
 		query.setParameter("userId", userId);
-		query.setParameter("pair", pair);
+		query.setParameter("pair", pair + "%");
 		return query.getResultList();
 	}
 
 	@Override
-	public List<UserAccountWeeklySummary> FindByUserAndAccountLogin(int userId, String accountLogin) {
+	public List<WeeklyAnalaysisByUserAndAccount> FindByUserAndAccountLogin(int userId, String accountLogin) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<UserAccountWeeklySummary> query = session.createQuery(
-				"from UserAccountWeeklySummary where userId = :userId AND accountLogin = :accountLogin AND accountLogin = :accountLogin",
-				UserAccountWeeklySummary.class);
+		Query<WeeklyAnalaysisByUserAndAccount> query = session.createQuery(
+				"from WeeklyAnalaysisByUserAndAccount where userId = :userId AND accountLogin = :accountLogin",
+				WeeklyAnalaysisByUserAndAccount.class);
 		query.setParameter("userId", userId);
-		query.setParameter("accountLogin", accountLogin);
 		query.setParameter("accountLogin", accountLogin);
 		return query.getResultList();
 	}
@@ -70,11 +71,11 @@ public class UserAccountWeeklySummaryDaoImpl implements UserAccountWeeklySummary
 	}
 
 	@Override
-	public List<UserAccountWeeklySummary> FindByPair(String pair) {
+	public List<WeeklyAnalaysisByPair> FindByPair(String pair) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<UserAccountWeeklySummary> query = session.createQuery("from UserAccountWeeklySummary where pair = :pair",
-				UserAccountWeeklySummary.class);
-		query.setParameter("pair", pair);
+		Query<WeeklyAnalaysisByPair> query = session.createQuery("from WeeklyAnalaysisByPair where pair LIKE :pair",
+				WeeklyAnalaysisByPair.class);
+		query.setParameter("pair", pair+"%");
 		return query.getResultList();
 	}
 }

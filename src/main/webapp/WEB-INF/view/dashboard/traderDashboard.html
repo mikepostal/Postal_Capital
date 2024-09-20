@@ -33,7 +33,8 @@
 													</div>
 													<div class="row align-items-center">
 														<div class="h5 font-weight-bold text-gray-800">
-															<i th:text="'$' + ${acc.usertotalPnl}"></i>
+															<i th:text="'$' + ${acc.usertotalPnl}"
+																th:style="'color:' + (${acc.usertotalPnl >= 0} ? 'green' : 'red')"></i>
 
 														</div>
 													</div>
@@ -41,7 +42,8 @@
 												<div class="col-auto">
 
 													<h3>
-														<i th:text="${acc.userpnlPercent}+'%'"></i>
+														<i th:text="${acc.userpnlPercent}+'%'"
+															th:style="'color:' + (${acc.usertotalPnl >= 0} ? 'green' : 'red')"></i>
 													</h3>
 												</div>
 											</div>
@@ -184,6 +186,7 @@
         var DailyAnalysisData = /*[[${userAccountDailySummaries}]]*/ [];
         var dlabels = DailyAnalysisData.map(data => data.tradingDate);
         var dtotalPnl = DailyAnalysisData.map(data => data.totalPnl);
+        var dcumulativePnl = DailyAnalysisData.map(data => data.cumulativePnl);
         /* Chart.js code to render a bar chart */
         var ctx = document.getElementById('dailyAnalysisChart').getContext('2d');
         var myChart = new Chart(ctx, {
@@ -196,6 +199,13 @@
                     fill: false, 
                     backgroundColor: dtotalPnl.map(value => value > 0 ? 'green' : 'red'),
                     borderColor: dtotalPnl.map(value => value > 0 ? 'green' : 'red'),
+                    tension: 0.1 
+                },{
+                    label: 'Cumulative PNL',
+                    data: dcumulativePnl,
+                    fill: false, 
+                    backgroundColor: dcumulativePnl.map(value => value > 0 ? 'blue' : 'yellow'),
+                    borderColor: dcumulativePnl.map(value => value > 0 ? 'blue' : 'yellow'),
                     tension: 0.1 
                 }]
             },
@@ -229,6 +239,7 @@
         /* Prepare data for the chart */
        var mlabels = weeklyAnalysisData.map(data => `${data.tradingYear}-${data.tradingWeek}`);
         var pnl = weeklyAnalysisData.map(data => data.totalPnl);
+        var wcumulativePnl = weeklyAnalysisData.map(data => data.cumulativePnl);
         
         /* Chart.js code to render the line chart */
         var ctx = document.getElementById('WeeklyAnalysisChart').getContext('2d');
@@ -243,6 +254,13 @@
                     backgroundColor: pnl.map(value => value > 0 ? 'green' : 'red'),
                     borderColor: pnl.map(value => value > 0 ? 'green' : 'red'), 
                     tension: 0.1 // Smoothing of the line
+                },{
+                    label: 'Cumulative PNL',
+                    data: wcumulativePnl,
+                    fill: false, 
+                    backgroundColor: wcumulativePnl.map(value => value > 0 ? 'blue' : 'yellow'),
+                    borderColor: wcumulativePnl.map(value => value > 0 ? 'blue' : 'yellow'),
+                    tension: 0.1 
                 }]
             },
             options: {

@@ -1,7 +1,7 @@
 package com.bannershallmark.serviceImpl;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,17 +12,17 @@ import com.bannershallmark.entity.Calander;
 import com.bannershallmark.service.CalanderService;
 
 @Service
-public class CalanderServiceImpl  implements CalanderService{
+public class CalanderServiceImpl implements CalanderService {
 
 	@Autowired
 	private CalanderDao calanderDao;
-	
+
 	@Override
 	@Transactional
 	public List<Calander> findAllCalanders() {
 		return calanderDao.findAllCalanders();
 	}
-	
+
 	@Override
 	@Transactional
 	public Calander findCalanderById(Integer calanderId) {
@@ -32,7 +32,7 @@ public class CalanderServiceImpl  implements CalanderService{
 	@Override
 	@Transactional
 	public void save(Calander calander) {
-		 calanderDao.save(calander);
+		calanderDao.save(calander);
 	}
 
 	@Override
@@ -41,5 +41,17 @@ public class CalanderServiceImpl  implements CalanderService{
 		calanderDao.deleteCalanderById(calanderId);
 	}
 
+	@Override
+	@Transactional
+	public void deleteOldCalanders() {
+		LocalDateTime thresholdDate = LocalDateTime.now().minusDays(5);
+		System.out.println("thresholdDate ============="+thresholdDate);
+		List<Calander> oldCalanders = calanderDao.findByDateBefore(thresholdDate);
+		for (Calander calander : oldCalanders) {
+			System.out.println("calander ============="+calander.getCalanderName());
+			calanderDao.delete(calander);
+		}
+
+	}
 
 }

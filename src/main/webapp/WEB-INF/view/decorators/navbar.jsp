@@ -12,7 +12,7 @@
 				<div class="logo">
 					<a href="${pageContext.request.contextPath}"><img
 						style="height: 100px" width="236px"
-						src="${pageContext.request.contextPath}/resources/assets/images/logo/LOGO TEST 002-1.png"
+						src="${pageContext.request.contextPath}/resources/assets/images/logo/yosalLogo.png"
 						alt="Logo" srcset=""></a>
 					<audio id="notification-sound"
 						src="${pageContext.request.contextPath}/resources/assets/sounds/notification.wav"
@@ -232,7 +232,7 @@
         var localDateTime = now.toISOString().replace("T", " ").substring(0, 19);
         
         //console.log(localDateTime);
-        fetch("http://localhost:8080/Bannershallmark/calander/checkTime?currentTime=" + encodeURIComponent(localDateTime))
+        fetch("/Bannershallmark/calander/checkTime?currentTime=" + encodeURIComponent(localDateTime))
             .then(response => response.text())
             .then(result => {
                // console.log('Server response:', result);

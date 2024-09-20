@@ -28,6 +28,7 @@ public class PNL {
 	private Double pnl;
 	private Double pnlPercent;
 	private String comment;
+	private String position;
 
 	public Integer getPnlID() {
 		return pnlID;
@@ -83,6 +84,14 @@ public class PNL {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 }

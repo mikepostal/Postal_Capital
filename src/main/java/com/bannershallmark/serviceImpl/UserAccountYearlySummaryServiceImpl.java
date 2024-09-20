@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bannershallmark.dao.UserAccountYearlySummaryDao;
 import com.bannershallmark.entity.UserAccountYearlySummary;
+import com.bannershallmark.entity.YearlyAnalaysisByPair;
+import com.bannershallmark.entity.YearlyAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.YearlyAnalaysisByUserAndPair;
 import com.bannershallmark.service.UserAccountYearlySummaryService;
 
 @Service
@@ -29,13 +32,13 @@ public class UserAccountYearlySummaryServiceImpl implements UserAccountYearlySum
 
 	@Override
 	@Transactional
-	public List<UserAccountYearlySummary> FindByUserAndPair(int userId, String pair) {
+	public List<YearlyAnalaysisByUserAndPair> FindByUserAndPair(int userId, String pair) {
 		return userAccountYearlySummaryDao.FindByUserAndPair(userId,pair);
 	}
 
 	@Override
 	@Transactional
-	public List<UserAccountYearlySummary> FindByUserAndAccountLogin(int userId, String accountLogin) {
+	public List<YearlyAnalaysisByUserAndAccount> FindByUserAndAccountLogin(int userId, String accountLogin) {
 		return userAccountYearlySummaryDao.FindByUserAndAccountLogin(userId,accountLogin);
 	}
 
@@ -47,7 +50,7 @@ public class UserAccountYearlySummaryServiceImpl implements UserAccountYearlySum
 
 	@Override
 	@Transactional
-	public List<UserAccountYearlySummary> FindByPair(String pair) {
+	public List<YearlyAnalaysisByPair> FindByPair(String pair) {
 		return userAccountYearlySummaryDao.FindByPair(pair);
 	}
 }

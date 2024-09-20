@@ -8,30 +8,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "useraccountweeklysummary")
-public class UserAccountWeeklySummary {
+@Table(name = "dailyanalysisbyuserandaccount")
+public class DailyAnalaysisByUserAndAccount {
 	@Id
 	private int id;
-	private int tradingYear;
-	private int tradingWeek;
-	private String pair;
-	private String firstname;
-	private String lastname;
-	private String accountLogin;
+	private Date tradingDate;
 	@Column(name = "total_pnl")
 	private double totalPnl;
 	private int userId;
+	private String firstname;
+	private String lastname;
+	private String accountLogin;
+	private String platform;
 	private int accountID;
 	@Column(name = "cumulative_pnl")
 	private double cumulativePnl;
-
-	public double getCumulativePnl() {
-		return cumulativePnl;
-	}
-
-	public void setCumulativePnl(double cumulativePnl) {
-		this.cumulativePnl = cumulativePnl;
-	}
 
 	public int getId() {
 		return id;
@@ -41,28 +32,36 @@ public class UserAccountWeeklySummary {
 		this.id = id;
 	}
 
-	public int getTradingYear() {
-		return tradingYear;
+	public Date getTradingDate() {
+		return tradingDate;
 	}
 
-	public void setTradingYear(int tradingYear) {
-		this.tradingYear = tradingYear;
+	public void setTradingDate(Date tradingDate) {
+		this.tradingDate = tradingDate;
 	}
 
-	public int getTradingWeek() {
-		return tradingWeek;
+	public double getTotalPnl() {
+		return totalPnl;
 	}
 
-	public void setTradingWeek(int tradingWeek) {
-		this.tradingWeek = tradingWeek;
+	public void setTotalPnl(double totalPnl) {
+		this.totalPnl = totalPnl;
 	}
 
-	public String getPair() {
-		return pair;
+	public double getCumulativePnl() {
+		return cumulativePnl;
 	}
 
-	public void setPair(String pair) {
-		this.pair = pair;
+	public void setCumulativePnl(double cumulativePnl) {
+		this.cumulativePnl = cumulativePnl;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstname() {
@@ -89,20 +88,12 @@ public class UserAccountWeeklySummary {
 		this.accountLogin = accountLogin;
 	}
 
-	public double getTotalPnl() {
-		return totalPnl;
+	public String getPlatform() {
+		return platform;
 	}
 
-	public void setTotalPnl(double totalPnl) {
-		this.totalPnl = totalPnl;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setPlatform(String platform) {
+		this.platform = platform;
 	}
 
 	public int getAccountID() {

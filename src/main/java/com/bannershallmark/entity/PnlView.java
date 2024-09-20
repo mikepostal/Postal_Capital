@@ -22,6 +22,7 @@ public class PnlView {
 	private int accountID;
 	private String firstname;
 	private String lastname;
+	private String position;
 
 	public Integer getId() {
 		return id;
@@ -117,6 +118,14 @@ public class PnlView {
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 }

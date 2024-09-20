@@ -6,27 +6,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "usersweeklyanalaysis")
-public class UsersWeeklyAnalaysis {
+@Table(name = "weeklyanalysisbyuserandpair")
+public class WeeklyAnalaysisByUserAndPair {
 	@Id
 	private int id;
 	private int tradingYear;
 	private int tradingWeek;
-	private String firstname;
-	private String lastname;
+	private String pair;
 	@Column(name = "total_pnl")
 	private double totalPnl;
 	private int userId;
+	private String firstname;
+	private String lastname;
 	@Column(name = "cumulative_pnl")
 	private double cumulativePnl;
-
-	public double getCumulativePnl() {
-		return cumulativePnl;
-	}
-
-	public void setCumulativePnl(double cumulativePnl) {
-		this.cumulativePnl = cumulativePnl;
-	}
 
 	public int getId() {
 		return id;
@@ -52,6 +45,38 @@ public class UsersWeeklyAnalaysis {
 		this.tradingWeek = tradingWeek;
 	}
 
+	public double getTotalPnl() {
+		return totalPnl;
+	}
+
+	public void setTotalPnl(double totalPnl) {
+		this.totalPnl = totalPnl;
+	}
+
+	public double getCumulativePnl() {
+		return cumulativePnl;
+	}
+
+	public void setCumulativePnl(double cumulativePnl) {
+		this.cumulativePnl = cumulativePnl;
+	}
+
+	public String getPair() {
+		return pair;
+	}
+
+	public void setPair(String pair) {
+		this.pair = pair;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	public String getFirstname() {
 		return firstname;
 	}
@@ -66,22 +91,6 @@ public class UsersWeeklyAnalaysis {
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
-	}
-
-	public double getTotalPnl() {
-		return totalPnl;
-	}
-
-	public void setTotalPnl(double totalPnl) {
-		this.totalPnl = totalPnl;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
 	}
 
 }

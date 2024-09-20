@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,7 +39,7 @@ public class TradeComment {
 	@JoinColumn(name = "userId", referencedColumnName = "userId")
 	private Users user;
 	
-	@OneToMany(mappedBy = "tradeComment", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "tradeComment",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<CommentReplay> commentReplays = new ArrayList<>();
 

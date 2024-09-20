@@ -42,6 +42,12 @@ public class AccountsServiceImpl  implements AccountsService{
 		accountsDao.deleteAccountById(accountId);
 	}
 	
+	@Override
+	@Transactional
+	public boolean existsByAccountLogin(String accountLogin) {
+		return accountsDao.existsByAccountLogin(accountLogin);
+	}
+	
     //////Linking Account with a trader ///////
 	
 	@Override
@@ -67,5 +73,13 @@ public class AccountsServiceImpl  implements AccountsService{
 	public void deleteTraderAccountById(Integer trdAccountID) {
 		accountsDao.deleteTraderAccountById(trdAccountID);
 	}
+
+	@Override
+	@Transactional
+	public boolean existsByAccountId(int accountId) {
+		return accountsDao.existsByAccountId(accountId);
+	}
+
+	
 
 }

@@ -1,37 +1,24 @@
 package com.bannershallmark.entity;
 
-import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "useraccountweeklysummary")
-public class UserAccountWeeklySummary {
+@Table(name = "monthlyanalysisbyuserandaccount")
+public class MonthlyAnalaysisByUserAndAccount {
 	@Id
 	private int id;
 	private int tradingYear;
-	private int tradingWeek;
-	private String pair;
+	private int tradingMonth;
+	private String monthName;
+	private int userId;
 	private String firstname;
 	private String lastname;
 	private String accountLogin;
 	@Column(name = "total_pnl")
 	private double totalPnl;
-	private int userId;
-	private int accountID;
-	@Column(name = "cumulative_pnl")
-	private double cumulativePnl;
-
-	public double getCumulativePnl() {
-		return cumulativePnl;
-	}
-
-	public void setCumulativePnl(double cumulativePnl) {
-		this.cumulativePnl = cumulativePnl;
-	}
 
 	public int getId() {
 		return id;
@@ -49,20 +36,36 @@ public class UserAccountWeeklySummary {
 		this.tradingYear = tradingYear;
 	}
 
-	public int getTradingWeek() {
-		return tradingWeek;
+	public int getTradingMonth() {
+		return tradingMonth;
 	}
 
-	public void setTradingWeek(int tradingWeek) {
-		this.tradingWeek = tradingWeek;
+	public void setTradingMonth(int tradingMonth) {
+		this.tradingMonth = tradingMonth;
 	}
 
-	public String getPair() {
-		return pair;
+	public String getMonthName() {
+		return monthName;
 	}
 
-	public void setPair(String pair) {
-		this.pair = pair;
+	public void setMonthName(String monthName) {
+		this.monthName = monthName;
+	}
+
+	public double getTotalPnl() {
+		return totalPnl;
+	}
+
+	public void setTotalPnl(double totalPnl) {
+		this.totalPnl = totalPnl;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstname() {
@@ -87,30 +90,6 @@ public class UserAccountWeeklySummary {
 
 	public void setAccountLogin(String accountLogin) {
 		this.accountLogin = accountLogin;
-	}
-
-	public double getTotalPnl() {
-		return totalPnl;
-	}
-
-	public void setTotalPnl(double totalPnl) {
-		this.totalPnl = totalPnl;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public int getAccountID() {
-		return accountID;
-	}
-
-	public void setAccountID(int accountID) {
-		this.accountID = accountID;
 	}
 
 }

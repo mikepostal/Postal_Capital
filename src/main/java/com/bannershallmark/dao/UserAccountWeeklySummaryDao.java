@@ -3,6 +3,9 @@ package com.bannershallmark.dao;
 import java.util.List;
 
 import com.bannershallmark.entity.UserAccountWeeklySummary;
+import com.bannershallmark.entity.WeeklyAnalaysisByPair;
+import com.bannershallmark.entity.WeeklyAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.WeeklyAnalaysisByUserAndPair;
 
 public interface UserAccountWeeklySummaryDao {
 
@@ -10,12 +13,12 @@ public interface UserAccountWeeklySummaryDao {
 
 	List<UserAccountWeeklySummary> FindByUserPairAndAccountLogin(int userId, String pair, String accountLogin);
 
-	List<UserAccountWeeklySummary> FindByUserAndPair(int userId, String pair);
+	List<WeeklyAnalaysisByUserAndPair> FindByUserAndPair(int userId, String pair);
 
-	List<UserAccountWeeklySummary> FindByUserAndAccountLogin(int userId, String accountLogin);
+	List<WeeklyAnalaysisByUserAndAccount> FindByUserAndAccountLogin(int userId, String accountLogin);
 
 	List<UserAccountWeeklySummary> FindByUser(int userId);
 
-	List<UserAccountWeeklySummary> FindByPair(String pair);
+	List<WeeklyAnalaysisByPair> FindByPair(String pair);
 
 }

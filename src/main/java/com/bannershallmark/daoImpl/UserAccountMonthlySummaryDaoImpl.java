@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bannershallmark.dao.UserAccountMonthlySummaryDao;
-import com.bannershallmark.entity.UserAccountDailySummary;
+import com.bannershallmark.entity.MonthlyAnalaysisByPair;
+import com.bannershallmark.entity.MonthlyAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.MonthlyAnalaysisByUserAndPair;
 import com.bannershallmark.entity.UserAccountMonthlySummary;
 
 @Repository
@@ -29,33 +31,32 @@ public class UserAccountMonthlySummaryDaoImpl implements UserAccountMonthlySumma
 	public List<UserAccountMonthlySummary> FindByUserPairAndAccountLogin(int userId, String pair, String accountLogin) {
 		Session session = sessionFactory.getCurrentSession();
 		Query<UserAccountMonthlySummary> query = session.createQuery(
-				"from UserAccountMonthlySummary where userId = :userId AND pair = :pair AND accountLogin = :accountLogin",
+				"from UserAccountMonthlySummary where userId = :userId AND pair LIKE :pair AND accountLogin = :accountLogin",
 				UserAccountMonthlySummary.class);
 		query.setParameter("userId", userId);
-		query.setParameter("pair", pair);
+		query.setParameter("pair", pair + "%");
 		query.setParameter("accountLogin", accountLogin);
 		return query.getResultList();
 	}
 
 	@Override
-	public List<UserAccountMonthlySummary> FindByUserAndPair(int userId, String pair) {
+	public List<MonthlyAnalaysisByUserAndPair> FindByUserAndPair(int userId, String pair) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<UserAccountMonthlySummary> query = session.createQuery(
-				"from UserAccountMonthlySummary where userId = :userId AND pair = :pair",
-				UserAccountMonthlySummary.class);
+		Query<MonthlyAnalaysisByUserAndPair> query = session.createQuery(
+				"from MonthlyAnalaysisByUserAndPair where userId = :userId AND pair LIKE :pair",
+				MonthlyAnalaysisByUserAndPair.class);
 		query.setParameter("userId", userId);
-		query.setParameter("pair", pair);
+		query.setParameter("pair", pair + "%");
 		return query.getResultList();
 	}
 
 	@Override
-	public List<UserAccountMonthlySummary> FindByUserAndAccountLogin(int userId, String accountLogin) {
+	public List<MonthlyAnalaysisByUserAndAccount> FindByUserAndAccountLogin(int userId, String accountLogin) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<UserAccountMonthlySummary> query = session.createQuery(
-				"from UserAccountMonthlySummary where userId = :userId AND accountLogin = :accountLogin AND accountLogin = :accountLogin",
-				UserAccountMonthlySummary.class);
+		Query<MonthlyAnalaysisByUserAndAccount> query = session.createQuery(
+				"from MonthlyAnalaysisByUserAndAccount where userId = :userId AND accountLogin = :accountLogin",
+				MonthlyAnalaysisByUserAndAccount.class);
 		query.setParameter("userId", userId);
-		query.setParameter("accountLogin", accountLogin);
 		query.setParameter("accountLogin", accountLogin);
 		return query.getResultList();
 	}
@@ -70,11 +71,11 @@ public class UserAccountMonthlySummaryDaoImpl implements UserAccountMonthlySumma
 	}
 
 	@Override
-	public List<UserAccountMonthlySummary> FindByPair(String pair) {
+	public List<MonthlyAnalaysisByPair> FindByPair(String pair) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<UserAccountMonthlySummary> query = session
-				.createQuery("from UserAccountMonthlySummary where pair = :pair", UserAccountMonthlySummary.class);
-		query.setParameter("pair", pair);
+		Query<MonthlyAnalaysisByPair> query = session
+				.createQuery("from MonthlyAnalaysisByPair where pair LIKE :pair", MonthlyAnalaysisByPair.class);
+		query.setParameter("pair", pair+"%");
 		return query.getResultList();
 	}
 }

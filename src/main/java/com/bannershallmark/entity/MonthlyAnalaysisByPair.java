@@ -6,16 +6,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "weeklyanalaysis")
-public class WeeklyAnalaysis {
+@Table(name = "monthlyanalysisbypair")
+public class MonthlyAnalaysisByPair {
 	@Id
 	private int id;
 	private int tradingYear;
-	private int tradingWeek;
+	private int tradingMonth;
+	private String monthName;
+	private String pair;
 	@Column(name = "total_pnl")
 	private double totalPnl;
-	@Column(name = "cumulative_pnl")
-	private double cumulativePnl;
 
 	public int getId() {
 		return id;
@@ -33,12 +33,20 @@ public class WeeklyAnalaysis {
 		this.tradingYear = tradingYear;
 	}
 
-	public int getTradingWeek() {
-		return tradingWeek;
+	public int getTradingMonth() {
+		return tradingMonth;
 	}
 
-	public void setTradingWeek(int tradingWeek) {
-		this.tradingWeek = tradingWeek;
+	public void setTradingMonth(int tradingMonth) {
+		this.tradingMonth = tradingMonth;
+	}
+
+	public String getMonthName() {
+		return monthName;
+	}
+
+	public void setMonthName(String monthName) {
+		this.monthName = monthName;
 	}
 
 	public double getTotalPnl() {
@@ -49,12 +57,12 @@ public class WeeklyAnalaysis {
 		this.totalPnl = totalPnl;
 	}
 
-	public double getCumulativePnl() {
-		return cumulativePnl;
+	public String getPair() {
+		return pair;
 	}
 
-	public void setCumulativePnl(double cumulativePnl) {
-		this.cumulativePnl = cumulativePnl;
+	public void setPair(String pair) {
+		this.pair = pair;
 	}
 
 }

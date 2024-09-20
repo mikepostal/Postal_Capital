@@ -3,6 +3,7 @@ package com.bannershallmark.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bannershallmark.entity.Accounts;
@@ -90,5 +92,11 @@ public class AccountsController {
 
 		return "redirect:/accounts/allAccounts";
 	}
+	
+	@GetMapping("/checkAccountLogin")
+    public ResponseEntity<Boolean> existsByAccountLogin(@RequestParam("accountLogin") String accountLogin) {
+        boolean exists = accountsService.existsByAccountLogin(accountLogin);
+        return ResponseEntity.ok(exists);
+    }
 
 }

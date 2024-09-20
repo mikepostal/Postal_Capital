@@ -2,6 +2,9 @@ package com.bannershallmark.service;
 
 import java.util.List;
 
+import com.bannershallmark.entity.DayOfWeekAnalaysisByPair;
+import com.bannershallmark.entity.DayOfWeekAnalaysisByUserAndAccount;
+import com.bannershallmark.entity.DayOfWeekAnalaysisByUserAndPair;
 import com.bannershallmark.entity.UserAccountDayOfWeekSummary;
 
 public interface UserAccountDayOfWeekSummaryService {
@@ -10,12 +13,12 @@ public interface UserAccountDayOfWeekSummaryService {
 
 	List<UserAccountDayOfWeekSummary> FindByUserPairAndAccountLogin(int userId, String pair, String accountLogin);
 
-	List<UserAccountDayOfWeekSummary> FindByUserAndPair(int userId, String pair);
+	List<DayOfWeekAnalaysisByUserAndPair> FindByUserAndPair(int userId, String pair);
 
-	List<UserAccountDayOfWeekSummary> FindByUserAndAccountLogin(int userId, String accountLogin);
+	List<DayOfWeekAnalaysisByUserAndAccount> FindByUserAndAccountLogin(int userId, String accountLogin);
 
 	List<UserAccountDayOfWeekSummary> FindByUser(int userId);
 
-	List<UserAccountDayOfWeekSummary> FindByPair(String pair);
+	List<DayOfWeekAnalaysisByPair> FindByPair(String pair);
 
 }

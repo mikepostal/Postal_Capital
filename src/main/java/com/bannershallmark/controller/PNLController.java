@@ -45,27 +45,27 @@ public class PNLController {
 		Users users = user.getUser();
 		int role = users.getRole().getId();
 		model.addAttribute("role", role);
-		if(role == 2) {
+		if (role == 2) {
 			pnlViews = pnlViewService.findByUserId(users.getId());
 //			model.addAttribute("pnlList", pnlViews);
 //			return "pnl/allpnl.html";
 		}
-		
+
 		model.addAttribute("pnlList", pnlViews);
 		return "pnl/allpnl.html";
 	}
 
 	@GetMapping("/addpnl")
 	public String addpnl(Model model) {
-	////to Access user role////////////////
-				MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-				Users users = user.getUser();
-				int role = users.getRole().getId();
-				model.addAttribute("role", role);
-		///////////////////////		end//////////
+		//// to Access user role////////////////
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		model.addAttribute("role", role);
+		/////////////////////// end//////////
 		List<TradersAccounts> accounts = accountsService.findTraderAccountsByTraderID(users.getId());
 		List<TradePairs> tradePairsList = tradePairsService.findAll();
-	
+
 		model.addAttribute("tradePairsList", tradePairsList);
 		model.addAttribute("accounts", accounts);
 		return "pnl/addpnl.html";
@@ -74,14 +74,15 @@ public class PNLController {
 	@GetMapping("/editpnl")
 	public String editpnl(@RequestParam("id") int id, Model model) {
 		PNL pnl = pnlService.FindById(id);
-		List<Accounts> accounts = accountsService.findAllAccounts();
+
+		//// to Access user role////////////////
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		model.addAttribute("role", role);
+		/////////////////////// end//////////
+		List<TradersAccounts> accounts = accountsService.findTraderAccountsByTraderID(users.getId());
 		List<TradePairs> tradePairsList = tradePairsService.findAll();
-	////to Access user role////////////////
-			MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Users users = user.getUser();
-			int role = users.getRole().getId();
-			model.addAttribute("role", role);
-	///////////////////////		end//////////
 		model.addAttribute("tradePairsList", tradePairsList);
 		model.addAttribute("accounts", accounts);
 		model.addAttribute("pnl", pnl);
@@ -95,7 +96,7 @@ public class PNLController {
 	}
 
 	@PostMapping("/savePnl")
-	public String savePnl(PNL pnl,@RequestParam("trDate") String trDate) {
+	public String savePnl(PNL pnl, @RequestParam("trDate") String trDate) {
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 		LocalDateTime tradingDate = LocalDateTime.parse(trDate, formatter);
 //		Accounts accounts = accountsService.findAccountsById(acc);

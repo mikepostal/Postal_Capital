@@ -1,25 +1,23 @@
 package com.bannershallmark.entity;
 
-import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "usersdailyanalysis")
-public class UsersDailyAnalaysis {
+@Table(name = "dayofweekanalysisbyuserandaccount")
+public class DayOfWeekAnalaysisByUserAndAccount {
 	@Id
 	private int id;
-	private Date tradingDate;
+	private String dayOfWeek;
 	@Column(name = "total_pnl")
 	private double totalPnl;
-	private int userId;
 	private String firstname;
 	private String lastname;
-	@Column(name = "cumulative_pnl")
-	private double cumulativePnl;
+	private String accountLogin;
+	private String platform;
+	private int userId;
 
 	public int getId() {
 		return id;
@@ -29,12 +27,12 @@ public class UsersDailyAnalaysis {
 		this.id = id;
 	}
 
-	public Date getTradingDate() {
-		return tradingDate;
+	public String getDayOfWeek() {
+		return dayOfWeek;
 	}
 
-	public void setTradingDate(Date tradingDate) {
-		this.tradingDate = tradingDate;
+	public void setDayOfWeek(String dayOfWeek) {
+		this.dayOfWeek = dayOfWeek;
 	}
 
 	public double getTotalPnl() {
@@ -43,14 +41,6 @@ public class UsersDailyAnalaysis {
 
 	public void setTotalPnl(double totalPnl) {
 		this.totalPnl = totalPnl;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
 	}
 
 	public String getFirstname() {
@@ -69,12 +59,28 @@ public class UsersDailyAnalaysis {
 		this.lastname = lastname;
 	}
 
-	public double getCumulativePnl() {
-		return cumulativePnl;
+	public String getAccountLogin() {
+		return accountLogin;
 	}
 
-	public void setCumulativePnl(double cumulativePnl) {
-		this.cumulativePnl = cumulativePnl;
+	public void setAccountLogin(String accountLogin) {
+		this.accountLogin = accountLogin;
+	}
+
+	public String getPlatform() {
+		return platform;
+	}
+
+	public void setPlatform(String platform) {
+		this.platform = platform;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 }

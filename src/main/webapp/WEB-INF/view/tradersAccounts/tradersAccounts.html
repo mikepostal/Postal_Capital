@@ -44,6 +44,8 @@
 													th:value="${a.accountID}"
 													th:selected="${tradersAccounts != null && tradersAccounts.account.accountID == a.accountID}"></option>
 											</select>
+											<small id="accountFeedback"
+												class="form-text text-muted"></small>
 										</div>
 
 										<div class="form-group ">
@@ -92,7 +94,7 @@
 			<footer>
 				<div class="footer clearfix mb-0 text-muted c-ftr">
 					<div class="float-start">
-						<p>2021 &copy; Banners Hallmark</p>
+						<p>2024 &copy; Banners Hallmark</p>
 					</div>
 				</div>
 			</footer>
@@ -101,7 +103,38 @@
 
 	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
 
+<script>
+    let debounceTimeout;
 
+    document.getElementById('acc').addEventListener('input', function () {
+        clearTimeout(debounceTimeout);
+        const accountId = this.value;
+        const feedback = document.getElementById('accountFeedback');
+
+        if (accountId) {
+            debounceTimeout = setTimeout(() => {
+                fetch('checkAssignedAccount?accountId=' + accountId)
+                    .then(response => response.json())
+                    .then(isTaken => {
+                        if (isTaken) {
+                            feedback.textContent = 'This account is already assigned.';
+                            document.getElementById('accountFeedback').style.color = 'red';
+                            document.getElementById('acc').value="";
+                        } else {
+                        	document.getElementById('accountFeedback').textContent = 'This account is available.';
+                            feedback.style.color = 'green';
+                        }
+                    })
+                    .catch(error => {
+                        feedback.textContent = 'Error checking account.';
+                        feedback.style.color = 'red';
+                    });
+            }, 300); 
+        } else {
+            feedback.textContent = '';
+        }
+    });
+</script>
 </body>
 
 </html>
