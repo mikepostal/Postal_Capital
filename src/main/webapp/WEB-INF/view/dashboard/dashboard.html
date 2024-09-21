@@ -46,9 +46,7 @@
 														<i th:text="${acc.userpnlPercent}+'%'"
 															th:style="'color:' + (${acc.userpnlPercent >= 0} ? 'green' : 'red')"></i>
 													</h3>
-													<h3 style="color: red;" th:if="${acc.usertotalPnl < 0}">
-														<i th:text="${acc.userpnlPercent}+'%'"></i>
-													</h3>
+													
 													
 												</div>
 											</div>
