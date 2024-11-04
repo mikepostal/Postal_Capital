@@ -24,6 +24,7 @@ public class Accounts {
 	@Column(unique = true)
 	private String accountLogin;
 	private boolean active;
+	private String type;
 
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
@@ -91,6 +92,14 @@ public class Accounts {
 
 	public void setAccounts(List<TradersAccounts> accounts) {
 		this.accounts = accounts;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

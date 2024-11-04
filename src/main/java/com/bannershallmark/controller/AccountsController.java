@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bannershallmark.entity.Accounts;
+import com.bannershallmark.entity.LinkAccounts;
 import com.bannershallmark.entity.Users;
 import com.bannershallmark.service.AccountsService;
 import com.bannershallmark.service.MyUserDetails;
@@ -92,11 +93,71 @@ public class AccountsController {
 
 		return "redirect:/accounts/allAccounts";
 	}
-	
+
 	@GetMapping("/checkAccountLogin")
-    public ResponseEntity<Boolean> existsByAccountLogin(@RequestParam("accountLogin") String accountLogin) {
-        boolean exists = accountsService.existsByAccountLogin(accountLogin);
-        return ResponseEntity.ok(exists);
-    }
+	public ResponseEntity<Boolean> existsByAccountLogin(@RequestParam("accountLogin") String accountLogin) {
+		boolean exists = accountsService.existsByAccountLogin(accountLogin);
+		return ResponseEntity.ok(exists);
+	}
+
+	//////////////////////////////// Map Demo Account with Real
+	//////////////////////////////// Account////////////////////////////////
+
+	@GetMapping("/linkAccount")
+	public String linkAccount(Model model, RedirectAttributes redirectAttributes) throws Exception {
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		List<Accounts> realAccounts = accountsService.findAccountsByAccountType("Real");
+		List<Accounts> demoAccounts = accountsService.findAccountsByAccountType("Demo");
+		model.addAttribute("role", role);
+		model.addAttribute("realAccounts", realAccounts);
+		model.addAttribute("demoAccounts", demoAccounts);
+		return "accounts/linkAccount.html";
+	}
+
+	@GetMapping("/getAllLinkedAccounts")
+	public String getAllLinkedAccounts(Model model, RedirectAttributes redirectAttributes) throws Exception {
+		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user.getUser();
+		int role = users.getRole().getId();
+		List<LinkAccounts> linkAccountsList = accountsService.findAllLinkedAccounts();
+		model.addAttribute("role", role);
+		model.addAttribute("linkAccountsList", linkAccountsList);
+		return "accounts/allLinkedAccounts.html";
+	}
+
+	@PostMapping("/saveLinkedAccount")
+	public String saveLinkedAccount(@ModelAttribute LinkAccounts linkAccounts, @RequestParam("realAccId") int realAccId,
+			@RequestParam("demoAccId") int demoAccId, RedirectAttributes redirectAttributes) throws Exception {
+		Accounts realAcc = accountsService.findAccountsById(realAccId);
+		Accounts demoAcc = accountsService.findAccountsById(demoAccId);
+		linkAccounts.setDemoAcc(demoAcc);
+		linkAccounts.setRealAcc(realAcc);
+		accountsService.saveLinkedAccount(linkAccounts);
+		redirectAttributes.addFlashAttribute(Constants.AttributeNames.SUCCESS_MESSAGE, "New account added");
+
+		return "redirect:/accounts/getAllLinkedAccounts";
+	}
+
+	@GetMapping("/deletelinkedAccount")
+	public String deletelinkedAccount(@RequestParam("id") int id, Model model, RedirectAttributes redirectAttributes)
+			throws Exception {
+		accountsService.deleteLinkedAccountById(id);
+		redirectAttributes.addFlashAttribute(Constants.AttributeNames.SUCCESS_MESSAGE, "Account deleted");
+		return "redirect:/accounts/getAllLinkedAccounts";
+	}
+
+	@GetMapping("/checkLinkedDemoAccount")
+	public ResponseEntity<Boolean> existsInDemoAcc(@RequestParam("accountId") int accountId) {
+		boolean exists = accountsService.existsInDemoAcc(accountId);
+		return ResponseEntity.ok(exists);
+	}
+
+	@GetMapping("/checkLinkedRealAccount")
+	public ResponseEntity<Boolean> existsInRealAcc(@RequestParam("accountId") int accountId) {
+		boolean exists = accountsService.existsInRealAcc(accountId);
+		return ResponseEntity.ok(exists);
+	}
 
 }

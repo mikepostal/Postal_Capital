@@ -499,7 +499,7 @@ public class DashboardController {
 
 		List<TradePairs> tradePairsList = tradePairsService.findAll();
 		List<TradersAccounts> accountsList = tradersAccountsService.findByUserId(userId);
-		List<UserAccountShortSummary> userAccountShortSummaries = userAccountShortSummaryService.FindAll();
+		List<UserAccountShortSummary> userAccountShortSummaries = userAccountShortSummaryService.findByUserId(userId);
 
 		if (pair != "" && pair != null && accountLogin != "" && accountLogin != null) {
 			List<UserAccountDailySummary> userAccountDailySummaries = userAccountDailySummaryService

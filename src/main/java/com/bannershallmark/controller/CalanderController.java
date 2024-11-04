@@ -37,7 +37,7 @@ public class CalanderController {
 
 	@GetMapping("/allCalanders")
 	public String allCalanders(Model model, RedirectAttributes redirectAttributes) throws Exception {
-		calanderService.deleteOldCalanders();
+//		calanderService.deleteOldCalanders();
 		List<Calander> calanders = calanderService.findAllCalanders();
 		MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Users users = user.getUser();

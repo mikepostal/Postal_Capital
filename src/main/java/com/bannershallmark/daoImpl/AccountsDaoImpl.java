@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bannershallmark.dao.AccountsDao;
 import com.bannershallmark.entity.Accounts;
+import com.bannershallmark.entity.LinkAccounts;
 import com.bannershallmark.entity.TradersAccounts;
 
 @Repository
@@ -54,6 +55,14 @@ public class AccountsDaoImpl implements AccountsDao {
 		return count != null && count > 0;
 	}
 
+	@Override
+	public List<Accounts> findAccountsByAccountType(String type) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Accounts> query = session.createQuery("from Accounts where type = :type", Accounts.class);
+		query.setParameter("type", type);
+		return query.getResultList();
+	}
+
 	////// Linking Account with a trader ///////
 
 	@Override
@@ -88,11 +97,63 @@ public class AccountsDaoImpl implements AccountsDao {
 	@Override
 	public boolean existsByAccountId(int accountId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<Long> query = session.createQuery("select count(a) from TradersAccounts a where a.account.accountID = :accountId",
-				Long.class);
+		Query<Long> query = session.createQuery(
+				"select count(a) from TradersAccounts a where a.account.accountID = :accountId", Long.class);
 		query.setParameter("accountId", accountId);
 		Long count = query.getSingleResult();
 		return count != null && count > 0;
+	}
+
+////////////////////////////////Map Demo Account with Real Account////////////////////////////////
+
+	@Override
+	public List<LinkAccounts> findAllLinkedAccounts() {
+		Session session = sessionFactory.getCurrentSession();
+		Query<LinkAccounts> query = session.createQuery("from LinkAccounts", LinkAccounts.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public void saveLinkedAccount(LinkAccounts linkAccounts) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(linkAccounts);
+
+	}
+
+	@Override
+	public void deleteLinkedAccountById(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		LinkAccounts linkAccounts = session.get(LinkAccounts.class, id);
+		session.delete(linkAccounts);
+
+	}
+
+	@Override
+	public boolean existsInDemoAcc(int accountId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Long> query = session
+				.createQuery("select count(l) from LinkAccounts l where l.demoAcc.accountID = :accountId", Long.class);
+		query.setParameter("accountId", accountId);
+		Long count = query.getSingleResult();
+		return count != null && count > 0;
+	}
+
+	@Override
+	public boolean existsInRealAcc(int accountId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Long> query = session
+				.createQuery("select count(l) from LinkAccounts l where l.realAcc.accountID = :accountId", Long.class);
+		query.setParameter("accountId", accountId);
+		Long count = query.getSingleResult();
+		return count != null && count > 0;
+	}
+
+	@Override
+	public Accounts findAccountByAccountLogin(String accountLogin) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Accounts> query = session.createQuery("from Accounts where accountLogin = :accountLogin", Accounts.class);
+		query.setParameter("accountLogin", accountLogin);
+		return query.getSingleResult();
 	}
 
 }

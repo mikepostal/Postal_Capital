@@ -99,10 +99,13 @@ public class PNLController {
 	public String savePnl(PNL pnl, @RequestParam("trDate") String trDate) {
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 		LocalDateTime tradingDate = LocalDateTime.parse(trDate, formatter);
-//		Accounts accounts = accountsService.findAccountsById(acc);
+		Accounts accounts = accountsService.findAccountByAccountLogin(pnl.getAccountLogin()) ;
 //		TradePairs tradePairs = tradePairsService.FindById(pair);
 //		pnl.setAccounts(accounts);
 //		pnl.setTradePair(tradePairs);
+		System.out.println("accounts.getInitalSize() === "+accounts.getInitalSize());
+		double pnlPercent = (pnl.getPnl()*100)/accounts.getInitalSize();
+		pnl.setPnlPercent(pnlPercent);
 		pnl.setTradingDate(tradingDate);
 		pnlService.save(pnl);
 		return "redirect:/pnl/allpnl";

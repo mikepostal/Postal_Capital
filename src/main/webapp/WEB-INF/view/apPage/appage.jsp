@@ -142,7 +142,7 @@
                         </div>
                         <div class="float-end">
                             <p>Developed by <span class="text-danger"><i class="bi bi-heart"></i></span>  <a
-                                    href="#">Suntek IT Solutions </a></p>
+                                    href="#">Yosal Trading </a></p>
                         </div>
                     </div>
                 </footer>

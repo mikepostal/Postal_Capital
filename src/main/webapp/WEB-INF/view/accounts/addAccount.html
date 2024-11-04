@@ -52,7 +52,18 @@
 												th:value="${account != null? account.initalSize : ''}"
 												required>
 										</div>
-
+										<div class="form-group ">
+											<label for="type">Account Type</label> <select
+												class="form-control" id="type" name="type">
+												<option value="">- Select Account Type -</option>
+												<option value="Real"
+													th:selected="${account != null && account.type != null && account.type == 'Real'}">
+													Real</option>
+												<option value="SIM"
+													th:selected="${account != null && account.type != null  && account.type == 'SIM'}">
+													SIM</option>
+											</select>
+										</div>
 
 									</div>
 									<div class="col-md-6">
@@ -76,7 +87,6 @@
 										<div class="form-group ">
 											<label for="active">Is Active</label> <select
 												class="form-control" id="acc" name="active">
-												<option value="">- Select Account -</option>
 												<option value="true"
 													th:selected="${account != null && account.active == true}">
 													Yes</option>

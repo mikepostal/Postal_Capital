@@ -100,7 +100,7 @@
 								class="form-check-label text-gray-600" for="flexCheckDefault">
 								Keep me logged in </label>
 						</div>
-						<button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Log
+						<button class="btn btn-primary btn-block btn-lg mt-5 " style="box-shadow: 2px 4px 8px rgba(0,0,0,0.5);">Log
 							in</button>
 					</form>
 					<div class="text-center mt-5 text-lg fs-4" style="font-family: 'Courgette', cursive;">

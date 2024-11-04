@@ -58,30 +58,31 @@
 												<option value="">- Select Trade Position -</option>
 												<option th:text="Long" th:value="1"
 													th:selected="${pnl != null && pnl.position !=null && pnl.position == 1}"></option>
-													<option th:text="Short" th:value="0"
+												<option th:text="Short" th:value="0"
 													th:selected="${pnl != null && pnl.position !=null && pnl.position == 0}"></option>
 											</select>
 										</div>
+
+
+									</div>
+									<div class="col-md-6">
 										<div class="form-group ">
 											<label for="tradingDate">Trading Date</label> <input
 												type="datetime-local" class="form-control" id="tradingDate"
 												name="trDate"
 												th:value="${pnl != null? pnl.tradingDate : ''}" required>
 										</div>
-
-									</div>
-									<div class="col-md-6">
 										<div class="form-group ">
 											<label for="pnl">PNL</label> <input type="number" step="0.01"
 												class="form-control" id="pnl" name="pnl"
 												th:value="${pnl != null? pnl.pnl : ''}" required>
 										</div>
-										<div class="form-group ">
+										<!-- <div class="form-group ">
 											<label for="pnlPercent">PNL Percent</label> <input
 												type="number" step="0.01" class="form-control"
 												id="pnlPercent" name="pnlPercent"
 												th:value="${pnl != null? pnl.pnlPercent : ''}" required>
-										</div>
+										</div> -->
 										<div class="form-group ">
 											<label for="comment">Comment</label>
 											<textarea cols="3" class="form-control" id="comment"

@@ -21,8 +21,8 @@
 				<section class="section blnk-db ">
 					<div class="card shadow">
 						<div class="card-body">
-							<a href="addAccount" class="btn btn-primary">Add Account</a>
-							<a href="getAllLinkedAccounts" class="btn btn-primary">Map Accounts</a>
+							<a href="linkAccount" class="btn btn-primary">Link Account</a> <a
+								href="allAccounts" class="btn btn-primary">Add Accounts</a>
 						</div>
 					</div>
 					<div class="card shadow mt-3">
@@ -32,30 +32,17 @@
 								style="width: 100%">
 								<thead>
 									<tr>
-										<th>Platform</th>
-										<th>Leverage</th>
-										<th>Initial Size</th>
-										<th>Type</th>
-										<th>Created On</th>
-										<th>Account Login</th>
-										<th>Active</th>
+										<th>Demo Account</th>
+										<th>Real Account</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="a :${accounts}">
-										<td th:text="${a.platform}"></td>
-										<td th:text="${a.leverage}"></td>
-										<td th:text="${a.initalSize}"></td>
-										<td th:text="${a.type}"></td>
-										<td th:text="${a.createdON}"></td>
-										<td th:text="${a.accountLogin}"></td>
-										<td th:text="${a.active}"></td>
-										<td><a style="color: blue"
-											th:href="@{/accounts/getAccount/{accountId}(accountId=${a.accountID})}"><i
-												class="bi bi-pencil-fill" style="margin: 4"></i></a> | <a
-											style="color: red"
-											th:href="@{/accounts/deleteAccount/{accountId}(accountId=${a.accountID})}"
+									<tr th:each="l :${linkAccountsList}">
+										<td th:text="${l.demoAcc.platform+' - '+l.demoAcc.accountLogin}"></td>
+										<td th:text="${l.realAcc.platform+' - '+l.realAcc.accountLogin}"></td>
+										<td><a style="color: red"
+											th:href="@{/accounts/deletelinkedAccount(id=${l.id})}"
 											onclick="return confirm('Are you sure to delete?')"><i
 												class="bi bi-trash-fill" style="margin: 4"></i></a></td>
 									</tr>
