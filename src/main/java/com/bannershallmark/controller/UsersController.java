@@ -253,7 +253,7 @@ public class UsersController {
 	}
 
 	@GetMapping("/deleteUsers/{id}")
-	public String deletePayby(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) throws Exception {
+	public String deletePayby(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes,Model model) throws Exception {
 
 		boolean accessStatus = true;
 //		accessPermissionUtil.isAccessPermission("users/deleteUsers");
@@ -261,6 +261,10 @@ public class UsersController {
 			try {
 				usersDetailsService.deleteById(id);
 			} catch (Exception e) {
+				MyUserDetails user = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				Users users1 = user.getUser();
+				int role = users1.getRole().getId();
+				model.addAttribute("role", role);
 				testNGlogger.info("users/deleteUsers" + ",ERROR MESSAGES : " + e.getMessage());
 				return "errorpage/error";
 			}

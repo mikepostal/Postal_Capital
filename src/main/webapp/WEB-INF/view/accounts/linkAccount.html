@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+
+<head>
+
+</head>
+<body>
+	<div id="main" class='layout-navbar'>
+		<div id="main-content">
+
+			<div class="page-heading">
+				<div class="page-title mb-5">
+					<div class="row">
+						<div class="col-12 col-md-6 order-md-1 order-last">
+							<h3>Accounts</h3>
+							<!-- <p class="text-subtitle text-muted">Navbar will appear in top of the page.</p> -->
+						</div>
+					</div>
+				</div>
+				<section class="section blnk-db ">
+
+					<form th:action="@{/accounts/saveLinkedAccount}" method="post"
+						enctype="multipart/form-data">
+						<div class="card shadow">
+							<div class="card-body">
+								<h2 class="text-center">Map SIM Account with Real Account</h2>
+							</div>
+						</div>
+						<div class="card shadow my-3">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-6 inset-md-3 inset-md-3">
+										<div class="form-group">
+											<label for="dacc">Demo Account</label> <select
+												class="form-control" id="dacc" name="demoAccId">
+												<option value="">- Select Demo Account -</option>
+												<option th:each="d : ${demoAccounts}"
+													th:text="${d.platform+' - '+d.accountLogin}"
+													th:value="${d.accountID}"></option>
+											</select> <small id="accountFeedback1" class="form-text"></small>
+										</div>
+
+										<div class="form-group">
+											<label for="racc">Real Account</label> <select
+												class="form-control" id="racc" name="realAccId">
+												<option value="">- Select Real Account -</option>
+												<option th:each="r : ${realAccounts}"
+													th:text="${r.platform+' - '+r.accountLogin}"
+													th:value="${r.accountID}"></option>
+											</select> <small id="accountFeedback2" class="form-text"></small>
+										</div>
+
+									</div>
+									<div class="form-group text-center mt-3">
+										<button type="submit" class="btn btn-primary col-md-3">
+											Save</button>
+										<a th:href="@{/accounts/getAllLinkedAccounts}"
+											class="btn btn-danger col-md-3"> Cancel </a>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</form>
+				</section>
+
+			</div>
+
+			<footer>
+				<div class="footer clearfix mb-0 text-muted c-ftr">
+					<div class="float-start">
+						<p>2024 &copy; Yosal FX</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
+
+	<script>
+    let debounceTimeout;
+
+    document.getElementById('dacc').addEventListener('input', function () {
+        clearTimeout(debounceTimeout);
+        const accountId = this.value;
+        const feedback = document.getElementById('accountFeedback1');
+
+        if (accountId) {
+            debounceTimeout = setTimeout(() => {
+                fetch('checkLinkedDemoAccount?accountId=' + accountId)
+                    .then(response => response.json())
+                    .then(isTaken => {
+                        if (isTaken) {
+                            feedback.textContent = 'This account is already Linked.';
+                            document.getElementById('accountFeedback1').style.color = 'red';
+                            document.getElementById('dacc').value="";
+                        } else {
+                        	document.getElementById('accountFeedback1').textContent = 'This account is available.';
+                            feedback.style.color = 'green';
+                        }
+                    })
+                    .catch(error => {
+                        feedback.textContent = 'Error checking account.';
+                        feedback.style.color = 'red';
+                    });
+            }, 300); 
+        } else {
+            feedback.textContent = '';
+        }
+    });
+    
+
+    document.getElementById('racc').addEventListener('input', function () {
+        clearTimeout(debounceTimeout);
+        const accId = this.value;
+        const feedback2 = document.getElementById('accountFeedback2');
+
+        if (accId) {
+            debounceTimeout = setTimeout(() => {
+                fetch('checkLinkedRealAccount?accountId=' + accId)
+                    .then(response => response.json())
+                    .then(isTaken => {
+                        if (isTaken) {
+                            feedback2.textContent = 'This account is already Linked.';
+                            document.getElementById('accountFeedback2').style.color = 'red';
+                            document.getElementById('racc').value="";
+                        } else {
+                        	document.getElementById('accountFeedback2').textContent = 'This account is available.';
+                            feedback2.style.color = 'green';
+                        }
+                    })
+                    .catch(error => {
+                        feedback2.textContent = 'Error checking account.';
+                        feedback2.style.color = 'red';
+                    });
+            }, 300); 
+        } else {
+            feedback2.textContent = '';
+        }
+    });
+</script>
+</body>
+
+</html>

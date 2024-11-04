@@ -3,6 +3,7 @@ package com.bannershallmark.dao;
 import java.util.List;
 
 import com.bannershallmark.entity.Accounts;
+import com.bannershallmark.entity.LinkAccounts;
 import com.bannershallmark.entity.TradersAccounts;
 
 public interface AccountsDao {
@@ -16,6 +17,7 @@ public interface AccountsDao {
 	void deleteAccountById(Integer accountId);
 
 	boolean existsByAccountLogin(String accountLogin);
+	List<Accounts> findAccountsByAccountType(String type);
 
 	////// Linking Account with a trader ///////
 
@@ -28,4 +30,20 @@ public interface AccountsDao {
 	void deleteTraderAccountById(Integer trdAccountID);
 
 	boolean existsByAccountId(int accountId);
+	
+////////////////////////////////Map Demo Account with Real Account////////////////////////////////
+
+	List<LinkAccounts> findAllLinkedAccounts();
+
+	void saveLinkedAccount(LinkAccounts linkAccounts);
+
+	void deleteLinkedAccountById(int id);
+
+	boolean existsInDemoAcc(int accountId);
+
+	boolean existsInRealAcc(int accountId);
+
+	Accounts findAccountByAccountLogin(String accountLogin);
+
+	
 }
