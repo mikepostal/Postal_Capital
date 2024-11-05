@@ -150,6 +150,7 @@ public class DashboardController {
 		List<TradePairs> tradePairsList = tradePairsService.findAll();
 
 		List<UserAccountShortSummary> userAccountShortSummaries = userAccountShortSummaryService.FindAll();
+		userAccountShortSummaries.sort(Comparator.comparing(UserAccountShortSummary::getUserrealPnl).reversed());
 
 		if (user != "" && user != null && pair != "" && pair != null && accountLogin != "" && accountLogin != null) {
 			int userId = Integer.parseInt(user);
