@@ -26,18 +26,26 @@
 		</div>
 		<div class="sidebar-menu">
 			<ul class="menu">
+				
 				<c:if test="${role == 1}">
 					<li
-						class="sidebar-item <c:if test="${requestScope['javax.servlet.forward.request_uri'].indexOf('/dashboard/') >= 0}"> active </c:if>">
+						class="sidebar-item <c:if test="${requestScope['javax.servlet.forward.request_uri'].indexOf('/dashboard/dashboard') >= 0}"> active </c:if>">
 						<a href="${pageContext.request.contextPath}/dashboard/dashboard"
 						class="sidebar-link"> <i class="bi bi-speedometer"></i><span>Dashboard</span></a>
 					</li>
 				</c:if>
 				<c:if test="${role == 2}">
 					<li
-						class="sidebar-item <c:if test="${requestScope['javax.servlet.forward.request_uri'].indexOf('/dashboard/') >= 0}"> active </c:if>">
+						class="sidebar-item <c:if test="${requestScope['javax.servlet.forward.request_uri'].indexOf('/dashboard/tradersDashboard') >= 0}"> active </c:if>">
 						<a href="${pageContext.request.contextPath}/dashboard/tradersDashboard"
 						class="sidebar-link"> <i class="bi bi-speedometer"></i><span>Dashboard</span></a>
+					</li>
+				</c:if>
+				<c:if test="${role == 1}">
+					<li
+						class="sidebar-item <c:if test="${requestScope['javax.servlet.forward.request_uri'].indexOf('/dashboard/usersAccountSummary') >= 0}"> active </c:if>">
+						<a href="${pageContext.request.contextPath}/dashboard/usersAccountSummary"
+						class="sidebar-link"> <i class="bi bi-speedometer"></i><span>Account Summary</span></a>
 					</li>
 				</c:if>
 				<c:if test="${role == 2}">
