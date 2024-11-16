@@ -44,6 +44,7 @@ import com.bannershallmark.entity.UserAccountYearlySummary;
 import com.bannershallmark.entity.Users;
 import com.bannershallmark.entity.UsersDailyAnalaysis;
 import com.bannershallmark.entity.UsersDayOfWeekAnalaysis;
+import com.bannershallmark.entity.UsersEquityChart;
 import com.bannershallmark.entity.UsersMonthlyAnalaysis;
 import com.bannershallmark.entity.UsersWeeklyAnalaysis;
 import com.bannershallmark.entity.UsersYearlyAnalaysis;
@@ -131,7 +132,7 @@ public class DashboardController {
 	@Autowired
 	private TradersAccountsService tradersAccountsService;
 
-	private static Logger testNGlogger = Logger.getLogger(DashboardController.class);
+//	private static Logger testNGlogger = Logger.getLogger(DashboardController.class);
 
 	public List<TradersAccounts> accounts = null;
 
@@ -718,5 +719,33 @@ public class DashboardController {
 		model.addAttribute("accounts", accountsList);
 
 		return "/dashboard/traderDashboard.html";
+	}
+
+	@GetMapping("/usersAccountSummary")
+	public String usersAccountSummary(@RequestParam(value = "user", required = false) String user,
+			@RequestParam(value = "accountLogin", required = false) String accountLogin, Model model) {
+		MyUserDetails user1 = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users = user1.getUser();
+		int role = users.getRole().getId();
+		model.addAttribute("role", role);
+
+		List<TradersAccounts> tradersAccountsList = tradersAccountsService.FindAll();
+		List<Users> usersList1 = userDetailsService.findAll();
+		List<UserAccountPnlSummary> userAccountPnlSummaries = null;
+		List<UsersEquityChart> usersEquityChartList = null;
+		if(accountLogin != "" && accountLogin != null) {
+			int userId = Integer.parseInt(user);
+			userAccountPnlSummaries = userAccountPnlSummaryService.FindByUserIdAndAccountLogin(userId,accountLogin);
+			usersEquityChartList = userAccountPnlSummaryService.FindEquityChartByUserIdAndAccountLogin(userId,accountLogin);
+			tradersAccountsList = tradersAccountsService.findByUserId(userId);
+			model.addAttribute("userId", userId);
+			model.addAttribute("accountLogin", accountLogin);
+		}
+		
+		model.addAttribute("tradersAccountsList", tradersAccountsList);
+		model.addAttribute("usersList", usersList1);
+		model.addAttribute("userAccountPnlSummaries", userAccountPnlSummaries);
+		model.addAttribute("usersEquityChartList", usersEquityChartList);
+		return "/usersAccountSummary/usersAccountSummary.html";
 	}
 }

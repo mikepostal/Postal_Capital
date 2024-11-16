@@ -33,22 +33,24 @@
 													</div>
 													<div class="row align-items-center">
 														<div class="h5 font-weight-bold text-gray-800">
-															<i th:text="'Real $' + ${acc.userrealPnl}"
-																th:style="'color:' + (${acc.userrealPnl >= 0} ? 'green' : 'red')"></i>
-															<i th:text="'Sim $' + ${acc.usersimPnl}"
-																th:style="'color:' + (${acc.usersimPnl >= 0} ? 'green' : 'red')"></i>
+															<p><i th:text="'Real $' + ${acc.userrealPnl}"
+																th:style="'color:' + (${acc.userrealPnl >= 0} ? 'green' : 'red')"></i></p>
+															<p><i th:text="'Sim $' + ${acc.usersimPnl}"
+																th:style="'color:' + (${acc.usersimPnl >= 0} ? 'green' : 'red')"></i></p>
 
 														</div>
 													</div>
 												</div>
 												<div class="col-auto">
 
-													<h4>
+													<h5>
 														<i th:text="'Real' + ${acc.userrealpnlPercent}+'%'"
 															th:style="'color:' + (${acc.userrealPnl >= 0} ? 'green' : 'red')"></i>
-														<i th:text="'Real ' + ${acc.usersimpnlPercent}+'%'"
+													</h5>
+													<h5>
+														<i th:text="'Sim ' + ${acc.usersimpnlPercent}+'%'"
 															th:style="'color:' + (${acc.usersimPnl >= 0} ? 'green' : 'red')"></i>
-													</h4>
+													</h5>
 												</div>
 											</div>
 										</div>

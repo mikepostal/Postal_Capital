@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+
+<head>
+
+</head>
+<body>
+	<div id="main" class='layout-navbar'>
+		<div id="main-content">
+
+			<div class="page-heading">
+				<div class="page-title mb-5">
+					<div class="row ">
+						<div class="col-12 col-md-6 order-md-1 order-last">
+							<h3>Users Account summary</h3>
+							<!-- <p class="text-subtitle text-muted">Navbar will appear in top of the page.</p> -->
+						</div>
+
+					</div>
+				</div>
+				<section class="section blnk-db ">
+					<form th:action="@{/dashboard/usersAccountSummary}" method="get">
+						<div class="card shadow my-3">
+							<div class="card-body">
+								<div class="row">
+									<div class="form-group col-md-4">
+										<label for="userId">Users</label> <select class="form-control"
+											id="userId" name="user" required="required">
+											<option value="">- Select User -</option>
+											<option th:each="u : ${usersList}"
+												th:text="${u.firstname+' '+u.lastname}" th:value="${u.id}"
+												th:selected="${userId != null && userId == u.id}"></option>
+										</select>
+									</div>
+									<div class="form-group col-md-4">
+										<label for="acc">Account</label> <select class="form-control"
+											id="acc" name="accountLogin" required>
+											<option value="">- Select Account -</option>
+											<option th:each="a : ${tradersAccountsList}"
+												th:text="${a.account.accountLogin}"
+												th:value="${a.account.accountLogin}"
+												th:selected="${accountLogin != null && accountLogin == a.account.accountLogin}"></option>
+										</select>
+									</div>
+
+									<div class="col-md-4 my-3">
+
+										<button type="submit" class="btn btn-primary col-md-3 ">
+											<i class="bi bi-search"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="card shadow mt-3">
+						<div class="card-body">
+							<div class="row my-2"
+								th:each="summary : ${userAccountPnlSummaries}">
+								<div class="col-md-6">
+									<!-- <p class="text-center" style="font: bold;">Initial Capital:
+										[[${summary.initalSize}]]</p> -->
+									<input class="form-control"
+										th:value="'Initial Capital: '+
+										${summary.initalSize}"
+										readonly="readonly">
+								</div>
+								<div class="col-md-6">
+									<!-- <p class="text-center" style="font: bold;">Equity:
+										[[${summary.currentBalance}]]</p> -->
+									<input class="form-control"
+										th:value="'Equity: '+
+										${summary.currentBalance}"
+										readonly="readonly">
+								</div>
+							</div>
+							<h3 class="text-center">Balance graph</h3>
+							<canvas id="equityChart" width="800" height="300"></canvas>
+
+							<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+							<script th:inline="javascript">
+        var DailyAnalysisData = /*[[${usersEquityChartList}]]*/[];
+        var dlabels = DailyAnalysisData.map(data => data.tradingDate);
+        var dcumulativePnl = DailyAnalysisData.map(data => data.cumulativePnl);
+        /* Chart.js code to render a bar chart */
+        var ctx = document.getElementById('equityChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dlabels,
+                datasets: [{
+                    label: 'Equity Chart',
+                    data: dcumulativePnl,
+                    fill: false, 
+                    backgroundColor: dcumulativePnl.map(value => value > 0 ? 'green' : 'red'),
+                    borderColor: dcumulativePnl.map(value => value > 0 ? 'green' : 'red'),
+                    tension: 0.1 
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
+						</div>
+					</div>
+					<div class="card shadow">
+						<div class="card-body row my-2"
+							th:each="summary : ${userAccountPnlSummaries}">
+							<h4 class="text-center"><input class="form-control fs-3 text-center"
+										th:value="Results"
+										readonly="readonly"></h4>
+							<div class="col-md-4">
+								<p class="text-bold ">Total Net Profit:
+									[[${summary.totalNetProfit}]]</p>
+								<p class="  text-bold ">Total Trades:
+									[[${summary.totalTrades}]]</p>
+							</div>
+							<div class="col-md-4">
+								<p class=" text-bold">Gross Profit:
+									[[${summary.grossProfit}]]</p>
+								<p class="text-bold">
+									Short Trades (won %): [[${summary.noOfShort}]] <span
+										th:if="${summary.noOfShort != 0}">([[${((summary.noOfShortWon*100)/summary.noOfShort)}]]%)</span>
+								</p>
+								<p class="text-bold ">Short Trades PNL:
+									[[${summary.shortPnl}]]</p>
+								<p class="text-bold ">
+									Profit Trades (% of total): [[${summary.noOfProfitTrades}]] <span
+										th:if="${summary.noOfProfitTrades != 0}">([[${((summary.noOfProfitTrades*100)/summary.totalTrades)}]]%)</span>
+								</p>
+								<p class="text-bold">Largest profit trade:
+									[[${summary.largestProfitTrade}]]</p>
+								<p class="text-bold ">Average profit trade:
+									[[${summary.averageProfitTrade}]]</p>
+
+							</div>
+							<div class="col-md-4">
+								<p class="text-bold">Gross Loss: [[${summary.grossLoss}]]</p>
+								<p class="text-bold ">
+									Long Trades (won %): [[${summary.noOfLong}]] <span
+										th:if="${summary.noOfLong != 0}">([[${((summary.noOfLongWon*100)/summary.noOfLong)}]]%)</span>
+								</p>
+								<p class="text-bold ">Long Trades PNL:
+									[[${summary.longPnl}]]</p>
+								<p class="text-bold">
+									Loss Trades (% of total): [[${summary.noOfLossTrades}]]<span
+										th:if="${summary.noOfLossTrades != 0}">([[${((summary.noOfLossTrades*100)/summary.totalTrades)}]]%)</span>
+								</p>
+								<p class="text-bold">Largest loss trade:
+									[[${summary.largestLossTrade}]]</p>
+								<p class="text-bold">Average loss trade:
+									[[${summary.averageLossTrade}]]</p>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+			</div>
+
+			<footer>
+				<div class="footer clearfix mb-0 text-muted c-ftr">
+					<div class="float-start">
+						<p>2024 &copy; Yosal FX Trading</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="/Bannershallmark/resources/assets/js/main.js"></script>
+	<script>
+		$(document)
+				.ready(
+						function() {
+							$('#userId')
+									.on(
+											'change',
+											function() {
+												var userId = $(this).val();
+												var $accountSelect = $('#acc');
+
+												if (userId) {
+													$
+															.ajax({
+																url : 'tradersAccountsByUser',
+																type : 'GET',
+																data : {
+																	userId : userId
+																},
+																success : function(
+																		data) {
+																	console
+																			.log(
+																					'Data received:',
+																					data);
+
+																	$accountSelect
+																			.empty();
+
+																	$accountSelect
+																			.append('<option value="">- Select Account -</option>');
+
+																	$
+																			.each(
+																					data,
+																					function(
+																							index,
+																							account) {
+																						if (account.account.accountLogin) {
+																							$accountSelect
+																									.append('<option value="' + account.account.accountLogin + '">'
+																											+ account.account.accountLogin
+																											+ '</option>');
+																						}
+																					});
+
+																	// Optional: Set the previously selected value if available
+																	var previousValue = $accountSelect
+																			.data('previous-value');
+																	if (previousValue) {
+																		$accountSelect
+																				.val(previousValue);
+																	}
+																},
+																error : function(
+																		xhr,
+																		status,
+																		error) {
+																	console
+																			.error(
+																					'Error fetching accounts:',
+																					status,
+																					error);
+																	// alert('Error fetching accounts. Check console for details.'); 
+																}
+															});
+												} else {
+													// Clear the dropdown or reset to default state
+													$accountSelect
+															.empty()
+															.append(
+																	'<option value="">- Select Account -</option>');
+												}
+											});
+
+							// Save the previously selected value
+							$('#acc').on('change', function() {
+								$(this).data('previous-value', $(this).val());
+							});
+						});
+	</script>
+</body>
+</html>
