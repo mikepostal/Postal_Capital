@@ -16,10 +16,14 @@ public class UserAccountShortSummary {
 	private int numofAccounts;
 	@Column(name = "total_inital")
 	private double totalInital;
-	@Column(name = "usertotal_pnl")
-	private double usertotalPnl;
-	@Column(name = "userpnl_percent")
-	private double userpnlPercent;
+	@Column(name = "usersim_pnl")
+	private double usersimPnl;
+	@Column(name = "userreal_pnl")
+	private double userrealPnl;
+	@Column(name = "usersimpnl_percent")
+	private double usersimpnlPercent;
+	@Column(name = "userrealpnl_percent")
+	private double userrealpnlPercent;
 	private int userId;
 
 	public int getId() {
@@ -62,20 +66,36 @@ public class UserAccountShortSummary {
 		this.totalInital = totalInital;
 	}
 
-	public double getUsertotalPnl() {
-		return usertotalPnl;
+	public double getUsersimPnl() {
+		return usersimPnl;
 	}
 
-	public void setUsertotalPnl(double usertotalPnl) {
-		this.usertotalPnl = usertotalPnl;
+	public void setUsersimPnl(double usersimPnl) {
+		this.usersimPnl = usersimPnl;
 	}
 
-	public double getUserpnlPercent() {
-		return userpnlPercent;
+	public double getUserrealPnl() {
+		return userrealPnl;
 	}
 
-	public void setUserpnlPercent(double userpnlPercent) {
-		this.userpnlPercent = userpnlPercent;
+	public void setUserrealPnl(double userrealPnl) {
+		this.userrealPnl = userrealPnl;
+	}
+
+	public double getUsersimpnlPercent() {
+		return usersimpnlPercent;
+	}
+
+	public void setUsersimpnlPercent(double usersimpnlPercent) {
+		this.usersimpnlPercent = usersimpnlPercent;
+	}
+
+	public double getUserrealpnlPercent() {
+		return userrealpnlPercent;
+	}
+
+	public void setUserrealpnlPercent(double userrealpnlPercent) {
+		this.userrealpnlPercent = userrealpnlPercent;
 	}
 
 	public int getUserId() {

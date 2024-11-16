@@ -16,10 +16,10 @@ public class UserAccountPnlSummary {
 	private int leverage;
 	private String platform;
 	private String accountLogin;
-	@Column(name = "total_pnl")
-	private double totalPnl;
-	@Column(name = "total_pnl_percent")
-	private double totalPnlPercent;
+	private double simpnl;
+	private double realpnl;
+	private double simPnlPercent;
+	private double realPnlPercent;
 	private int userId;
 	private int accountID;
 
@@ -79,20 +79,36 @@ public class UserAccountPnlSummary {
 		this.accountLogin = accountLogin;
 	}
 
-	public double getTotalPnl() {
-		return totalPnl;
+	public double getSimpnl() {
+		return simpnl;
 	}
 
-	public void setTotalPnl(double totalPnl) {
-		this.totalPnl = totalPnl;
+	public void setSimpnl(double simpnl) {
+		this.simpnl = simpnl;
 	}
 
-	public double getTotalPnlPercent() {
-		return totalPnlPercent;
+	public double getRealpnl() {
+		return realpnl;
 	}
 
-	public void setTotalPnlPercent(double totalPnlPercent) {
-		this.totalPnlPercent = totalPnlPercent;
+	public void setRealpnl(double realpnl) {
+		this.realpnl = realpnl;
+	}
+
+	public double getSimPnlPercent() {
+		return simPnlPercent;
+	}
+
+	public void setSimPnlPercent(double simPnlPercent) {
+		this.simPnlPercent = simPnlPercent;
+	}
+
+	public double getRealPnlPercent() {
+		return realPnlPercent;
+	}
+
+	public void setRealPnlPercent(double realPnlPercent) {
+		this.realPnlPercent = realPnlPercent;
 	}
 
 	public int getUserId() {
